@@ -145,6 +145,83 @@ def get_franchises(
 
     return summaries
 
+@router.get("/franchises/sector-profit-leaders")
+def get_sector_profit_leaders(
+    budget: Optional[float] = None,
+    db: Session = Depends(get_db)
+):
+    sectors = db.query(Sector).filter(Sector.is_active == True).order_by(Sector.name).all()
+    results = []
+
+    for sec in sectors:
+        query = db.query(Franchise).filter(Franchise.sector_id == sec.id, Franchise.is_active == True)
+        all_franchises = query.all()
+        if not all_franchises:
+            continue
+
+        franchise_items = []
+        for f in all_franchises:
+            inv = f.investment
+            fin = f.financial
+            outlets = f.outlet_info
+            
+            tot_inv = inv.total_estimated_investment if inv else 3000000.0
+            act_prof = fin.actual_monthly_profit if fin else 80000.0
+            act_rev = fin.actual_monthly_revenue if fin else 500000.0
+            roi = fin.roi_annual if fin else 25.0
+            payback = fin.payback_months if fin else 24.0
+            margin = round((act_prof / act_rev * 100.0), 1) if act_rev > 0 else 15.0
+
+            if budget and tot_inv > (budget * 1.35):
+                continue
+
+            primary_ds = f.data_sources[0] if f.data_sources else None
+            tier = primary_ds.source_type if primary_ds else "ESTIMATED"
+
+            franchise_items.append({
+                "id": f.id,
+                "name": f.name,
+                "slug": f.slug,
+                "sub_sector": f.sub_sector,
+                "headquarters": f.headquarters,
+                "total_investment": tot_inv,
+                "monthly_revenue": act_rev,
+                "monthly_profit": act_prof,
+                "roi_annual": roi,
+                "payback_months": payback,
+                "net_margin_pct": margin,
+                "verification_tier": tier,
+                "space_sqft": f"{int(f.space_min_sqft)} - {int(f.space_max_sqft)} sq ft",
+                "total_outlets": outlets.total_outlets if outlets else 50,
+                "description": f.description
+            })
+
+        if not franchise_items:
+            continue
+
+        franchise_items.sort(key=lambda x: x["monthly_profit"], reverse=True)
+
+        max_profit = franchise_items[0]["monthly_profit"]
+        max_roi = max(x["roi_annual"] for x in franchise_items)
+        top_leader = franchise_items[0]
+
+        results.append({
+            "sector_id": sec.id,
+            "sector_name": sec.name,
+            "category": sec.category,
+            "icon": sec.icon,
+            "description": sec.description,
+            "total_available_franchises": len(all_franchises),
+            "matching_franchises_count": len(franchise_items),
+            "highest_monthly_profit": max_profit,
+            "highest_roi_annual": max_roi,
+            "top_profit_leader": top_leader,
+            "leaders": franchise_items[:4]
+        })
+
+    results.sort(key=lambda x: x["highest_monthly_profit"], reverse=True)
+    return results
+
 @router.get("/franchises/{id_or_slug}", response_model=FranchiseDetail)
 def get_franchise_detail(id_or_slug: str, db: Session = Depends(get_db)):
     if id_or_slug.isdigit():

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import Optional
 from app.database import get_db
 from app.models.user import User, UserPreference
-from app.schemas.user import UserRegister, UserLogin, Token, UserOut, UserPreferencesUpdate
+from app.schemas.user import UserRegister, UserLogin, Token, UserOut, UserPreferencesUpdate, QuickLoginRequest
 from app.services.auth import hash_password, verify_password, create_access_token, decode_access_token
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
@@ -119,6 +119,61 @@ def demo_admin_login(db: Session = Depends(get_db)):
         db.add(user)
         db.commit()
         db.refresh(user)
+
+    token = create_access_token({"sub": user.id, "email": user.email, "role": user.role})
+    return Token(
+        access_token=token,
+        token_type="bearer",
+        user_id=user.id,
+        email=user.email,
+        name=user.name,
+        role=user.role
+    )
+
+@router.post("/quick-login", response_model=Token)
+def quick_login(data: QuickLoginRequest, db: Session = Depends(get_db)):
+    clean_name = data.name.strip()
+    if not clean_name:
+        raise HTTPException(status_code=400, detail="Name is required")
+
+    email = (data.email.strip().lower() if data.email and data.email.strip()
+             else f"{clean_name.lower().replace(' ', '')}{abs(hash(clean_name)) % 10000}@investor.com")
+
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        user = User(
+            email=email,
+            name=clean_name,
+            hashed_password=hash_password("QuickInvestor@123"),
+            role="investor"
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+
+        pref = UserPreference(
+            user_id=user.id,
+            budget=data.budget or 2500000.0,
+            city=data.city or "Hyderabad",
+            locality=data.locality or "Madhapur",
+            preferred_sector_id=data.preferred_sector_id,
+            business_experience=data.business_experience or "0-2 years",
+            desired_involvement=data.desired_involvement or "full-time",
+            risk_preference=data.risk_preference or "Medium",
+            goal=data.goal or "Maximum ROI"
+        )
+        db.add(pref)
+        db.commit()
+    else:
+        user.name = clean_name
+        pref = db.query(UserPreference).filter(UserPreference.user_id == user.id).first()
+        if pref:
+            if data.budget: pref.budget = data.budget
+            if data.city: pref.city = data.city
+            if data.locality: pref.locality = data.locality
+            if data.preferred_sector_id: pref.preferred_sector_id = data.preferred_sector_id
+            if data.risk_preference: pref.risk_preference = data.risk_preference
+        db.commit()
 
     token = create_access_token({"sub": user.id, "email": user.email, "role": user.role})
     return Token(

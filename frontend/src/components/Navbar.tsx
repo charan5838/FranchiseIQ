@@ -95,17 +95,18 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
             {!user ? (
               <div className="flex items-center gap-2">
                 <button
-                  onClick={loginDemoInvestor}
-                  className="text-xs px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
+                  onClick={() => setCurrentPage('login')}
+                  className="text-xs px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-bold transition-all shadow-md shadow-emerald-500/20 flex items-center gap-1.5 cursor-pointer"
                 >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Investor Demo</span>
+                  <UserIcon className="w-3.5 h-3.5" />
+                  <span>Sign In / Onboard</span>
                 </button>
                 <button
-                  onClick={loginDemoAdmin}
-                  className="text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition-all border border-slate-700 cursor-pointer"
+                  onClick={loginDemoInvestor}
+                  className="hidden sm:flex text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition-all border border-slate-700 cursor-pointer items-center gap-1"
                 >
-                  Admin Demo
+                  <Sparkles className="w-3 h-3 text-emerald-400" />
+                  <span>Demo</span>
                 </button>
               </div>
             ) : (

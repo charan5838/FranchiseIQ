@@ -7,6 +7,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, pass: string) => Promise<void>;
   register: (name: string, email: string, pass: string) => Promise<void>;
+  quickLogin: (params: { name: string; email?: string; phone?: string; budget?: number; city?: string; locality?: string; risk_preference?: string; business_experience?: string; goal?: string }) => Promise<void>;
   loginDemoInvestor: () => Promise<void>;
   loginDemoAdmin: () => Promise<void>;
   logout: () => void;
@@ -45,6 +46,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(me);
   };
 
+  const quickLogin = async (params: { name: string; email?: string; phone?: string; budget?: number; city?: string; locality?: string; risk_preference?: string; business_experience?: string; goal?: string }) => {
+    await api.quickLogin(params);
+    const me = await api.getMe();
+    setUser(me);
+  };
+
   const loginDemoInvestor = async () => {
     await api.loginDemoInvestor();
     const me = await api.getMe();
@@ -63,7 +70,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, loginDemoInvestor, loginDemoAdmin, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, quickLogin, loginDemoInvestor, loginDemoAdmin, logout }}>
       {children}
     </AuthContext.Provider>
   );

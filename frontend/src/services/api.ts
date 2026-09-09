@@ -58,6 +58,25 @@ export const api = {
     return data;
   },
 
+  async quickLogin(params: {
+    name: string;
+    email?: string;
+    phone?: string;
+    budget?: number;
+    city?: string;
+    locality?: string;
+    risk_preference?: string;
+    business_experience?: string;
+    goal?: string;
+  }) {
+    const data = await request<{ access_token: string; role: string; name: string; email: string; user_id: number }>('/auth/quick-login', {
+      method: 'POST',
+      body: JSON.stringify(params)
+    });
+    localStorage.setItem('franchiseiq_token', data.access_token);
+    return data;
+  },
+
   async loginDemoInvestor() {
     const data = await request<{ access_token: string; role: string; name: string; email: string; user_id: number }>('/auth/demo-investor');
     localStorage.setItem('franchiseiq_token', data.access_token);
@@ -96,6 +115,11 @@ export const api = {
 
   async getFranchiseDetail(idOrSlug: string | number): Promise<FranchiseDetail> {
     return request<FranchiseDetail>(`/franchises/${idOrSlug}`);
+  },
+
+  async getSectorProfitLeaders(budget?: number): Promise<any[]> {
+    const q = budget ? `?budget=${budget}` : '';
+    return request<any[]>(`/franchises/sector-profit-leaders${q}`);
   },
 
   // Core Recommendation Engine

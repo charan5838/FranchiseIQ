@@ -14,6 +14,7 @@ import { ScenarioSimulator } from './pages/ScenarioSimulator';
 import { LocationAnalysis } from './pages/LocationAnalysis';
 import { WatchlistPage } from './pages/WatchlistPage';
 import { AdminPortal } from './pages/AdminPortal';
+import { LoginPage } from './pages/LoginPage';
 
 export const AppContent: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<string>('dashboard');
@@ -21,6 +22,8 @@ export const AppContent: React.FC = () => {
 
   const renderPage = () => {
     switch (currentPage) {
+      case 'login':
+        return <LoginPage setCurrentPage={setCurrentPage} />;
       case 'advisor':
         return <InvestorAdvisor setCurrentPage={setCurrentPage} setSelectedFranchiseId={setSelectedFranchiseId} />;
       case 'explore':

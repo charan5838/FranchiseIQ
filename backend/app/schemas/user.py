@@ -33,6 +33,19 @@ class UserPreferencesUpdate(BaseModel):
     max_payback_months: int = 30
     goal: str = "Maximum ROI"
 
+class QuickLoginRequest(BaseModel):
+    name: str
+    email: Optional[str] = None
+    phone: Optional[str] = None
+    budget: Optional[float] = 2500000.0
+    city: Optional[str] = "Hyderabad"
+    locality: Optional[str] = "Madhapur"
+    preferred_sector_id: Optional[int] = None
+    risk_preference: Optional[str] = "Medium"
+    business_experience: Optional[str] = "0-2 years"
+    desired_involvement: Optional[str] = "full-time"
+    goal: Optional[str] = "Maximum ROI"
+
 class UserOut(BaseModel):
     id: int
     email: str
@@ -42,3 +55,4 @@ class UserOut(BaseModel):
 
     class Config:
         from_attributes = True
+

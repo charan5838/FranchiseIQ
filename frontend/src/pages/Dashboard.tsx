@@ -6,6 +6,7 @@ import {
 import { api } from '../services/api';
 import { FranchiseSummary, Sector } from '../types';
 import { VerificationBadge } from '../components/VerificationBadge';
+import { SectorProfitLeaders } from '../components/SectorProfitLeaders';
 import { useInvestor } from '../context/InvestorContext';
 import { 
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, 
@@ -101,6 +102,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
           </div>
         </div>
       </div>
+
+      {/* Top Profitable Franchises Across Every Sector */}
+      <SectorProfitLeaders 
+        setCurrentPage={setCurrentPage} 
+        setSelectedFranchiseId={setSelectedFranchiseId} 
+      />
 
       {/* 6 Category Intelligence Cards (Section 23) */}
       <div>
