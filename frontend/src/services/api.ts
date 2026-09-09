@@ -4,7 +4,7 @@ import {
   LocationAnalysisResult, WatchlistItem, NotificationItem, User
 } from '../types';
 
-const BASE_URL = '/api';
+const BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 function getAuthHeaders(): Record<string, string> {
   const token = localStorage.getItem('franchiseiq_token');

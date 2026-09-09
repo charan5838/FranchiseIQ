@@ -92,5 +92,36 @@ The application includes 1-click login buttons in the navigation bar:
 
 ---
 
+## Deploying on Render (Render.com)
+
+FranchiseIQ is pre-configured for **1-click or automated deployment on Render** using Render Blueprints (`render.yaml`).
+
+### Method 1: Render Blueprints (Automatic)
+1. Go to [dashboard.render.com/blueprints](https://dashboard.render.com/blueprints).
+2. Click **New Blueprint Instance**.
+3. Connect your GitHub repository: `https://github.com/charan5838/FranchiseIQ`.
+4. Render will detect `render.yaml` automatically and configure the unified Web Service!
+5. Click **Apply** to deploy.
+
+### Method 2: Manual Web Service Setup on Render
+If creating a Web Service manually:
+1. Go to [dashboard.render.com](https://dashboard.render.com) → **New +** → **Web Service**.
+2. Connect `https://github.com/charan5838/FranchiseIQ`.
+3. Configure settings:
+   * **Name:** `franchiseiq`
+   * **Region:** Any (e.g. Oregon or Singapore)
+   * **Branch:** `main`
+   * **Root Directory:** *(leave blank)*
+   * **Runtime:** `Python 3`
+   * **Build Command:** `./build.sh`
+   * **Start Command:** `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+   * **Plan:** Free
+4. Click **Create Web Service**.
+
+Both the React 19 frontend and FastAPI backend will run together under one unified URL (e.g., `https://franchiseiq.onrender.com`), with `/api` and `/docs` accessible directly.
+
+---
+
 ## Disclaimer
 *Estimated monthly profit based on available data. Actual results may vary based on location, execution, expenses and market conditions. Never treat projections as guaranteed return commitments.*
+
