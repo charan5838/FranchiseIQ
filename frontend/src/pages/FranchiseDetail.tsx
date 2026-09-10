@@ -53,8 +53,8 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
   if (loading || !franchise) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-        <div className="inline-block w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mb-4" />
-        <p className="text-slate-400 text-sm">Loading comprehensive forensic franchise dossier...</p>
+        <div className="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
+        <p className="text-slate-500 dark:text-slate-400 text-sm">Loading comprehensive forensic franchise dossier...</p>
       </div>
     );
   }
@@ -120,7 +120,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
       </div>
 
       {/* Hero Profile Banner */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl">
+      <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl">
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div className="max-w-3xl">
             <div className="flex flex-wrap items-center gap-2 mb-2">
@@ -216,7 +216,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Investment Breakdown Table */}
           <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-sm space-y-4">
-            <h3 className="text-base font-bold text-white flex items-center justify-between">
+            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center justify-between">
               <span>Capital Investment Breakdown</span>
               <span className="text-xs text-slate-400 font-normal">Updated: {franchise.investment.last_updated}</span>
             </h3>
@@ -259,7 +259,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
 
           {/* Monthly Operating P&L Statement */}
           <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-sm space-y-4">
-            <h3 className="text-base font-bold text-white flex items-center justify-between">
+            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center justify-between">
               <span>Verified Monthly Operating P&L</span>
               <span className="text-xs font-semibold text-emerald-400">ROI: {franchise.financial.roi_annual}% / yr</span>
             </h3>
@@ -322,7 +322,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
         <div className="space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
             <div>
-              <h4 className="text-sm font-bold text-white">5-Year Historical Evolution (2022 → 2026)</h4>
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white">5-Year Historical Evolution (2022 → 2026)</h4>
               <p className="text-xs text-slate-400 mt-0.5">Tracking real network unit economics through inflation and expansion cycles</p>
             </div>
             <div className="flex items-center gap-2">
@@ -335,7 +335,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Chart: Revenue & Profit Trends */}
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-sm">
-              <h4 className="text-sm font-bold text-white mb-4">Annual Revenue & Net Profit (₹ Lakhs)</h4>
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-4">Annual Revenue & Net Profit (₹ Lakhs)</h4>
               <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={historicalData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -356,7 +356,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
 
             {/* Chart: Outlet Growth & Closures */}
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-sm">
-              <h4 className="text-sm font-bold text-white mb-4">Outlet Network Expansion vs Closure Churn</h4>
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-4">Outlet Network Expansion vs Closure Churn</h4>
               <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={historicalData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -416,7 +416,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
         <div className="space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
             <div>
-              <h4 className="text-sm font-bold text-white">Scenario Projections (1, 3, 5 Years)</h4>
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white">Scenario Projections (1, 3, 5 Years)</h4>
               <p className="text-xs text-amber-300/80 font-medium mt-0.5 flex items-center gap-1.5">
                 <AlertTriangle className="w-3.5 h-3.5" />
                 MODEL ESTIMATE — NOT GUARANTEED
@@ -444,7 +444,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
             {franchise.projections?.[selectedProjectionScenario]?.map((p) => (
               <div key={p.timeframe_years} className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                  <span className="text-sm font-bold text-white">{p.timeframe_years} Year Outlook</span>
+                  <span className="text-sm font-bold text-slate-900 dark:text-white">{p.timeframe_years} Year Outlook</span>
                   <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 uppercase font-mono">
                     {selectedProjectionScenario}
                   </span>
@@ -460,7 +460,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
                     <span className="font-semibold text-rose-400/90">₹{(p.projected_annual_expenses/100000).toFixed(1)} Lakhs</span>
                   </div>
                   <div className="flex justify-between font-bold pt-2 border-t border-slate-800">
-                    <span className="text-slate-300">Projected Annual Profit</span>
+                    <span className="text-slate-700 dark:text-slate-300">Projected Annual Profit</span>
                     <span className="text-emerald-400 text-sm">₹{(p.projected_annual_profit/100000).toFixed(1)} Lakhs</span>
                   </div>
                   <div className="flex justify-between">
@@ -486,7 +486,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
       {activeTab === 'support' && (
         <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-sm space-y-6">
           <div>
-            <h4 className="text-base font-bold text-white">14 Franchisor Deliverables & Support Matrix</h4>
+            <h4 className="text-base font-bold text-slate-900 dark:text-white">14 Franchisor Deliverables & Support Matrix</h4>
             <p className="text-xs text-slate-400 mt-1">Verified operational and brand enablement commitments provided by franchisor headquarters.</p>
           </div>
 
@@ -507,7 +507,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
               { label: 'POS & Automated Billing Software', val: franchise.support?.pos_billing_software },
               { label: 'Digital Marketing & Lead Generation', val: franchise.support?.digital_marketing_leads },
             ].map((item, i) => (
-              <div key={i} className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 flex items-center justify-between">
+              <div key={i} className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
                 <span className="text-slate-300 font-medium">{item.label}</span>
                 {item.val ? (
                   <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 text-[11px] font-bold flex items-center gap-1">
@@ -529,7 +529,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 text-center">
-              <div className="text-xs text-slate-400">Franchisee Satisfaction Score</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400">Franchisee Satisfaction Score</div>
               <div className="text-3xl font-black text-emerald-400 mt-1">
                 {franchise.franchisee_satisfaction_score}<span className="text-xs text-slate-500 font-normal">/100</span>
               </div>
@@ -537,29 +537,29 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
             </div>
 
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 text-center">
-              <div className="text-xs text-slate-400">Would Reinvest in this Franchise?</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400">Would Reinvest in this Franchise?</div>
               <div className="text-3xl font-black text-white mt-1">88%</div>
               <p className="text-[11px] text-emerald-400 mt-1">High operator loyalty</p>
             </div>
 
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 text-center">
-              <div className="text-xs text-slate-400">Would Recommend to Peers?</div>
+              <div className="text-xs text-slate-500 dark:text-slate-400">Would Recommend to Peers?</div>
               <div className="text-3xl font-black text-white mt-1">92%</div>
               <p className="text-[11px] text-emerald-400 mt-1">Strong brand advocacy</p>
             </div>
           </div>
 
           <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-sm space-y-4">
-            <h4 className="text-base font-bold text-white">Verified Operator Testimonials & Reviews</h4>
+            <h4 className="text-base font-bold text-slate-900 dark:text-white">Verified Operator Testimonials & Reviews</h4>
             <div className="space-y-3">
               {franchise.reviews?.map((r) => (
-                <div key={r.id} className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-2 text-xs">
+                <div key={r.id} className="p-4 rounded-xl bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-white">{r.title}</span>
                     <span className="text-amber-400 font-bold">★ {r.rating} / 5.0</span>
                   </div>
                   <p className="text-slate-300 leading-relaxed">{r.comment}</p>
-                  <div className="text-[11px] text-slate-500 pt-1 border-t border-slate-800/60 flex items-center justify-between">
+                  <div className="text-[11px] text-slate-500 pt-1 border-t border-slate-100 dark:border-slate-800/60 flex items-center justify-between">
                     <span>{r.user_name} (Verified Unit Operator)</span>
                     <span>{r.created_at}</span>
                   </div>

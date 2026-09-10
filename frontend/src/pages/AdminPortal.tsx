@@ -193,8 +193,8 @@ export const AdminPortal: React.FC = () => {
 
       {/* Tab 1: Create Franchise */}
       {activeAdminTab === 'franchises' && (
-        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl max-w-4xl space-y-6">
-          <h3 className="text-lg font-bold text-white border-b border-slate-800 pb-3">
+        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl max-w-4xl space-y-6">
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-800 pb-3">
             Add New Franchise Opportunity
           </h3>
 
@@ -208,7 +208,7 @@ export const AdminPortal: React.FC = () => {
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   placeholder="e.g. Blue Tokai Coffee Roasters"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white outline-none focus:border-emerald-500"
                 />
               </div>
 
@@ -217,7 +217,7 @@ export const AdminPortal: React.FC = () => {
                 <select
                   value={newSectorId}
                   onChange={(e) => setNewSectorId(Number(e.target.value))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white outline-none focus:border-emerald-500"
                 >
                   {sectors.map((s) => (
                     <option key={s.id} value={s.id}>{s.name} ({s.category})</option>
@@ -235,7 +235,7 @@ export const AdminPortal: React.FC = () => {
                   value={newSubSector}
                   onChange={(e) => setNewSubSector(e.target.value)}
                   placeholder="e.g. Artisanal Cafe & Bakery"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white outline-none focus:border-emerald-500"
                 />
               </div>
               <div>
@@ -245,7 +245,7 @@ export const AdminPortal: React.FC = () => {
                   required
                   value={newHq}
                   onChange={(e) => setNewHq(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white outline-none focus:border-emerald-500"
                 />
               </div>
               <div>
@@ -255,7 +255,7 @@ export const AdminPortal: React.FC = () => {
                   required
                   value={newFounded}
                   onChange={(e) => setNewFounded(Number(e.target.value))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white outline-none focus:border-emerald-500"
                 />
               </div>
             </div>
@@ -268,7 +268,7 @@ export const AdminPortal: React.FC = () => {
                 value={newDesc}
                 onChange={(e) => setNewDesc(e.target.value)}
                 placeholder="Comprehensive overview of unit economics, supply chain and consumer demographic focus..."
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white outline-none focus:border-emerald-500"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-3 text-white outline-none focus:border-emerald-500"
               />
             </div>
 
@@ -281,7 +281,7 @@ export const AdminPortal: React.FC = () => {
                   required
                   value={newInvestment}
                   onChange={(e) => setNewInvestment(Number(e.target.value))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white"
                 />
               </div>
               <div>
@@ -291,7 +291,7 @@ export const AdminPortal: React.FC = () => {
                   required
                   value={newFee}
                   onChange={(e) => setNewFee(Number(e.target.value))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white"
                 />
               </div>
               <div>
@@ -301,7 +301,7 @@ export const AdminPortal: React.FC = () => {
                   required
                   value={newRev}
                   onChange={(e) => setNewRev(Number(e.target.value))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white"
                 />
               </div>
               <div>
@@ -311,7 +311,7 @@ export const AdminPortal: React.FC = () => {
                   required
                   value={newProfit}
                   onChange={(e) => setNewProfit(Number(e.target.value))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white"
                 />
               </div>
               <div>
@@ -322,7 +322,7 @@ export const AdminPortal: React.FC = () => {
                   required
                   value={newRoi}
                   onChange={(e) => setNewRoi(Number(e.target.value))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white"
                 />
               </div>
               <div>
@@ -333,14 +333,14 @@ export const AdminPortal: React.FC = () => {
                   required
                   value={newPayback}
                   onChange={(e) => setNewPayback(Number(e.target.value))}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition-colors cursor-pointer"
+              className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-colors cursor-pointer"
             >
               Publish Franchise Record
             </button>
@@ -350,8 +350,8 @@ export const AdminPortal: React.FC = () => {
 
       {/* Tab 2: Verify Data Sources (Section 6) */}
       {activeAdminTab === 'verify' && (
-        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl max-w-3xl space-y-6">
-          <h3 className="text-lg font-bold text-white border-b border-slate-800 pb-3">
+        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl max-w-3xl space-y-6">
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-800 pb-3">
             Certify & Audit Verification Badges
           </h3>
           <p className="text-xs text-slate-400 leading-relaxed">
@@ -365,7 +365,7 @@ export const AdminPortal: React.FC = () => {
                 type="number"
                 value={sourceId}
                 onChange={(e) => setSourceId(Number(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white"
               />
             </div>
 
@@ -374,7 +374,7 @@ export const AdminPortal: React.FC = () => {
               <select
                 value={sourceType}
                 onChange={(e) => setSourceType(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white font-semibold"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white font-semibold"
               >
                 <option value="VERIFIED">🟢 VERIFIED (Official audited & certified)</option>
                 <option value="REPORTED">🔵 REPORTED (Provided by active franchisees)</option>
@@ -391,7 +391,7 @@ export const AdminPortal: React.FC = () => {
                 max={100}
                 value={confLevel}
                 onChange={(e) => setConfLevel(Number(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white"
               />
             </div>
 
@@ -401,7 +401,7 @@ export const AdminPortal: React.FC = () => {
                 type="text"
                 value={sourceName}
                 onChange={(e) => setSourceName(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white"
               />
             </div>
 
@@ -411,13 +411,13 @@ export const AdminPortal: React.FC = () => {
                 rows={3}
                 value={methodology}
                 onChange={(e) => setMethodology(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-white"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-3 text-white"
               />
             </div>
 
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition-colors cursor-pointer"
+              className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-colors cursor-pointer"
             >
               Update Verification Audit & Generate Log
             </button>
@@ -427,10 +427,10 @@ export const AdminPortal: React.FC = () => {
 
       {/* Tab 3: Manage Sectors (Section 2) */}
       {activeAdminTab === 'sectors' && (
-        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl max-w-3xl space-y-6">
+        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl max-w-3xl space-y-6">
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-            <h3 className="text-lg font-bold text-white">Manage & Add Sectors</h3>
-            <span className="text-xs text-slate-400">{sectors.length} Active Sectors</span>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Manage & Add Sectors</h3>
+            <span className="text-xs text-slate-500 dark:text-slate-400">{sectors.length} Active Sectors</span>
           </div>
 
           <form onSubmit={handleAddSector} className="space-y-4 text-xs">
@@ -442,7 +442,7 @@ export const AdminPortal: React.FC = () => {
                 value={sectorName}
                 onChange={(e) => setSectorName(e.target.value)}
                 placeholder="e.g. Space Tech Franchises or Micro-Breweries"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white"
               />
             </div>
 
@@ -451,7 +451,7 @@ export const AdminPortal: React.FC = () => {
               <select
                 value={sectorCategory}
                 onChange={(e) => setSectorCategory(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white"
               >
                 <option value="F&B">Food & Beverage (F&B)</option>
                 <option value="Health">Healthcare & Diagnostics</option>
@@ -472,7 +472,7 @@ export const AdminPortal: React.FC = () => {
                 value={sectorDesc}
                 onChange={(e) => setSectorDesc(e.target.value)}
                 placeholder="Brief description of business models in this sector..."
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white"
               />
             </div>
 
@@ -488,9 +488,9 @@ export const AdminPortal: React.FC = () => {
 
       {/* Tab 4: Document Upload & Extraction (Section 26) */}
       {activeAdminTab === 'documents' && (
-        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl max-w-3xl space-y-6">
+        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl max-w-3xl space-y-6">
           <div>
-            <h3 className="text-lg font-bold text-white">Document Ingestion & Automated Clause Parser</h3>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Document Ingestion & Automated Clause Parser</h3>
             <p className="text-xs text-slate-400 mt-1">
               Upload franchise brochures, Franchise Disclosure Documents (FDDs), audited P&Ls, or investment agreements.
               <em> Note: As per Section 26, extracted figures are treated as REPORTED/ESTIMATED, not automatically verified without auditor stamp.</em>
@@ -503,7 +503,7 @@ export const AdminPortal: React.FC = () => {
               <select
                 value={docType}
                 onChange={(e) => setDocType(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-white"
               >
                 <option value="Franchise Disclosure Document (FDD)">Franchise Disclosure Document (FDD)</option>
                 <option value="Audited Unit P&L Statement">Audited Unit P&L Statement</option>
@@ -517,13 +517,13 @@ export const AdminPortal: React.FC = () => {
               <input
                 type="file"
                 onChange={(e) => setDocFile(e.target.files?.[0] || null)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-300 file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-emerald-400 hover:file:bg-slate-700 cursor-pointer"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg p-3 text-slate-300 file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-emerald-400 hover:file:bg-slate-700 cursor-pointer"
               />
             </div>
 
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition-colors cursor-pointer flex items-center gap-1.5"
+              className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-colors cursor-pointer flex items-center gap-1.5"
             >
               <Upload className="w-4 h-4" />
               <span>Parse & Extract Key Financial Clauses</span>
@@ -544,7 +544,7 @@ export const AdminPortal: React.FC = () => {
 
               <div className="bg-slate-900/90 p-4 rounded-xl space-y-2 font-mono">
                 {Object.entries(extractedData.extracted_fields || {}).map(([k, v]) => (
-                  <div key={k} className="flex justify-between border-b border-slate-800/80 pb-1">
+                  <div key={k} className="flex justify-between border-b border-slate-200 dark:border-slate-800 pb-1">
                     <span className="text-slate-400 capitalize">{k.replace(/_/g, ' ')}:</span>
                     <span className="text-white font-semibold">{String(v)}</span>
                   </div>
@@ -561,9 +561,9 @@ export const AdminPortal: React.FC = () => {
 
       {/* Tab 5: Live Audit Logs (Section 25 & 32) */}
       {activeAdminTab === 'audit' && (
-        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <History className="w-4 h-4 text-emerald-400" />
               <span>Immutable Regulatory Audit Trail</span>
             </h3>

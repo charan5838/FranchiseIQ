@@ -76,8 +76,8 @@ export const LocationAnalysis: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Inputs Pane (5 cols) */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-3">
+          <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
+            <h2 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-3">
               Location & Trade Catchment Details
             </h2>
 
@@ -87,7 +87,7 @@ export const LocationAnalysis: React.FC = () => {
               <select
                 value={city}
                 onChange={(e) => handleCityChange(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
               >
                 {CITIES_AND_LOCALITIES.map((c) => (
                   <option key={c.city} value={c.city}>
@@ -105,7 +105,7 @@ export const LocationAnalysis: React.FC = () => {
               <select
                 value={locality}
                 onChange={(e) => handleLocalitySelect(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none font-medium"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none font-medium"
               >
                 {currentCityInfo.localities.map((loc) => (
                   <option key={loc.locality} value={loc.locality}>
@@ -123,7 +123,7 @@ export const LocationAnalysis: React.FC = () => {
                   type="text"
                   value={locality}
                   onChange={(e) => setLocality(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:border-emerald-500 outline-none"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white focus:border-emerald-500 outline-none"
                 />
               </div>
               <div>
@@ -132,7 +132,7 @@ export const LocationAnalysis: React.FC = () => {
                   type="text"
                   value={pinCode}
                   onChange={(e) => setPinCode(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:border-emerald-500 outline-none"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white focus:border-emerald-500 outline-none"
                 />
               </div>
             </div>
@@ -198,10 +198,10 @@ export const LocationAnalysis: React.FC = () => {
           {result && (
             <>
               {/* Overall Location Score Card (Section 9) */}
-              <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-wrap items-center justify-between gap-6">
+              <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl flex flex-wrap items-center justify-between gap-6">
                 <div>
                   <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Composite Feasibility</div>
-                  <h3 className="text-2xl font-bold text-white mt-1">
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
                     Location Score: <span className="text-emerald-400">{result.overall_location_score}</span><span className="text-sm text-slate-500 font-normal">/100</span>
                   </h3>
                   <p className="text-xs text-slate-300 mt-1">
@@ -235,7 +235,7 @@ export const LocationAnalysis: React.FC = () => {
                   {/* Demand */}
                   <div>
                     <div className="flex justify-between font-semibold mb-1">
-                      <span className="text-slate-300">Local Consumer Demand Index</span>
+                      <span className="text-slate-700 dark:text-slate-300">Local Consumer Demand Index</span>
                       <span className="text-emerald-400">{result.demand_score}/100</span>
                     </div>
                     <div className="w-full h-2 rounded-full bg-slate-950 overflow-hidden">
@@ -246,7 +246,7 @@ export const LocationAnalysis: React.FC = () => {
                   {/* Footfall */}
                   <div>
                     <div className="flex justify-between font-semibold mb-1">
-                      <span className="text-slate-300">High-Street Footfall Density</span>
+                      <span className="text-slate-700 dark:text-slate-300">High-Street Footfall Density</span>
                       <span className="text-indigo-400">{result.footfall_score}/100</span>
                     </div>
                     <div className="w-full h-2 rounded-full bg-slate-950 overflow-hidden">
@@ -257,7 +257,7 @@ export const LocationAnalysis: React.FC = () => {
                   {/* Rent Efficiency */}
                   <div>
                     <div className="flex justify-between font-semibold mb-1">
-                      <span className="text-slate-300">Rent Efficiency vs Commercial Revenue Potential</span>
+                      <span className="text-slate-700 dark:text-slate-300">Rent Efficiency vs Commercial Revenue Potential</span>
                       <span className="text-teal-400">{result.rent_efficiency_score}/100</span>
                     </div>
                     <div className="w-full h-2 rounded-full bg-slate-950 overflow-hidden">
@@ -268,7 +268,7 @@ export const LocationAnalysis: React.FC = () => {
                   {/* Competition Intensity */}
                   <div>
                     <div className="flex justify-between font-semibold mb-1">
-                      <span className="text-slate-300">Market Room (Low Rival Density is Better)</span>
+                      <span className="text-slate-700 dark:text-slate-300">Market Room (Low Rival Density is Better)</span>
                       <span className="text-amber-400">{result.competition_score}/100</span>
                     </div>
                     <div className="w-full h-2 rounded-full bg-slate-950 overflow-hidden">
@@ -279,7 +279,7 @@ export const LocationAnalysis: React.FC = () => {
                   {/* Market Saturation */}
                   <div>
                     <div className="flex justify-between font-semibold mb-1">
-                      <span className="text-slate-300">Trade Catchment Saturation</span>
+                      <span className="text-slate-700 dark:text-slate-300">Trade Catchment Saturation</span>
                       <span className="text-rose-400">{result.market_saturation_score}/100</span>
                     </div>
                     <div className="w-full h-2 rounded-full bg-slate-950 overflow-hidden">
@@ -292,11 +292,11 @@ export const LocationAnalysis: React.FC = () => {
               {/* Competitor Radar Table (Section 10) */}
               <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm space-y-3">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <Store className="w-4 h-4 text-emerald-400" />
                     <span>Nearby Competitor Radar in {locality}</span>
                   </h4>
-                  <span className="text-xs text-slate-400">{result.competitors?.length || 0} peer brands identified</span>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">{result.competitors?.length || 0} peer brands identified</span>
                 </div>
 
                 <div className="overflow-x-auto">

@@ -91,13 +91,13 @@ export const ScenarioSimulator: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Shock Sliders (5 cols) */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
+          <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
             <div>
               <label className="text-xs text-slate-300 font-medium block mb-1">Select Franchise Candidate</label>
               <select
                 value={selectedFranchiseId}
                 onChange={(e) => setSelectedFranchiseId(Number(e.target.value))}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
               >
                 {franchises.map((f) => (
                   <option key={f.id} value={f.id}>{f.name} (₹{(f.total_investment/100000).toFixed(1)}L • {f.roi_annual}% ROI)</option>
@@ -139,7 +139,7 @@ export const ScenarioSimulator: React.FC = () => {
             </div>
 
             {/* Shocks */}
-            <div className="pt-2 border-t border-slate-800/80 space-y-4">
+            <div className="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-4">
               {/* Sales Delta */}
               <div>
                 <div className="flex justify-between text-xs mb-1">
@@ -237,7 +237,7 @@ export const ScenarioSimulator: React.FC = () => {
               {/* Comparative Before vs After Cards */}
               <div className="grid grid-cols-2 gap-4">
                 {/* Monthly Profit Delta */}
-                <div className="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-2">
+                <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl space-y-2">
                   <span className="text-xs text-slate-400 font-medium block">Monthly Cash Profit</span>
                   <div className="flex items-baseline justify-between text-xs text-slate-400">
                     <span>Baseline:</span>
@@ -258,7 +258,7 @@ export const ScenarioSimulator: React.FC = () => {
                 </div>
 
                 {/* ROI & Payback Impact */}
-                <div className="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl space-y-2">
+                <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl space-y-2">
                   <span className="text-xs text-slate-400 font-medium block">Annual ROI & Payback</span>
                   <div className="flex items-baseline justify-between text-xs text-slate-400">
                     <span>Baseline ROI:</span>

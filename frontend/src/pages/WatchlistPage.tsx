@@ -94,9 +94,9 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({ setCurrentPage, se
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Watchlist Table (8 cols) */}
         <div className="lg:col-span-8 space-y-4">
-          <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+          <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h2 className="text-sm font-bold text-white uppercase tracking-wider text-slate-400 flex items-center gap-2">
+              <h2 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider text-slate-400 flex items-center gap-2">
                 <span>Watched Opportunities ({watchlist.length})</span>
               </h2>
               <span className="text-xs text-slate-500">Auto-refreshed daily</span>
@@ -105,7 +105,7 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({ setCurrentPage, se
             {watchlist.length === 0 && !loading ? (
               <div className="text-center py-12">
                 <BookmarkCheck className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-                <h3 className="text-base font-bold text-white">Your watchlist is currently empty</h3>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Your watchlist is currently empty</h3>
                 <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto mb-4">
                   Browse the directory or run the Investor Advisor to save franchises and monitor their fee or ROI updates.
                 </p>
@@ -121,7 +121,7 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({ setCurrentPage, se
                 {watchlist.map((item) => (
                   <div
                     key={item.watchlist_id}
-                    className="p-4 rounded-2xl bg-slate-950/70 border border-slate-800/80 hover:border-slate-700 transition-all flex flex-wrap items-center justify-between gap-4"
+                    className="p-4 rounded-2xl bg-slate-950/70 border border-slate-200 dark:border-slate-800 hover:border-slate-700 transition-all flex flex-wrap items-center justify-between gap-4"
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
@@ -130,7 +130,7 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({ setCurrentPage, se
                             setSelectedFranchiseId(item.franchise_id);
                             setCurrentPage('detail');
                           }}
-                          className="text-base font-bold text-white hover:text-emerald-400 cursor-pointer transition-colors"
+                          className="text-base font-bold text-slate-900 dark:text-white hover:text-emerald-400 cursor-pointer transition-colors"
                         >
                           {item.name}
                         </h4>
@@ -202,8 +202,8 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({ setCurrentPage, se
 
         {/* Right Notification Stream (4 cols) (Section 27) */}
         <div className="lg:col-span-4 space-y-4">
-          <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-3">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider text-slate-400 flex items-center gap-2 border-b border-slate-800 pb-3">
+          <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-xl space-y-3">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider text-slate-400 flex items-center gap-2 border-b border-slate-800 pb-3">
               <Bell className="w-4 h-4 text-emerald-400" />
               <span>Investment Alert Stream</span>
             </h3>
@@ -213,7 +213,7 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({ setCurrentPage, se
             ) : (
               <div className="space-y-2.5 text-xs">
                 {notifications.map((n) => (
-                  <div key={n.id} className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-1">
+                  <div key={n.id} className="p-3 rounded-xl bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-1">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white">{n.title}</span>
                       <span className="text-[10px] text-slate-500">{n.date}</span>

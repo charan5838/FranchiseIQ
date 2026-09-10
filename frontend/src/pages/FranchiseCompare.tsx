@@ -53,7 +53,7 @@ export const FranchiseCompare: React.FC<FranchiseCompareProps> = ({ setCurrentPa
                 if (!comparisonList.includes(id)) toggleComparison(id);
               });
             }}
-            className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition-colors cursor-pointer"
+            className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-colors cursor-pointer"
           >
             Compare Top 3 Benchmark Franchises
           </button>
@@ -102,11 +102,11 @@ export const FranchiseCompare: React.FC<FranchiseCompareProps> = ({ setCurrentPa
 
       {loading ? (
         <div className="text-center py-20">
-          <div className="inline-block w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mb-3" />
-          <p className="text-slate-400 text-xs">Generating comparative metrics...</p>
+          <div className="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-3" />
+          <p className="text-slate-500 dark:text-slate-400 text-xs">Generating comparative metrics...</p>
         </div>
       ) : (
-        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl overflow-x-auto">
+        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
               <tr className="border-b border-slate-800">
@@ -325,7 +325,7 @@ export const FranchiseCompare: React.FC<FranchiseCompareProps> = ({ setCurrentPa
                         setSelectedFranchiseId(f.id);
                         setCurrentPage('detail');
                       }}
-                      className="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition-colors flex items-center gap-1 cursor-pointer"
+                      className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-colors flex items-center gap-1 cursor-pointer"
                     >
                       <span>View Full P&L</span>
                       <ArrowRight className="w-3.5 h-3.5" />

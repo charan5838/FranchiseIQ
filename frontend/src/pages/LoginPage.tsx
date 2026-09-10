@@ -173,7 +173,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                 type="button"
                 onClick={handleDemoInvestor}
                 disabled={loading}
-                className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500/40 text-left transition-all"
+                className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/40 text-left transition-all"
               >
                 <div className="text-xs font-bold text-emerald-400">Rajesh Sharma</div>
                 <div className="text-[10px] text-slate-400">Investor (₹25L Demo)</div>
@@ -182,7 +182,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                 type="button"
                 onClick={handleDemoAdmin}
                 disabled={loading}
-                className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-500/40 text-left transition-all"
+                className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-cyan-500/40 text-left transition-all"
               >
                 <div className="text-xs font-bold text-cyan-400">Vikram Mehta</div>
                 <div className="text-[10px] text-slate-400">Admin / Chief Analyst</div>
@@ -192,15 +192,15 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
         </div>
 
         {/* Right Form Card */}
-        <div className="lg:col-span-7 bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative">
+        <div className="lg:col-span-7 bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative">
           
           {/* Header & Mode Switcher */}
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
             <div>
-              <h2 className="text-lg font-bold text-white">
+              <h2 className="text-lg font-bold text-slate-900 dark:text-white">
                 {isPasswordMode ? 'Sign In with Password' : 'Quick Investor Onboarding'}
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 {isPasswordMode ? 'Access your existing account' : 'Enter your name and basic details to unlock sector profit leaders'}
               </p>
             </div>
@@ -237,7 +237,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. Sai Charan"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 transition-colors"
                   />
                 </div>
 
@@ -252,13 +252,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="investor@example.com"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 transition-colors"
                   />
                 </div>
               </div>
 
               {/* Investment Budget Slider */}
-              <div className="bg-slate-950/60 p-4 rounded-2xl border border-slate-800/80 space-y-2">
+              <div className="bg-slate-950/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
                     <IndianRupee className="w-3.5 h-3.5 text-emerald-400" />
@@ -295,7 +295,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                   <select
                     value={city}
                     onChange={(e) => handleCityChange(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors"
                   >
                     {CITIES_AND_LOCALITIES.map((c) => (
                       <option key={c.city} value={c.city}>
@@ -313,7 +313,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                   <select
                     value={locality}
                     onChange={(e) => setLocality(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors font-medium"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors font-medium"
                   >
                     {currentCityInfo.localities.map((loc) => (
                       <option key={loc.locality} value={loc.locality}>
@@ -334,7 +334,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                   <select
                     value={experience}
                     onChange={(e) => setExperience(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors"
                   >
                     <option value="0-2 years">First-Time Entrepreneur (0-2 yrs)</option>
                     <option value="2-5 years">Mid-Level Operator (2-5 yrs)</option>
@@ -350,7 +350,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                   <select
                     value={riskPreference}
                     onChange={(e) => setRiskPreference(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                    className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors"
                   >
                     <option value="Low">Low Risk (Recession-Proof, Established Brand)</option>
                     <option value="Medium">Medium Risk (Balanced Growth & Solid Cash Flow)</option>
@@ -383,7 +383,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="investor@franchiseiq.com"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500"
                 />
               </div>
 
@@ -398,14 +398,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3.5 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full mt-2 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2"
+                className="w-full mt-2 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2"
               >
                 <span>{loading ? 'Authenticating...' : 'Sign In'}</span>
                 <ArrowRight className="w-4 h-4" />
