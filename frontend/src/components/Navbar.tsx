@@ -12,38 +12,35 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) => {
-  const { user, loginDemoInvestor, loginDemoAdmin, logout } = useAuth();
-  const { comparisonList } = useInvestor();
+  const { user, loginDemoAdmin, logout } = useAuth();
+  const { comparisonList, watchlist } = useInvestor();
 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Building2 },
-    { id: 'advisor', label: 'Investor Advisor', icon: Sparkles, highlight: true },
-    { id: 'explore', label: 'Explore Franchises', icon: SlidersHorizontal },
+    { id: 'advisor', label: 'Advisor', icon: Sparkles, highlight: true },
+    { id: 'explore', label: 'Explore', icon: SlidersHorizontal },
     { id: 'compare', label: 'Compare', icon: Scale, badge: comparisonList.length },
     { id: 'calculator', label: 'Calculator', icon: Calculator },
     { id: 'simulator', label: 'Simulator', icon: Activity },
-    { id: 'location', label: 'Location Intelligence', icon: MapPin },
-    { id: 'watchlist', label: 'My Watchlist', icon: BookmarkCheck },
+    { id: 'location', label: 'Location', icon: MapPin },
   ];
 
   return (
-    <header className="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
+    <header className="bg-[#090d16]/85 backdrop-blur-md border-b border-slate-800/50 sticky top-0 z-40 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14">
           {/* Logo & Platform Tagline */}
           <div 
             onClick={() => setCurrentPage('dashboard')}
-            className="flex items-center gap-3 cursor-pointer group"
+            className="flex items-center gap-2.5 cursor-pointer group shrink-0"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
-              <Building2 className="w-5 h-5 text-slate-950 font-bold" />
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+              <Building2 className="w-4 h-4 text-slate-950 font-bold" />
             </div>
             <div>
-              <div className="flex items-center gap-1.5">
-                <span className="text-xl font-black tracking-tight text-white">Franchise<span className="text-emerald-400">IQ</span></span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold tracking-wide uppercase">Intelligence</span>
+              <div className="flex items-center">
+                <span className="text-lg font-black tracking-tight text-white">Franchise<span className="text-emerald-400">IQ</span></span>
               </div>
-              <p className="text-[11px] text-slate-400 font-medium">Invest in the right franchise, not just the brand</p>
             </div>
           </div>
 
@@ -56,18 +53,18 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
                 <button
                   key={item.id}
                   onClick={() => setCurrentPage(item.id)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all relative cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 font-semibold'
                       : item.highlight
-                      ? 'bg-indigo-950/60 text-indigo-300 border border-indigo-500/30 hover:bg-indigo-900/60'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                      ? 'text-indigo-300 hover:text-white hover:bg-slate-800/40'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
                   }`}
                 >
                   <Icon className={`w-3.5 h-3.5 ${item.highlight ? 'text-indigo-400' : ''}`} />
                   <span>{item.label}</span>
                   {item.badge !== undefined && item.badge > 0 && (
-                    <span className="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-500 text-slate-950 font-bold">
+                    <span className="ml-0.5 px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-500 text-slate-950 font-bold">
                       {item.badge}
                     </span>
                   )}
@@ -78,39 +75,49 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
             {user?.role === 'admin' && (
               <button
                 onClick={() => setCurrentPage('admin')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                   currentPage === 'admin'
-                    ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
-                    : 'text-rose-400 hover:bg-rose-950/40 border border-rose-500/20'
+                    ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 font-semibold'
+                    : 'text-rose-400 hover:bg-rose-950/30'
                 }`}
               >
                 <Shield className="w-3.5 h-3.5 text-rose-400" />
-                <span>Admin Portal</span>
+                <span>Admin</span>
               </button>
             )}
           </nav>
 
-          {/* User & Demo Switcher */}
-          <div className="flex items-center gap-2">
+          {/* Right Utility: Watchlist Symbol Icon & User Auth */}
+          <div className="flex items-center gap-2.5">
+            {/* Watchlist Symbol Only */}
+            <button
+              onClick={() => setCurrentPage('watchlist')}
+              title={`Watchlist (${watchlist.length} saved)`}
+              className={`relative p-2 rounded-lg transition-all cursor-pointer flex items-center justify-center ${
+                currentPage === 'watchlist'
+                  ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+              }`}
+              aria-label="My Watchlist"
+            >
+              <BookmarkCheck className="w-4 h-4" />
+              {watchlist.length > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 text-slate-950 font-bold text-[9px] flex items-center justify-center">
+                  {watchlist.length}
+                </span>
+              )}
+            </button>
+
             {!user ? (
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setCurrentPage('login')}
-                  className="text-xs px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-bold transition-all shadow-md shadow-emerald-500/20 flex items-center gap-1.5 cursor-pointer"
-                >
-                  <UserIcon className="w-3.5 h-3.5" />
-                  <span>Sign In / Onboard</span>
-                </button>
-                <button
-                  onClick={loginDemoInvestor}
-                  className="hidden sm:flex text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition-all border border-slate-700 cursor-pointer items-center gap-1"
-                >
-                  <Sparkles className="w-3 h-3 text-emerald-400" />
-                  <span>Demo</span>
-                </button>
-              </div>
+              <button
+                onClick={() => setCurrentPage('login')}
+                className="text-xs px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
+              >
+                <UserIcon className="w-3.5 h-3.5" />
+                <span>Sign In</span>
+              </button>
             ) : (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5">
                 <div className="hidden sm:flex flex-col items-end">
                   <span className="text-xs font-semibold text-white flex items-center gap-1">
                     <UserIcon className="w-3 h-3 text-emerald-400" />
@@ -127,7 +134,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
                     className="text-[11px] px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 cursor-pointer"
                     title="Switch to Admin Mode"
                   >
-                    Switch to Admin
+                    Admin
                   </button>
                 )}
 
