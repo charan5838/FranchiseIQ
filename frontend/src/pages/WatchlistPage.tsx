@@ -86,7 +86,7 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({ setCurrentPage, se
           <BookmarkCheck className="w-3.5 h-3.5" /> Capital Tracking & Alerts
         </div>
         <h1 className="text-3xl font-black text-white tracking-tight">My Monitored Franchise Watchlist</h1>
-        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1 max-w-3xl">
+        <p className="text-slate-400 text-sm mt-1 max-w-3xl">
           Track unit economics drift, fee adjustments, and network growth over time for candidate franchises before executing contracts.
         </p>
       </div>
@@ -121,7 +121,7 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({ setCurrentPage, se
                 {watchlist.map((item) => (
                   <div
                     key={item.watchlist_id}
-                    className="p-4 rounded-2xl bg-slate-950/70 border border-slate-200 dark:border-slate-800 hover:border-slate-700 transition-all flex flex-wrap items-center justify-between gap-4"
+                    className="p-4 rounded-2xl bg-slate-950/70 border border-slate-800 hover:border-slate-700 transition-all flex flex-wrap items-center justify-between gap-4"
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
@@ -213,7 +213,7 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({ setCurrentPage, se
             ) : (
               <div className="space-y-2.5 text-xs">
                 {notifications.map((n) => (
-                  <div key={n.id} className="p-3 rounded-xl bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-1">
+                  <div key={n.id} className="p-3 rounded-xl bg-slate-950/60 border border-slate-800 space-y-1">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-white">{n.title}</span>
                       <span className="text-[10px] text-slate-500">{n.date}</span>

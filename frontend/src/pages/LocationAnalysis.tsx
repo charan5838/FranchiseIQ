@@ -68,7 +68,7 @@ export const LocationAnalysis: React.FC = () => {
           <MapPin className="w-3.5 h-3.5" /> High-Street Catchment Feasibility
         </div>
         <h1 className="text-3xl font-black text-white tracking-tight">Location Intelligence & Competitor Radar</h1>
-        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1 max-w-3xl">
+        <p className="text-slate-400 text-sm mt-1 max-w-3xl">
           Evaluate local trade catchment demographics, commercial rent density, footfall conversion indices, and nearby direct competitors.
         </p>
       </div>
@@ -118,7 +118,7 @@ export const LocationAnalysis: React.FC = () => {
             {/* Locality Edit & PIN */}
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="text-[11px] text-slate-500 dark:text-slate-400 font-medium block mb-1">Locality Label</label>
+                <label className="text-[11px] text-slate-400 font-medium block mb-1">Locality Label</label>
                 <input
                   type="text"
                   value={locality}
@@ -127,7 +127,7 @@ export const LocationAnalysis: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="text-[11px] text-slate-500 dark:text-slate-400 font-medium block mb-1">PIN Code</label>
+                <label className="text-[11px] text-slate-400 font-medium block mb-1">PIN Code</label>
                 <input
                   type="text"
                   value={pinCode}
@@ -301,7 +301,7 @@ export const LocationAnalysis: React.FC = () => {
 
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs">
-                    <thead className="text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-800 bg-slate-950/50">
+                    <thead className="text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800 bg-slate-950/50">
                       <tr>
                         <th className="py-2.5 px-3">Competitor Brand</th>
                         <th className="py-2.5 px-3">Category</th>

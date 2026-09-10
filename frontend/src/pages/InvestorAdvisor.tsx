@@ -297,27 +297,27 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 text-center text-xs">
             <div className="bg-slate-900/50 border border-slate-800/50 p-2 rounded-lg">
-              <span className="text-[10px] text-slate-500 dark:text-slate-400 block">ROI (20)</span>
+              <span className="text-[10px] text-slate-400 block">ROI (20)</span>
               <span className="font-semibold text-emerald-400">{f.score_breakdown.roi_score}</span>
             </div>
             <div className="bg-slate-900/50 border border-slate-800/50 p-2 rounded-lg">
-              <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Payback (20)</span>
+              <span className="text-[10px] text-slate-400 block">Payback (20)</span>
               <span className="font-semibold text-teal-400">{f.score_breakdown.payback_score}</span>
             </div>
             <div className="bg-slate-900/50 border border-slate-800/50 p-2 rounded-lg">
-              <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Location (20)</span>
+              <span className="text-[10px] text-slate-400 block">Location (20)</span>
               <span className="font-semibold text-indigo-400">{f.score_breakdown.location_score}</span>
             </div>
             <div className="bg-slate-900/50 border border-slate-800/50 p-2 rounded-lg">
-              <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Growth (15)</span>
+              <span className="text-[10px] text-slate-400 block">Growth (15)</span>
               <span className="font-semibold text-purple-400">{f.score_breakdown.growth_score}</span>
             </div>
             <div className="bg-slate-900/50 border border-slate-800/50 p-2 rounded-lg">
-              <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Risk Buffer (15)</span>
+              <span className="text-[10px] text-slate-400 block">Risk Buffer (15)</span>
               <span className="font-semibold text-amber-400">{f.score_breakdown.risk_score}</span>
             </div>
             <div className="bg-slate-900/50 border border-slate-800/50 p-2 rounded-lg">
-              <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Data Conf (10)</span>
+              <span className="text-[10px] text-slate-400 block">Data Conf (10)</span>
               <span className="font-semibold text-blue-400">{f.score_breakdown.data_confidence}</span>
             </div>
           </div>
@@ -424,7 +424,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
           Sector-Classified Decision Engine
         </div>
         <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">Investor Financial Advisor</h1>
-        <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mt-1 max-w-3xl leading-relaxed">
+        <p className="text-slate-400 text-xs sm:text-sm mt-1 max-w-3xl leading-relaxed">
           Configure capital parameters and catchment metrics to discover algorithmically validated franchise opportunities. Filter by risk and verification, and sort by ROI, profit, or payback.
         </p>
       </div>
@@ -641,7 +641,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
           </div>
 
           {/* SECTOR CLASSIFICATION TABS BAR */}
-          <div className="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-200 dark:border-slate-800 rounded-xl p-3.5 shadow-sm space-y-2.5 backdrop-blur-sm">
+          <div className="bg-slate-900/40 border border-slate-800/60 rounded-xl p-3.5 shadow-sm space-y-2.5 backdrop-blur-sm">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
                 <Building2 className="w-3.5 h-3.5 text-emerald-400" />
@@ -681,7 +681,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
           </div>
 
           {/* FILTER & SORT CONTROL BAR */}
-          <div className="bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-200 dark:border-slate-800 rounded-xl p-3.5 shadow-sm space-y-3 backdrop-blur-sm">
+          <div className="bg-slate-900/40 border border-slate-800/60 rounded-xl p-3.5 shadow-sm space-y-3 backdrop-blur-sm">
             {/* Search & Layout View Toggle */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
               {/* Search */}
@@ -727,7 +727,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 border-t border-slate-800/60 text-xs">
               {/* Sort Dropdown */}
               <div>
-                <label className="text-[11px] text-slate-500 dark:text-slate-400 block mb-1 flex items-center gap-1">
+                <label className="text-[11px] text-slate-400 block mb-1 flex items-center gap-1">
                   <ArrowUpDown className="w-3 h-3 text-emerald-400" />
                   <span>Sort By</span>
                 </label>
@@ -749,7 +749,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
 
               {/* Risk Filter */}
               <div>
-                <label className="text-[11px] text-slate-500 dark:text-slate-400 block mb-1">Risk Profile</label>
+                <label className="text-[11px] text-slate-400 block mb-1">Risk Profile</label>
                 <select
                   value={filterRisk}
                   onChange={(e) => setFilterRisk(e.target.value)}
@@ -764,7 +764,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
 
               {/* Verification Tier */}
               <div>
-                <label className="text-[11px] text-slate-500 dark:text-slate-400 block mb-1">Data Verification</label>
+                <label className="text-[11px] text-slate-400 block mb-1">Data Verification</label>
                 <select
                   value={filterVerification}
                   onChange={(e) => setFilterVerification(e.target.value)}
@@ -778,7 +778,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
 
               {/* Claim Gap Severity */}
               <div>
-                <label className="text-[11px] text-slate-500 dark:text-slate-400 block mb-1">Claim Safety</label>
+                <label className="text-[11px] text-slate-400 block mb-1">Claim Safety</label>
                 <select
                   value={filterClaimGap}
                   onChange={(e) => setFilterClaimGap(e.target.value)}
@@ -840,15 +840,15 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
                     {/* Sector Statistics Quick Metrics */}
                     <div className="flex items-center gap-2 text-xs">
                       <div className="bg-slate-950/50 px-2.5 py-1 rounded-lg border border-slate-800/60">
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Avg ROI</span>
+                        <span className="text-[10px] text-slate-400 block">Avg ROI</span>
                         <span className="font-semibold text-emerald-400">{group.avgRoi}%</span>
                       </div>
                       <div className="bg-slate-950/50 px-2.5 py-1 rounded-lg border border-slate-800/60">
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Avg Profit</span>
+                        <span className="text-[10px] text-slate-400 block">Avg Profit</span>
                         <span className="font-semibold text-white">₹{(group.avgProfit / 1000).toFixed(0)}k/mo</span>
                       </div>
                       <div className="bg-slate-950/50 px-2.5 py-1 rounded-lg border border-slate-800/60">
-                        <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Min Entry</span>
+                        <span className="text-[10px] text-slate-400 block">Min Entry</span>
                         <span className="font-semibold text-indigo-300">₹{(group.minInv / 100000).toFixed(1)}L</span>
                       </div>
                     </div>

@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 
 interface LogoProps {
   variant?: 'full' | 'compact' | 'horizontal';
@@ -57,7 +57,7 @@ export const Logo: React.FC<LogoProps> = ({
           width="38"
           height="38"
           rx="10"
-          className="fill-slate-900/90 dark:fill-slate-900/80 stroke-slate-700/60 dark:stroke-slate-800"
+          className="fill-slate-900 stroke-slate-800"
           strokeWidth="1.5"
         />
 
@@ -109,13 +109,13 @@ export const Logo: React.FC<LogoProps> = ({
       {Icon}
       <div className="flex flex-col leading-none">
         <div className={`font-black tracking-tight ${textSizes} flex items-center`}>
-          <span className="text-slate-900 dark:text-white font-extrabold tracking-tight">Franchise</span>
-          <span className="bg-gradient-to-r from-blue-600 via-sky-500 to-teal-400 bg-clip-text text-transparent font-black ml-0.5">
+          <span className="text-white font-extrabold tracking-tight">Franchise</span>
+          <span className="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent font-black ml-0.5">
             IQ
           </span>
         </div>
         {showTagline && (
-          <span className="text-[9px] uppercase tracking-widest text-slate-500 dark:text-slate-400 font-semibold mt-0.5">
+          <span className="text-[9px] uppercase tracking-widest text-slate-400 font-semibold mt-0.5">
             Investment Intelligence
           </span>
         )}

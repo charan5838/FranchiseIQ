@@ -125,11 +125,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
             <span>AI Franchise Intelligence & Decision Support</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight">
             Invest in the <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Right Franchise</span>, Not Just the Brand.
           </h1>
 
-          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          <p className="text-sm text-slate-300 leading-relaxed">
             Enter your basic capital and preference details to unlock verified ROI rankings, forensic profit gap audits, and top profit-making franchise leaders across all 12 sectors.
           </p>
 
@@ -166,8 +166,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
           </div>
 
           {/* Quick 1-Click Demo Logins */}
-          <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-2">
-            <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Or Test Instantly via Demo Accounts:</span>
+          <div className="pt-4 border-t border-slate-800 space-y-2">
+            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Or Test Instantly via Demo Accounts:</span>
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
@@ -175,7 +175,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                 disabled={loading}
                 className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-blue-400 dark:hover:border-blue-500/40 text-left transition-all"
               >
-                <div className="text-xs font-bold text-blue-600 dark:text-blue-400">Rajesh Sharma</div>
+                <div className="text-xs font-bold text-emerald-400">Rajesh Sharma</div>
                 <div className="text-[10px] text-slate-400">Investor (₹25L Demo)</div>
               </button>
               <button
@@ -258,7 +258,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
               </div>
 
               {/* Investment Budget Slider */}
-              <div className="bg-slate-950/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2">
+              <div className="bg-slate-950/60 p-4 rounded-2xl border border-slate-800 space-y-2">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
                     <IndianRupee className="w-3.5 h-3.5 text-emerald-400" />

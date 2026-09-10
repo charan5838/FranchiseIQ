@@ -85,8 +85,8 @@ export const SectorProfitLeaders: React.FC<SectorProfitLeadersProps> = ({
           onClick={() => setSelectedSector('all')}
           className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
             selectedSector === 'all'
-              ? 'bg-blue-600 text-white font-semibold shadow-sm'
-              : 'bg-white dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-slate-200 dark:border-slate-800'
+              ? 'bg-emerald-500 text-slate-950 font-semibold shadow-sm'
+              : 'bg-slate-900/50 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800'
           }`}
         >
           <Filter className="w-3 h-3" />
@@ -99,8 +99,8 @@ export const SectorProfitLeaders: React.FC<SectorProfitLeadersProps> = ({
             onClick={() => setSelectedSector(sec.sector_name)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
               selectedSector.toLowerCase() === sec.sector_name.toLowerCase()
-                ? 'bg-blue-600 text-white font-semibold shadow-sm'
-                : 'bg-white dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 border border-slate-200 dark:border-slate-800'
+                ? 'bg-emerald-500 text-slate-950 font-semibold shadow-sm'
+                : 'bg-slate-900/50 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800'
             }`}
           >
             <span>{sec.sector_name}</span>
@@ -115,7 +115,7 @@ export const SectorProfitLeaders: React.FC<SectorProfitLeadersProps> = ({
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3, 4, 5, 6].map(i => (
-            <div key={i} className="h-60 rounded-xl bg-white dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800/60 animate-pulse p-5"></div>
+            <div key={i} className="h-60 rounded-xl bg-slate-900/30 border border-slate-800/60 animate-pulse p-5"></div>
           ))}
         </div>
       ) : (
@@ -155,31 +155,31 @@ export const SectorProfitLeaders: React.FC<SectorProfitLeadersProps> = ({
                       </span>
                     </div>
                     <div className="text-xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">
-                      ₹{(leader.monthly_profit / 100000).toFixed(2)} Lakhs <span className="text-xs text-slate-500 dark:text-slate-400 font-normal">/ mo</span>
+                      ₹{(leader.monthly_profit / 100000).toFixed(2)} Lakhs <span className="text-xs text-slate-400 font-normal">/ mo</span>
                     </div>
-                    <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1 flex items-center justify-between">
+                    <div className="text-[10px] text-slate-400 mt-1 flex items-center justify-between">
                       <span>Annual: ₹{((leader.monthly_profit * 12) / 100000).toFixed(1)}L</span>
                       <span>{leader.total_outlets} Outlets</span>
                     </div>
                   </div>
 
                   {/* Financial Metrics Strip */}
-                  <div className="grid grid-cols-3 gap-1.5 bg-slate-50/70 dark:bg-slate-950/30 p-2.5 rounded-lg border border-slate-200/60 dark:border-slate-800/40 text-center mb-3 text-xs">
+                  <div className="grid grid-cols-3 gap-1.5 bg-slate-950/30 p-2.5 rounded-lg border border-slate-800/40 text-center mb-3 text-xs">
                     <div>
-                      <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Investment</span>
+                      <span className="text-[10px] text-slate-400 block">Investment</span>
                       <span className="font-bold text-slate-900 dark:text-white mt-0.5 block">
                         ₹{(leader.total_investment / 100000).toFixed(1)}L
                       </span>
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Annual ROI</span>
+                      <span className="text-[10px] text-slate-400 block">Annual ROI</span>
                       <span className="font-bold text-emerald-600 dark:text-emerald-400 mt-0.5 block">
                         {leader.roi_annual}%
                       </span>
                     </div>
                     <div>
-                      <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Payback</span>
-                      <span className="font-semibold text-slate-700 dark:text-slate-300 mt-0.5 block">
+                      <span className="text-[10px] text-slate-400 block">Payback</span>
+                      <span className="font-semibold text-slate-300 mt-0.5 block">
                         {leader.payback_months} mo
                       </span>
                     </div>
@@ -188,7 +188,7 @@ export const SectorProfitLeaders: React.FC<SectorProfitLeadersProps> = ({
                   {/* Peer Leaders in this Sector */}
                   {sec.leaders && sec.leaders.length > 1 && (
                     <div className="space-y-1 mb-3">
-                      <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 block">Other Sector Leaders:</span>
+                      <span className="text-[10px] font-semibold text-slate-400 block">Other Sector Leaders:</span>
                       <div className="space-y-1">
                         {sec.leaders.slice(1, 3).map((peer: any) => (
                           <div
@@ -197,7 +197,7 @@ export const SectorProfitLeaders: React.FC<SectorProfitLeadersProps> = ({
                               setSelectedFranchiseId(peer.id);
                               setCurrentPage('detail');
                             }}
-                            className="flex items-center justify-between text-xs p-1.5 rounded-md bg-slate-50 hover:bg-slate-100 dark:bg-slate-950/30 dark:hover:bg-slate-800/40 cursor-pointer text-slate-700 dark:text-slate-300 transition-colors border border-slate-200/60 dark:border-slate-800/30"
+                            className="flex items-center justify-between text-xs p-1.5 rounded-md bg-slate-950/30 hover:bg-slate-800/40 cursor-pointer text-slate-300 transition-colors border border-slate-800/30"
                           >
                             <span className="truncate pr-2">{peer.name}</span>
                             <span className="font-semibold text-emerald-600 dark:text-emerald-400 whitespace-nowrap text-[11px]">₹{(peer.monthly_profit / 100000).toFixed(1)}L/mo</span>
@@ -225,7 +225,7 @@ export const SectorProfitLeaders: React.FC<SectorProfitLeadersProps> = ({
                       setSelectedFranchiseId(leader.id);
                       setCurrentPage('compare');
                     }}
-                    className="py-1.5 px-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium border border-slate-200 dark:border-slate-700/60 transition-all cursor-pointer"
+                    className="py-1.5 px-2.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700/60 transition-all cursor-pointer"
                     title="Compare in Matrix"
                   >
                     Compare

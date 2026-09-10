@@ -41,7 +41,7 @@ export const FranchiseCompare: React.FC<FranchiseCompareProps> = ({ setCurrentPa
           <Scale className="w-8 h-8" />
         </div>
         <h2 className="text-2xl font-black text-white">Compare Franchises Side-by-Side</h2>
-        <p className="text-slate-500 dark:text-slate-400 text-sm max-w-lg mx-auto">
+        <p className="text-slate-400 text-sm max-w-lg mx-auto">
           Please select at least 2 franchises (up to 5) to evaluate unit economics, payback horizons, royalties, and forensic risk matrices side-by-side.
         </p>
 
@@ -102,15 +102,15 @@ export const FranchiseCompare: React.FC<FranchiseCompareProps> = ({ setCurrentPa
 
       {loading ? (
         <div className="text-center py-20">
-          <div className="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-3" />
-          <p className="text-slate-500 dark:text-slate-400 text-xs">Generating comparative metrics...</p>
+          <div className="inline-block w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mb-3" />
+          <p className="text-slate-400 text-xs">Generating comparative metrics...</p>
         </div>
       ) : (
         <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-sm overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
               <tr className="border-b border-slate-800">
-                <th className="py-4 px-4 w-48 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[11px]">
+                <th className="py-4 px-4 w-48 text-slate-400 font-semibold uppercase tracking-wider text-[11px]">
                   Metrics & Attributes
                 </th>
                 {franchises.map((f: any) => (
@@ -122,11 +122,11 @@ export const FranchiseCompare: React.FC<FranchiseCompareProps> = ({ setCurrentPa
                             setSelectedFranchiseId(f.id);
                             setCurrentPage('detail');
                           }}
-                          className="font-bold text-white text-sm hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors"
+                          className="font-bold text-white text-sm hover:text-emerald-400 cursor-pointer transition-colors"
                         >
                           {f.name}
                         </h3>
-                        <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{f.sector} • {f.sub_sector}</p>
+                        <p className="text-[11px] text-slate-400 mt-0.5">{f.sector} • {f.sub_sector}</p>
                       </div>
                       <button
                         onClick={() => toggleComparison(f.id)}

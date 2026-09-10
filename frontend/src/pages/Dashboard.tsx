@@ -98,7 +98,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
             </button>
             <button
               onClick={() => setCurrentPage('compare')}
-              className="px-5 py-2.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-200 font-semibold text-xs sm:text-sm transition-all border border-slate-200 dark:border-slate-700 cursor-pointer"
+              className="px-5 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs sm:text-sm transition-all border border-slate-700 cursor-pointer"
             >
               Compare Franchises
             </button>
@@ -111,22 +111,22 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
           </div>
 
           {/* Institutional Trust Strip */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-6 border-t border-slate-200/80 dark:border-slate-800/80">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-6 border-t border-slate-800">
             <div>
               <div className="text-2xl font-bold text-white">100+</div>
-              <div className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">Curated Franchises</div>
+              <div className="text-xs text-slate-400 font-medium mt-0.5">Curated Franchises</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-white">12</div>
-              <div className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">Monitored Sectors</div>
+              <div className="text-xs text-slate-400 font-medium mt-0.5">Monitored Sectors</div>
             </div>
             <div>
               <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">34.8%</div>
-              <div className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">Avg Annual ROI</div>
+              <div className="text-xs text-slate-400 font-medium mt-0.5">Avg Annual ROI</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">100%</div>
-              <div className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">Audited Disclosures</div>
+              <div className="text-2xl font-bold text-emerald-400">100%</div>
+              <div className="text-xs text-slate-400 font-medium mt-0.5">Audited Disclosures</div>
             </div>
           </div>
         </div>
@@ -142,7 +142,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
       <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Award className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+            <Award className="w-5 h-5 text-emerald-400" />
             <span>Category Leaders & Benchmark Cards</span>
           </h2>
           <span className="text-xs text-slate-400">Evaluated across 22 operational dimensions</span>
@@ -165,24 +165,24 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
                 <VerificationBadge sourceType={recommended.primary_data_source} confidence={recommended.data_confidence} size="sm" />
               </div>
               <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-400 transition-colors">{recommended.name}</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{recommended.sub_sector}</p>
+              <p className="text-xs text-slate-400 mt-0.5">{recommended.sub_sector}</p>
 
               <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-800/60 text-xs">
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Investment</span>
+                  <span className="text-slate-400 block text-[11px]">Investment</span>
                   <span className="text-slate-200 font-bold">₹{(recommended.total_investment/100000).toFixed(1)}L</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Est. ROI</span>
+                  <span className="text-slate-400 block text-[11px]">Est. ROI</span>
                   <span className="text-indigo-400 font-bold">{recommended.roi_annual}% / yr</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Payback</span>
-                  <span className="text-slate-700 dark:text-slate-300 font-medium">{recommended.payback_months} mo</span>
+                  <span className="text-slate-400 block text-[11px]">Payback</span>
+                  <span className="text-slate-300 font-medium">{recommended.payback_months} mo</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Risk Tier</span>
-                  <span className="text-blue-600 dark:text-blue-400 font-medium">{recommended.risk_tier}</span>
+                  <span className="text-slate-400 block text-[11px]">Risk Tier</span>
+                  <span className="text-emerald-400 font-medium">{recommended.risk_tier}</span>
                 </div>
               </div>
             </div>
@@ -204,24 +204,24 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
                 <VerificationBadge sourceType={bestRoi.primary_data_source} confidence={bestRoi.data_confidence} size="sm" />
               </div>
               <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-400 transition-colors">{bestRoi.name}</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{bestRoi.sub_sector}</p>
+              <p className="text-xs text-slate-400 mt-0.5">{bestRoi.sub_sector}</p>
 
               <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-800/60 text-xs">
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Annual ROI</span>
+                  <span className="text-slate-400 block text-[11px]">Annual ROI</span>
                   <span className="text-indigo-400 font-bold">{bestRoi.roi_annual}%</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Monthly Profit</span>
+                  <span className="text-slate-400 block text-[11px]">Monthly Profit</span>
                   <span className="text-indigo-400 font-bold">₹{(bestRoi.monthly_profit/1000).toFixed(0)}k</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Investment</span>
+                  <span className="text-slate-400 block text-[11px]">Investment</span>
                   <span className="text-slate-900 dark:text-slate-300 font-medium">₹{(bestRoi.total_investment/100000).toFixed(1)}L</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Payback</span>
-                  <span className="text-slate-700 dark:text-slate-300 font-medium">{bestRoi.payback_months} mo</span>
+                  <span className="text-slate-400 block text-[11px]">Payback</span>
+                  <span className="text-slate-300 font-medium">{bestRoi.payback_months} mo</span>
                 </div>
               </div>
             </div>
@@ -243,24 +243,24 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
                 <span className="text-indigo-400 font-bold text-xs">{lowestRisk.risk_score}/100</span>
               </div>
               <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-400 transition-colors">{lowestRisk.name}</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{lowestRisk.sub_sector}</p>
+              <p className="text-xs text-slate-400 mt-0.5">{lowestRisk.sub_sector}</p>
 
               <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-800/60 text-xs">
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Risk Level</span>
+                  <span className="text-slate-400 block text-[11px]">Risk Level</span>
                   <span className="text-indigo-400 font-bold">{lowestRisk.risk_tier}</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Closure Rate</span>
+                  <span className="text-slate-400 block text-[11px]">Closure Rate</span>
                   <span className="text-slate-200 font-bold">{lowestRisk.closure_rate_pct}%</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Outlets</span>
-                  <span className="text-slate-700 dark:text-slate-300 font-medium">{lowestRisk.total_outlets}</span>
+                  <span className="text-slate-400 block text-[11px]">Outlets</span>
+                  <span className="text-slate-300 font-medium">{lowestRisk.total_outlets}</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Royalty</span>
-                  <span className="text-slate-700 dark:text-slate-300 font-medium">{lowestRisk.royalty_pct}%</span>
+                  <span className="text-slate-400 block text-[11px]">Royalty</span>
+                  <span className="text-slate-300 font-medium">{lowestRisk.royalty_pct}%</span>
                 </div>
               </div>
             </div>
@@ -282,24 +282,24 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
                 <span className="text-amber-400 font-bold text-xs">{fastestPayback.payback_months} mo</span>
               </div>
               <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-400 transition-colors">{fastestPayback.name}</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{fastestPayback.sub_sector}</p>
+              <p className="text-xs text-slate-400 mt-0.5">{fastestPayback.sub_sector}</p>
 
               <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-800/60 text-xs">
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Payback Period</span>
+                  <span className="text-slate-400 block text-[11px]">Payback Period</span>
                   <span className="text-amber-400 font-bold">{fastestPayback.payback_months} Months</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Annual ROI</span>
+                  <span className="text-slate-400 block text-[11px]">Annual ROI</span>
                   <span className="text-indigo-400 font-bold">{fastestPayback.roi_annual}%</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Monthly Profit</span>
+                  <span className="text-slate-400 block text-[11px]">Monthly Profit</span>
                   <span className="text-emerald-600 dark:text-emerald-400 font-medium">₹{(fastestPayback.monthly_profit/1000).toFixed(0)}k</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Investment</span>
-                  <span className="text-slate-700 dark:text-slate-300 font-medium">₹{(fastestPayback.total_investment/100000).toFixed(1)}L</span>
+                  <span className="text-slate-400 block text-[11px]">Investment</span>
+                  <span className="text-slate-300 font-medium">₹{(fastestPayback.total_investment/100000).toFixed(1)}L</span>
                 </div>
               </div>
             </div>
@@ -321,24 +321,24 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
                 <span className="text-emerald-400 font-bold text-xs">₹{(lowestInvestment.total_investment/100000).toFixed(1)}L</span>
               </div>
               <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-400 transition-colors">{lowestInvestment.name}</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{lowestInvestment.sub_sector}</p>
+              <p className="text-xs text-slate-400 mt-0.5">{lowestInvestment.sub_sector}</p>
 
               <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-800/60 text-xs">
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Entry Capital</span>
+                  <span className="text-slate-400 block text-[11px]">Entry Capital</span>
                   <span className="text-slate-200 font-bold">₹{(lowestInvestment.total_investment/100000).toFixed(1)}L</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Franchise Fee</span>
+                  <span className="text-slate-400 block text-[11px]">Franchise Fee</span>
                   <span className="text-slate-200 font-bold">₹{(lowestInvestment.franchise_fee/100000).toFixed(1)}L</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Est. ROI</span>
+                  <span className="text-slate-400 block text-[11px]">Est. ROI</span>
                   <span className="text-emerald-600 dark:text-emerald-400 font-medium">{lowestInvestment.roi_annual}%</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Payback</span>
-                  <span className="text-slate-700 dark:text-slate-300 font-medium">{lowestInvestment.payback_months} mo</span>
+                  <span className="text-slate-400 block text-[11px]">Payback</span>
+                  <span className="text-slate-300 font-medium">{lowestInvestment.payback_months} mo</span>
                 </div>
               </div>
             </div>
@@ -360,24 +360,24 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
                 <span className="text-purple-600 dark:text-purple-400 font-bold text-xs">+{highestGrowth.expansion_rate}%/yr</span>
               </div>
               <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-400 transition-colors">{highestGrowth.name}</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{highestGrowth.sub_sector}</p>
+              <p className="text-xs text-slate-400 mt-0.5">{highestGrowth.sub_sector}</p>
 
               <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate-800/60 text-xs">
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Expansion</span>
+                  <span className="text-slate-400 block text-[11px]">Expansion</span>
                   <span className="text-purple-600 dark:text-purple-400 font-bold">+{highestGrowth.expansion_rate}%</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Total Outlets</span>
+                  <span className="text-slate-400 block text-[11px]">Total Outlets</span>
                   <span className="text-slate-200 font-bold">{highestGrowth.total_outlets}</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">ROI</span>
+                  <span className="text-slate-400 block text-[11px]">ROI</span>
                   <span className="text-emerald-600 dark:text-emerald-400 font-medium">{highestGrowth.roi_annual}%</span>
                 </div>
                 <div>
-                  <span className="text-slate-500 dark:text-slate-400 block text-[11px]">Closure</span>
-                  <span className="text-slate-700 dark:text-slate-300 font-medium">{highestGrowth.closure_rate_pct}%</span>
+                  <span className="text-slate-400 block text-[11px]">Closure</span>
+                  <span className="text-slate-300 font-medium">{highestGrowth.closure_rate_pct}%</span>
                 </div>
               </div>
             </div>
@@ -390,14 +390,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
         <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
           <div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <BarChart3 className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              <BarChart3 className="w-4 h-4 text-emerald-400" />
               <span>Comparative Yield & Capital Exposure Benchmark</span>
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Annual ROI (%) vs Initial Investment (₹ Lakhs)</p>
+            <p className="text-xs text-slate-400 mt-0.5">Annual ROI (%) vs Initial Investment (₹ Lakhs)</p>
           </div>
           <div className="flex items-center gap-4 text-xs">
             <span className="flex items-center gap-1.5 text-slate-400">
-              <span className="w-2.5 h-2.5 rounded bg-blue-600" /> Annual ROI %
+              <span className="w-2.5 h-2.5 rounded bg-emerald-500" /> Annual ROI %
             </span>
           </div>
         </div>
@@ -428,13 +428,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
       {/* Quick Sector Filter Pills */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+          <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
             Browse by Sector ({sectors.length} sectors supported)
           </h3>
           {selectedSector && (
             <button 
               onClick={() => setSelectedSector(null)} 
-              className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-500 transition-colors font-medium"
+              className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors font-medium"
             >
               Clear Sector Filter
             </button>
@@ -445,8 +445,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
             onClick={() => setSelectedSector(null)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap cursor-pointer ${
               selectedSector === null 
-                ? 'bg-blue-600 text-white font-semibold shadow-sm' 
-                : 'bg-white dark:bg-slate-900/50 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-900 dark:hover:text-white'
+                ? 'bg-emerald-500 text-slate-950 font-semibold shadow-sm' 
+                : 'bg-slate-900/40 text-slate-300 border border-slate-800/60 hover:border-slate-700 hover:text-white'
             }`}
           >
             All Opportunities ({franchises.length})
@@ -457,8 +457,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
               onClick={() => setSelectedSector(s.id)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all whitespace-nowrap cursor-pointer ${
                 selectedSector === s.id
-                  ? 'bg-blue-600 text-white font-semibold shadow-sm'
-                  : 'bg-white dark:bg-slate-900/50 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-900 dark:hover:text-white'
+                  ? 'bg-emerald-500 text-slate-950 font-semibold shadow-sm'
+                  : 'bg-slate-900/40 text-slate-300 border border-slate-800/60 hover:border-slate-700 hover:text-white'
               }`}
             >
               {s.name}
@@ -473,7 +473,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
           <h3 className="text-sm font-bold text-white">Active Franchise Database ({filteredFranchises.length})</h3>
           <button 
             onClick={() => setCurrentPage('explore')}
-            className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-500 font-semibold transition-colors flex items-center gap-1"
+            className="text-xs text-emerald-400 hover:text-emerald-300 font-semibold transition-colors flex items-center gap-1"
           >
             <span>Open Advanced Filters</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -482,7 +482,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider border-b border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/50">
+            <thead className="text-[11px] text-slate-400 font-semibold uppercase tracking-wider border-b border-slate-800 bg-slate-900/50">
               <tr>
                 <th className="py-2.5 px-3">Franchise</th>
                 <th className="py-2.5 px-3">Sector</th>
@@ -506,10 +506,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
                           setSelectedFranchiseId(f.id);
                           setCurrentPage('detail');
                         }}
-                        className="cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                        className="cursor-pointer hover:text-emerald-400 dark:hover:text-blue-400 transition-colors"
                       >
                         {f.name}
-                        <span className="block text-[10px] text-slate-500 dark:text-slate-400 font-normal">{f.headquarters} • {f.franchise_model}</span>
+                        <span className="block text-[10px] text-slate-400 font-normal">{f.headquarters} • {f.franchise_model}</span>
                       </div>
                     </td>
                     <td className="py-2.5 px-3 text-slate-300">{f.sector_name}</td>
@@ -532,7 +532,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
                         <button
                           onClick={() => toggleComparison(f.id)}
                           className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-colors cursor-pointer ${
-                            isCompared ? 'bg-blue-600 text-white font-semibold shadow-sm' : 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700'
+                            isCompared ? 'bg-emerald-500 text-slate-950 font-semibold shadow-sm' : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700'
                           }`}
                         >
                           {isCompared ? 'Comparing' : '+ Compare'}

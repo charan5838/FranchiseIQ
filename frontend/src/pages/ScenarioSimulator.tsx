@@ -83,7 +83,7 @@ export const ScenarioSimulator: React.FC = () => {
           <Activity className="w-3.5 h-3.5" /> Macro Shock Stress-Testing
         </div>
         <h1 className="text-3xl font-black text-white tracking-tight">Scenario Stress Simulator</h1>
-        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1 max-w-3xl">
+        <p className="text-slate-400 text-sm mt-1 max-w-3xl">
           Test unit resilience against economic shocks: <em>"What happens if sales fall by 20%? What if rent jumps 15%?"</em> Observe instant cash flow contractions and extended payback horizons.
         </p>
       </div>
@@ -139,7 +139,7 @@ export const ScenarioSimulator: React.FC = () => {
             </div>
 
             {/* Shocks */}
-            <div className="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-4">
+            <div className="pt-2 border-t border-slate-800 space-y-4">
               {/* Sales Delta */}
               <div>
                 <div className="flex justify-between text-xs mb-1">
@@ -238,7 +238,7 @@ export const ScenarioSimulator: React.FC = () => {
               <div className="grid grid-cols-2 gap-4">
                 {/* Monthly Profit Delta */}
                 <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl space-y-2">
-                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium block">Monthly Cash Profit</span>
+                  <span className="text-xs text-slate-400 font-medium block">Monthly Cash Profit</span>
                   <div className="flex items-baseline justify-between text-xs text-slate-400">
                     <span>Baseline:</span>
                     <span className="font-semibold text-slate-200">₹{simResult.base_profit.toLocaleString('en-IN')}</span>
@@ -259,7 +259,7 @@ export const ScenarioSimulator: React.FC = () => {
 
                 {/* ROI & Payback Impact */}
                 <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl space-y-2">
-                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium block">Annual ROI & Payback</span>
+                  <span className="text-xs text-slate-400 font-medium block">Annual ROI & Payback</span>
                   <div className="flex items-baseline justify-between text-xs text-slate-400">
                     <span>Baseline ROI:</span>
                     <span className="font-semibold text-slate-200">{simResult.base_roi}%</span>

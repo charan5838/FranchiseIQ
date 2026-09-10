@@ -53,8 +53,8 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
   if (loading || !franchise) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-        <div className="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
-        <p className="text-slate-500 dark:text-slate-400 text-sm">Loading comprehensive forensic franchise dossier...</p>
+        <div className="inline-block w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mb-4" />
+        <p className="text-slate-400 text-sm">Loading comprehensive forensic franchise dossier...</p>
       </div>
     );
   }
@@ -87,7 +87,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
       <div className="flex items-center justify-between">
         <button
           onClick={() => setCurrentPage('explore')}
-          className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Franchise Catalog</span>
@@ -99,7 +99,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer flex items-center gap-1.5 ${
               isSaved 
                 ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' 
-                : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
+                : 'bg-slate-900 text-slate-300 border-slate-800 hover:border-slate-700'
             }`}
           >
             {isSaved ? <BookmarkCheck className="w-3.5 h-3.5 text-amber-400" /> : <Bookmark className="w-3.5 h-3.5" />}
@@ -110,8 +110,8 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
             onClick={() => toggleComparison(franchise.id)}
             className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
               isCompared 
-                ? 'bg-blue-600 text-white font-bold' 
-                : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-200 dark:border-slate-700'
+                ? 'bg-emerald-500 text-slate-950 font-bold' 
+                : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
             }`}
           >
             {isCompared ? 'Comparing' : '+ Compare Side-by-Side'}
@@ -124,10 +124,10 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div className="max-w-3xl">
             <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-medium">
+              <span className="px-2.5 py-0.5 rounded border border-slate-700 bg-slate-800 text-slate-300 text-xs font-medium">
                 {franchise.sector_name}
               </span>
-              <span className="px-2.5 py-0.5 rounded border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-medium">
+              <span className="px-2.5 py-0.5 rounded border border-slate-700 bg-slate-800 text-slate-300 text-xs font-medium">
                 {franchise.sub_sector}
               </span>
               <VerificationBadge 
@@ -139,7 +139,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
             </div>
 
             <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">{franchise.name}</h1>
-            <p className="text-slate-600 dark:text-slate-300 text-sm mt-3 leading-relaxed">{franchise.description}</p>
+            <p className="text-slate-300 text-sm mt-3 leading-relaxed">{franchise.description}</p>
 
             <div className="flex flex-wrap items-center gap-6 mt-4 text-xs text-slate-400">
               <span>HQ: <strong className="text-slate-200">{franchise.headquarters}</strong></span>
@@ -152,14 +152,14 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
 
           {/* Quick KPI Score Badges */}
           <div className="flex sm:flex-col items-end gap-3 shrink-0">
-            <div className="bg-slate-50 dark:bg-slate-950/80 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 text-right min-w-[140px]">
+            <div className="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800 text-right min-w-[140px]">
               <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Deal Attractiveness</div>
               <div className="text-2xl font-black text-emerald-400 mt-0.5">
                 {franchise.deal_attractiveness_score}<span className="text-xs text-slate-500 font-normal">/100</span>
               </div>
             </div>
 
-            <div className="bg-slate-50 dark:bg-slate-950/80 p-3 rounded-xl border border-slate-200 dark:border-slate-800 text-right min-w-[140px]">
+            <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800 text-right min-w-[140px]">
               <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Risk Assessment</div>
               <div className={`text-sm font-bold mt-0.5 ${
                 franchise.risk_tier === 'Low Risk' ? 'text-emerald-400' : franchise.risk_tier === 'Medium Risk' ? 'text-amber-400' : 'text-rose-400'
@@ -184,7 +184,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
       />
 
       {/* Tabs Navigation */}
-      <div className="border-b border-slate-200 dark:border-slate-800 flex items-center gap-2 overflow-x-auto text-xs font-semibold">
+      <div className="border-b border-slate-800 flex items-center gap-2 overflow-x-auto text-xs font-semibold">
         {[
           { id: 'financials', label: 'Unit Economics & P&L', icon: DollarSign },
           { id: 'historical', label: '5-Year Trends (2022-2026)', icon: TrendingUp },
@@ -215,10 +215,10 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
       {activeTab === 'financials' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Investment Breakdown Table */}
-          <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
-            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center justify-between">
+          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
+            <h3 className="text-base font-bold text-white flex items-center justify-between">
               <span>Capital Investment Breakdown</span>
-              <span className="text-xs text-slate-500 dark:text-slate-400 font-normal">Updated: {franchise.investment.last_updated}</span>
+              <span className="text-xs text-slate-400 font-normal">Updated: {franchise.investment.last_updated}</span>
             </h3>
 
             <div className="divide-y divide-slate-800/80 text-xs">
@@ -250,7 +250,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
                 <span className="text-slate-400">Technology & POS Setup</span>
                 <span className="font-semibold text-white">₹{franchise.investment.technology_cost.toLocaleString('en-IN')}</span>
               </div>
-              <div className="py-3 flex justify-between text-sm bg-slate-50 dark:bg-slate-950/60 px-3 rounded-lg mt-2 font-bold border border-slate-200 dark:border-transparent">
+              <div className="py-3 flex justify-between text-sm bg-slate-950/60 px-3 rounded-lg mt-2 font-bold border border-transparent">
                 <span className="text-white">Total Estimated Capital Outlay</span>
                 <span className="text-emerald-400">₹{franchise.investment.total_estimated_investment.toLocaleString('en-IN')}</span>
               </div>
@@ -258,8 +258,8 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
           </div>
 
           {/* Monthly Operating P&L Statement */}
-          <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
-            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center justify-between">
+          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
+            <h3 className="text-base font-bold text-white flex items-center justify-between">
               <span>Verified Monthly Operating P&L</span>
               <span className="text-xs font-semibold text-emerald-400">ROI: {franchise.financial.roi_annual}% / yr</span>
             </h3>
@@ -335,7 +335,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Chart: Revenue & Profit Trends */}
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-sm">
-              <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-4">Annual Revenue & Net Profit (₹ Lakhs)</h4>
+              <h4 className="text-sm font-bold text-white mb-4">Annual Revenue & Net Profit (₹ Lakhs)</h4>
               <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={historicalData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -356,7 +356,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
 
             {/* Chart: Outlet Growth & Closures */}
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-sm">
-              <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-4">Outlet Network Expansion vs Closure Churn</h4>
+              <h4 className="text-sm font-bold text-white mb-4">Outlet Network Expansion vs Closure Churn</h4>
               <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={historicalData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -378,7 +378,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
           {/* Historical Data Table */}
           <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-800 bg-slate-950/50">
+              <thead className="text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800 bg-slate-950/50">
                 <tr>
                   <th className="py-2.5 px-3">Year</th>
                   <th className="py-2.5 px-3">Unit Investment</th>
@@ -430,7 +430,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
                   onClick={() => setSelectedProjectionScenario(scen)}
                   className={`px-3 py-1.5 rounded-lg font-semibold transition-all cursor-pointer ${
                     selectedProjectionScenario === scen
-                      ? 'bg-blue-600 text-white font-bold'
+                      ? 'bg-emerald-500 text-slate-950 font-bold'
                       : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
                   }`}
                 >
@@ -507,7 +507,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
               { label: 'POS & Automated Billing Software', val: franchise.support?.pos_billing_software },
               { label: 'Digital Marketing & Lead Generation', val: franchise.support?.digital_marketing_leads },
             ].map((item, i) => (
-              <div key={i} className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+              <div key={i} className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
                 <span className="text-slate-300 font-medium">{item.label}</span>
                 {item.val ? (
                   <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 text-[11px] font-bold flex items-center gap-1">
@@ -533,7 +533,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
               <div className="text-3xl font-black text-emerald-400 mt-1">
                 {franchise.franchisee_satisfaction_score}<span className="text-xs text-slate-500 font-normal">/100</span>
               </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Based on verified regional operator audits</p>
+              <p className="text-[11px] text-slate-400 mt-1">Based on verified regional operator audits</p>
             </div>
 
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 text-center">
@@ -549,11 +549,11 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
+          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
             <h4 className="text-base font-bold text-white">Verified Operator Testimonials & Reviews</h4>
             <div className="space-y-3">
               {franchise.reviews?.map((r) => (
-                <div key={r.id} className="p-4 rounded-xl bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
+                <div key={r.id} className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 space-y-2 text-xs">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-white">{r.title}</span>
                     <span className="text-amber-400 font-bold">★ {r.rating} / 5.0</span>

@@ -158,7 +158,7 @@ export const AdminPortal: React.FC = () => {
           <Shield className="w-3.5 h-3.5" /> Secured Administrative Suite
         </div>
         <h1 className="text-3xl font-black text-white tracking-tight">Admin & Forensic Governance Portal</h1>
-        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1 max-w-3xl">
+        <p className="text-slate-400 text-sm mt-1 max-w-3xl">
           Ingest franchises, verify metric provenance (Verified, Reported, Estimated, Marketing Claim), upload disclosure documents, and maintain audit integrity.
         </p>
       </div>
@@ -544,7 +544,7 @@ export const AdminPortal: React.FC = () => {
 
               <div className="bg-slate-900/90 p-4 rounded-xl space-y-2 font-mono">
                 {Object.entries(extractedData.extracted_fields || {}).map(([k, v]) => (
-                  <div key={k} className="flex justify-between border-b border-slate-200 dark:border-slate-800 pb-1">
+                  <div key={k} className="flex justify-between border-b border-slate-800 pb-1">
                     <span className="text-slate-400 capitalize">{k.replace(/_/g, ' ')}:</span>
                     <span className="text-white font-semibold">{String(v)}</span>
                   </div>
@@ -577,7 +577,7 @@ export const AdminPortal: React.FC = () => {
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-800 bg-slate-950/50">
+              <thead className="text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800 bg-slate-950/50">
                 <tr>
                   <th className="py-2.5 px-3">Timestamp</th>
                   <th className="py-2.5 px-3">Action</th>

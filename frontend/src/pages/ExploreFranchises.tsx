@@ -150,7 +150,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Explore Franchise Opportunities</h1>
-          <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mt-1">
+          <p className="text-slate-400 text-xs sm:text-sm mt-1">
             Screen the verified catalog using investment bounds, required space, royalties, and forensic risk tiers.
           </p>
         </div>
@@ -241,7 +241,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
         {/* Sliders Strip */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-3 border-t border-slate-800/80 text-xs">
           <div>
-            <div className="flex justify-between text-slate-700 dark:text-slate-300 font-medium mb-1">
+            <div className="flex justify-between text-slate-300 font-medium mb-1">
               <span>Max Investment:</span>
               <span className="text-emerald-400 font-bold">₹{maxInvestment} Lakhs</span>
             </div>
@@ -257,7 +257,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
           </div>
 
           <div>
-            <div className="flex justify-between text-slate-700 dark:text-slate-300 font-medium mb-1">
+            <div className="flex justify-between text-slate-300 font-medium mb-1">
               <span>Min Annual ROI:</span>
               <span className="text-indigo-400 font-bold">{minRoi}% / year</span>
             </div>
@@ -273,7 +273,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
           </div>
 
           <div>
-            <div className="flex justify-between text-slate-700 dark:text-slate-300 font-medium mb-1">
+            <div className="flex justify-between text-slate-300 font-medium mb-1">
               <span>Max Payback Period:</span>
               <span className="text-amber-400 font-bold">{maxPayback} Months</span>
             </div>
@@ -334,10 +334,10 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                 >
                   {f.name}
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">{f.sub_sector} • {f.headquarters}</p>
+                <p className="text-xs text-slate-400 mt-0.5 line-clamp-1">{f.sub_sector} • {f.headquarters}</p>
 
                 {/* Financial Summary Box */}
-                <div className="grid grid-cols-2 gap-2 bg-slate-50 dark:bg-slate-950/60 p-3 rounded-lg border border-slate-200/80 dark:border-slate-800/70 text-xs mt-3.5">
+                <div className="grid grid-cols-2 gap-2 bg-slate-950/60 p-3 rounded-lg border border-slate-800/70 text-xs mt-3.5">
                   <div>
                     <span className="text-slate-500 dark:text-slate-500 block text-[10px]">Total Investment</span>
                     <span className="text-slate-900 dark:text-slate-200 font-bold">₹{(f.total_investment/100000).toFixed(1)} Lakhs</span>
@@ -357,7 +357,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                 </div>
 
                 {/* Secondary details */}
-                <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mt-3 pt-2.5 border-t border-slate-800/60">
+                <div className="flex items-center justify-between text-xs text-slate-400 mt-3 pt-2.5 border-t border-slate-800/60">
                   <span>Outlets: <strong className="text-slate-300">{f.total_outlets}</strong> ({f.closure_rate_pct}% churn)</span>
                   <span className={`font-semibold ${
                     f.risk_tier === 'Low Risk' ? 'text-emerald-600 dark:text-emerald-400' : f.risk_tier === 'Medium Risk' ? 'text-amber-600 dark:text-amber-400' : 'text-rose-600 dark:text-rose-400'
@@ -375,7 +375,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                     className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1 ${
                       isCompared 
                         ? 'bg-emerald-500 text-slate-950 font-bold' 
-                        : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-200 dark:border-slate-700'
+                        : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
                     }`}
                   >
                     <Scale className="w-3.5 h-3.5" />
@@ -387,11 +387,11 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                     className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1 ${
                       watched
                         ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                        : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-200 dark:border-slate-700'
+                        : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
                     }`}
                     title={watched ? 'Remove from Watchlist' : 'Add to Watchlist'}
                   >
-                    <BookmarkCheck className={`w-3.5 h-3.5 ${watched ? 'text-amber-600 dark:text-amber-400' : 'text-slate-500 dark:text-slate-400'}`} />
+                    <BookmarkCheck className={`w-3.5 h-3.5 ${watched ? 'text-amber-600 dark:text-amber-400' : 'text-slate-400'}`} />
                     <span>{watched ? 'Saved' : 'Watch'}</span>
                   </button>
                 </div>
@@ -437,7 +437,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
             <form onSubmit={handleSubmitFranchise} className="space-y-4 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-slate-700 dark:text-slate-300 font-medium block mb-1">Franchise Brand Name *</label>
+                  <label className="text-slate-300 font-medium block mb-1">Franchise Brand Name *</label>
                   <input
                     type="text"
                     required
@@ -449,7 +449,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                 </div>
 
                 <div>
-                  <label className="text-slate-700 dark:text-slate-300 font-medium block mb-1">Sector *</label>
+                  <label className="text-slate-300 font-medium block mb-1">Sector *</label>
                   <select
                     value={formData.sector_id}
                     onChange={(e) => setFormData({ ...formData, sector_id: Number(e.target.value) })}
@@ -464,7 +464,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-slate-700 dark:text-slate-300 font-medium block mb-1">Sub-sector / Concept *</label>
+                  <label className="text-slate-300 font-medium block mb-1">Sub-sector / Concept *</label>
                   <input
                     type="text"
                     required
@@ -476,7 +476,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                 </div>
 
                 <div>
-                  <label className="text-slate-700 dark:text-slate-300 font-medium block mb-1">Headquarters City *</label>
+                  <label className="text-slate-300 font-medium block mb-1">Headquarters City *</label>
                   <input
                     type="text"
                     required
@@ -490,7 +490,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div>
-                  <label className="text-slate-700 dark:text-slate-300 font-medium block mb-1">Total Investment (₹ L)</label>
+                  <label className="text-slate-300 font-medium block mb-1">Total Investment (₹ L)</label>
                   <input
                     type="number"
                     min={2}
@@ -501,7 +501,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                 </div>
 
                 <div>
-                  <label className="text-slate-700 dark:text-slate-300 font-medium block mb-1">Franchise Fee (₹ L)</label>
+                  <label className="text-slate-300 font-medium block mb-1">Franchise Fee (₹ L)</label>
                   <input
                     type="number"
                     min={0}
@@ -512,7 +512,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                 </div>
 
                 <div>
-                  <label className="text-slate-700 dark:text-slate-300 font-medium block mb-1">Monthly Rev (₹)</label>
+                  <label className="text-slate-300 font-medium block mb-1">Monthly Rev (₹)</label>
                   <input
                     type="number"
                     min={10000}
@@ -523,7 +523,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                 </div>
 
                 <div>
-                  <label className="text-slate-700 dark:text-slate-300 font-medium block mb-1">Monthly Profit (₹)</label>
+                  <label className="text-slate-300 font-medium block mb-1">Monthly Profit (₹)</label>
                   <input
                     type="number"
                     min={5000}
@@ -536,7 +536,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="text-slate-700 dark:text-slate-300 font-medium block mb-1">Franchise Model</label>
+                  <label className="text-slate-300 font-medium block mb-1">Franchise Model</label>
                   <select
                     value={formData.franchise_model}
                     onChange={(e) => setFormData({ ...formData, franchise_model: e.target.value })}
@@ -549,7 +549,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                 </div>
 
                 <div>
-                  <label className="text-slate-700 dark:text-slate-300 font-medium block mb-1">Min Area (sq ft)</label>
+                  <label className="text-slate-300 font-medium block mb-1">Min Area (sq ft)</label>
                   <input
                     type="number"
                     value={formData.space_min_sqft}
@@ -559,7 +559,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                 </div>
 
                 <div>
-                  <label className="text-slate-700 dark:text-slate-300 font-medium block mb-1">Max Area (sq ft)</label>
+                  <label className="text-slate-300 font-medium block mb-1">Max Area (sq ft)</label>
                   <input
                     type="number"
                     value={formData.space_max_sqft}
@@ -570,7 +570,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
               </div>
 
               <div>
-                <label className="text-slate-700 dark:text-slate-300 font-medium block mb-1">Brand Pitch & Overview</label>
+                <label className="text-slate-300 font-medium block mb-1">Brand Pitch & Overview</label>
                 <textarea
                   rows={3}
                   value={formData.description}
@@ -582,7 +582,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-slate-700 dark:text-slate-300 font-medium block mb-1">Contact Email</label>
+                  <label className="text-slate-300 font-medium block mb-1">Contact Email</label>
                   <input
                     type="email"
                     value={formData.contact_email}
@@ -593,7 +593,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                 </div>
 
                 <div>
-                  <label className="text-slate-700 dark:text-slate-300 font-medium block mb-1">Contact Phone</label>
+                  <label className="text-slate-300 font-medium block mb-1">Contact Phone</label>
                   <input
                     type="tel"
                     value={formData.contact_phone}
