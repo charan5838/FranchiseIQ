@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Building2, Sparkles, SlidersHorizontal, Scale, 
-  Calculator, Activity, MapPin, BookmarkCheck, Shield, LogOut, User as UserIcon
+  Calculator, Activity, MapPin, BookmarkCheck, Shield, LogOut, User as UserIcon,
+  ChevronDown
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useInvestor } from '../context/InvestorContext';
@@ -14,16 +15,27 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) => {
   const { user, loginDemoAdmin, logout } = useAuth();
   const { comparisonList, watchlist } = useInvestor();
+  const [analyticsDropdownOpen, setAnalyticsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setAnalyticsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Building2 },
     { id: 'advisor', label: 'Advisor', icon: Sparkles, highlight: true },
     { id: 'explore', label: 'Explore', icon: SlidersHorizontal },
     { id: 'compare', label: 'Compare', icon: Scale, badge: comparisonList.length },
-    { id: 'calculator', label: 'Calculator', icon: Calculator },
-    { id: 'simulator', label: 'Simulator', icon: Activity },
-    { id: 'location', label: 'Location', icon: MapPin },
   ];
+
+  const isAnalyticsActive = ['calculator', 'simulator', 'location'].includes(currentPage);
 
   return (
     <header className="bg-[#090d16]/85 backdrop-blur-md border-b border-slate-800/50 sticky top-0 z-40 transition-all">
@@ -71,6 +83,80 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
                 </button>
               );
             })}
+
+            {/* Analytics Dropdown (Grouping Calculator, Simulator, and Location) */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setAnalyticsDropdownOpen(prev => !prev)}
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                  isAnalyticsActive
+                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 font-semibold'
+                    : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
+                }`}
+              >
+                <Activity className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Analytics</span>
+                <ChevronDown className={`w-3 h-3 transition-transform ${analyticsDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {analyticsDropdownOpen && (
+                <div className="absolute top-full left-0 mt-1.5 w-52 bg-slate-900 rounded-xl border border-slate-800 p-1.5 shadow-xl z-50 space-y-1">
+                  <button
+                    onClick={() => {
+                      setCurrentPage('calculator');
+                      setAnalyticsDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-2.5 transition-colors cursor-pointer ${
+                      currentPage === 'calculator'
+                        ? 'bg-emerald-500/15 text-emerald-400 font-semibold'
+                        : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                    }`}
+                  >
+                    <Calculator className="w-3.5 h-3.5 text-emerald-400" />
+                    <div>
+                      <div>Financial Calculator</div>
+                      <div className="text-[10px] text-slate-400 font-normal">Unit P&L and break-even</div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setCurrentPage('simulator');
+                      setAnalyticsDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-2.5 transition-colors cursor-pointer ${
+                      currentPage === 'simulator'
+                        ? 'bg-emerald-500/15 text-emerald-400 font-semibold'
+                        : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                    }`}
+                  >
+                    <Activity className="w-3.5 h-3.5 text-teal-400" />
+                    <div>
+                      <div>Scenario Simulator</div>
+                      <div className="text-[10px] text-slate-400 font-normal">Macro stress-testing</div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setCurrentPage('location');
+                      setAnalyticsDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-2.5 transition-colors cursor-pointer ${
+                      currentPage === 'location'
+                        ? 'bg-emerald-500/15 text-emerald-400 font-semibold'
+                        : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                    }`}
+                  >
+                    <MapPin className="w-3.5 h-3.5 text-indigo-400" />
+                    <div>
+                      <div>Location Intelligence</div>
+                      <div className="text-[10px] text-slate-400 font-normal">Catchment & radar</div>
+                    </div>
+                  </button>
+                </div>
+              )}
+            </div>
 
             {user?.role === 'admin' && (
               <button
@@ -163,6 +249,30 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
               {item.label}
             </button>
           ))}
+          <button
+            onClick={() => setCurrentPage('calculator')}
+            className={`px-2.5 py-1 rounded-md whitespace-nowrap ${
+              currentPage === 'calculator' ? 'bg-emerald-500/20 text-emerald-400 font-semibold' : 'text-slate-400'
+            }`}
+          >
+            Calculator
+          </button>
+          <button
+            onClick={() => setCurrentPage('simulator')}
+            className={`px-2.5 py-1 rounded-md whitespace-nowrap ${
+              currentPage === 'simulator' ? 'bg-emerald-500/20 text-emerald-400 font-semibold' : 'text-slate-400'
+            }`}
+          >
+            Simulator
+          </button>
+          <button
+            onClick={() => setCurrentPage('location')}
+            className={`px-2.5 py-1 rounded-md whitespace-nowrap ${
+              currentPage === 'location' ? 'bg-emerald-500/20 text-emerald-400 font-semibold' : 'text-slate-400'
+            }`}
+          >
+            Location
+          </button>
           {user?.role === 'admin' && (
             <button
               onClick={() => setCurrentPage('admin')}

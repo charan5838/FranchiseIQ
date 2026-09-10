@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { 
   TrendingUp, Shield, Zap, DollarSign, Clock, Award, 
-  ArrowRight, Sparkles, Filter, CheckCircle2, AlertCircle, BarChart3, PieChart as PieIcon
+  ArrowRight, Sparkles, Filter, CheckCircle2, AlertCircle, BarChart3, PieChart as PieIcon,
+  Calculator
 } from 'lucide-react';
 import { api } from '../services/api';
 import { FranchiseSummary, Sector } from '../types';
@@ -95,9 +96,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ setCurrentPage, setSelecte
             </button>
             <button
               onClick={() => setCurrentPage('calculator')}
-              className="px-4 py-2 rounded-lg bg-slate-800/60 hover:bg-slate-800 text-slate-300 font-medium text-xs transition-all border border-slate-700/60 cursor-pointer"
+              className="px-4 py-2 rounded-lg bg-slate-800/60 hover:bg-slate-800 text-slate-300 font-medium text-xs transition-all border border-slate-700/60 cursor-pointer flex items-center gap-1.5"
             >
-              Unit Economics Calculator
+              <Calculator className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Financial Calculator</span>
             </button>
           </div>
         </div>
