@@ -87,7 +87,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
       <div className="flex items-center justify-between">
         <button
           onClick={() => setCurrentPage('explore')}
-          className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Franchise Catalog</span>
@@ -111,7 +111,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
             className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
               isCompared 
                 ? 'bg-emerald-500 text-slate-950 font-bold' 
-                : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
+                : 'bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700'
             }`}
           >
             {isCompared ? 'Comparing' : '+ Compare Side-by-Side'}
@@ -120,14 +120,14 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
       </div>
 
       {/* Hero Profile Banner */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm">
+      <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl">
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div className="max-w-3xl">
             <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="px-2.5 py-0.5 rounded border border-slate-700 bg-slate-800 text-slate-300 text-xs font-medium">
+              <span className="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 text-xs font-medium">
                 {franchise.sector_name}
               </span>
-              <span className="px-2.5 py-0.5 rounded border border-slate-700 bg-slate-800 text-slate-300 text-xs font-medium">
+              <span className="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 text-xs font-medium">
                 {franchise.sub_sector}
               </span>
               <VerificationBadge 
@@ -152,14 +152,14 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
 
           {/* Quick KPI Score Badges */}
           <div className="flex sm:flex-col items-end gap-3 shrink-0">
-            <div className="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800 text-right min-w-[140px]">
+            <div className="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800 text-right min-w-[140px]">
               <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Deal Attractiveness</div>
               <div className="text-2xl font-black text-emerald-400 mt-0.5">
                 {franchise.deal_attractiveness_score}<span className="text-xs text-slate-500 font-normal">/100</span>
               </div>
             </div>
 
-            <div className="bg-slate-950/80 p-3 rounded-xl border border-slate-800 text-right min-w-[140px]">
+            <div className="bg-slate-950/80 p-3 rounded-2xl border border-slate-800 text-right min-w-[140px]">
               <div className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Risk Assessment</div>
               <div className={`text-sm font-bold mt-0.5 ${
                 franchise.risk_tier === 'Low Risk' ? 'text-emerald-400' : franchise.risk_tier === 'Medium Risk' ? 'text-amber-400' : 'text-rose-400'
@@ -215,7 +215,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
       {activeTab === 'financials' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Investment Breakdown Table */}
-          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
+          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-sm space-y-4">
             <h3 className="text-base font-bold text-white flex items-center justify-between">
               <span>Capital Investment Breakdown</span>
               <span className="text-xs text-slate-400 font-normal">Updated: {franchise.investment.last_updated}</span>
@@ -250,7 +250,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
                 <span className="text-slate-400">Technology & POS Setup</span>
                 <span className="font-semibold text-white">₹{franchise.investment.technology_cost.toLocaleString('en-IN')}</span>
               </div>
-              <div className="py-3 flex justify-between text-sm bg-slate-950/60 px-3 rounded-lg mt-2 font-bold border border-transparent">
+              <div className="py-3 flex justify-between text-sm bg-slate-950/60 px-3 rounded-xl mt-2 font-bold">
                 <span className="text-white">Total Estimated Capital Outlay</span>
                 <span className="text-emerald-400">₹{franchise.investment.total_estimated_investment.toLocaleString('en-IN')}</span>
               </div>
@@ -258,7 +258,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
           </div>
 
           {/* Monthly Operating P&L Statement */}
-          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
+          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-sm space-y-4">
             <h3 className="text-base font-bold text-white flex items-center justify-between">
               <span>Verified Monthly Operating P&L</span>
               <span className="text-xs font-semibold text-emerald-400">ROI: {franchise.financial.roi_annual}% / yr</span>
@@ -507,7 +507,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
               { label: 'POS & Automated Billing Software', val: franchise.support?.pos_billing_software },
               { label: 'Digital Marketing & Lead Generation', val: franchise.support?.digital_marketing_leads },
             ].map((item, i) => (
-              <div key={i} className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between">
+              <div key={i} className="p-3.5 rounded-xl bg-slate-950/70 border border-slate-800/80 flex items-center justify-between">
                 <span className="text-slate-300 font-medium">{item.label}</span>
                 {item.val ? (
                   <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 text-[11px] font-bold flex items-center gap-1">
@@ -549,11 +549,11 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
             </div>
           </div>
 
-          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
+          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-sm space-y-4">
             <h4 className="text-base font-bold text-white">Verified Operator Testimonials & Reviews</h4>
             <div className="space-y-3">
               {franchise.reviews?.map((r) => (
-                <div key={r.id} className="p-4 rounded-xl bg-slate-950/60 border border-slate-800 space-y-2 text-xs">
+                <div key={r.id} className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80 space-y-2 text-xs">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-white">{r.title}</span>
                     <span className="text-amber-400 font-bold">★ {r.rating} / 5.0</span>

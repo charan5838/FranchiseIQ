@@ -2,7 +2,7 @@
 
 @layer base {
   body {
-    @apply bg-[#090d16] text-slate-100 font-sans antialiased min-h-screen selection:bg-emerald-500 selection:text-white;
+    @apply bg-slate-950 text-slate-100 font-sans antialiased min-h-screen selection:bg-emerald-500 selection:text-white;
   }
 }
 
@@ -20,13 +20,4 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #334155;
-}
-
-/* Hide scrollbar for clean horizontal tabs */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }

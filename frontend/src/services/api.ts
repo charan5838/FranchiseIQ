@@ -219,31 +219,6 @@ export const api = {
     return request('/reviews', { method: 'POST', body: JSON.stringify(data) });
   },
 
-  async submitFranchise(data: {
-    name: string;
-    sector_id: number;
-    sub_sector: string;
-    description: string;
-    founded_year?: number;
-    headquarters: string;
-    franchise_model?: string;
-    space_min_sqft?: number;
-    space_max_sqft?: number;
-    total_investment: number;
-    franchise_fee?: number;
-    monthly_revenue: number;
-    monthly_profit: number;
-    royalty_percentage?: number;
-    contact_email?: string;
-    contact_phone?: string;
-    website?: string;
-  }): Promise<{ status: string; franchise_id: number; name: string; slug: string }> {
-    return request('/franchises/submit', {
-      method: 'POST',
-      body: JSON.stringify(data)
-    });
-  },
-
   async submitFranchiseeReport(data: any) {
     return request('/reviews/franchisee-report', { method: 'POST', body: JSON.stringify(data) });
   },

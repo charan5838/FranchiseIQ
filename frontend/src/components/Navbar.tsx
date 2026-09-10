@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   Building2, Sparkles, SlidersHorizontal, Scale, 
-  Calculator, Activity, MapPin, BookmarkCheck, Shield, LogOut, 
-  User as UserIcon, Sun, Moon, Menu, X, ChevronDown, Info
+  Calculator, Activity, MapPin, BookmarkCheck, Shield, LogOut, User as UserIcon
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useInvestor } from '../context/InvestorContext';
-import { useTheme } from '../context/ThemeContext';
-import { Logo } from './Logo';
-import { AboutModal } from './AboutModal';
 
 interface NavbarProps {
   currentPage: string;
@@ -16,359 +12,162 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) => {
-  const { user, loginDemoAdmin, logout } = useAuth();
-  const { comparisonList, watchlist } = useInvestor();
-  const { theme, toggleTheme } = useTheme();
+  const { user, loginDemoInvestor, loginDemoAdmin, logout } = useAuth();
+  const { comparisonList } = useInvestor();
 
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [toolsDropdownOpen, setToolsDropdownOpen] = useState(false);
-  const [aboutModalOpen, setAboutModalOpen] = useState(false);
-
-  const navigateTo = (pageId: string) => {
-    setCurrentPage(pageId);
-    setMobileMenuOpen(false);
-    setToolsDropdownOpen(false);
-  };
-
-  const isToolsActive = ['calculator', 'simulator', 'location'].includes(currentPage);
+  const navItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: Building2 },
+    { id: 'advisor', label: 'Investor Advisor', icon: Sparkles, highlight: true },
+    { id: 'explore', label: 'Explore Franchises', icon: SlidersHorizontal },
+    { id: 'compare', label: 'Compare', icon: Scale, badge: comparisonList.length },
+    { id: 'calculator', label: 'Calculator', icon: Calculator },
+    { id: 'simulator', label: 'Simulator', icon: Activity },
+    { id: 'location', label: 'Location Intelligence', icon: MapPin },
+    { id: 'watchlist', label: 'My Watchlist', icon: BookmarkCheck },
+  ];
 
   return (
-    <>
-      <header className="bg-[#090d16]/85 backdrop-blur-md border-b border-slate-800/50 sticky top-0 z-40 transition-all">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            
-            {/* Logo */}
-            <div 
-              onClick={() => navigateTo('dashboard')}
-              className="cursor-pointer group shrink-0 flex items-center"
-            >
-              <Logo size="md" showTagline />
+    <header className="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-40">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo & Platform Tagline */}
+          <div 
+            onClick={() => setCurrentPage('dashboard')}
+            className="flex items-center gap-3 cursor-pointer group"
+          >
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+              <Building2 className="w-5 h-5 text-slate-950 font-bold" />
             </div>
-
-            {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-1.5">
-              <button
-                onClick={() => navigateTo('dashboard')}
-                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
-                  currentPage === 'dashboard'
-                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 font-semibold'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
-                }`}
-              >
-                Home
-              </button>
-
-              <button
-                onClick={() => navigateTo('explore')}
-                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
-                  currentPage === 'explore'
-                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 font-semibold'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
-                }`}
-              >
-                Explore Franchises
-              </button>
-
-              <button
-                onClick={() => navigateTo('compare')}
-                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${
-                  currentPage === 'compare'
-                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 font-semibold'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
-                }`}
-              >
-                <span>Compare</span>
-                {comparisonList.length > 0 && (
-                  <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-500 text-slate-950 font-bold">
-                    {comparisonList.length}
-                  </span>
-                )}
-              </button>
-
-              <button
-                onClick={() => navigateTo('advisor')}
-                className={`px-3 py-2 rounded-lg text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${
-                  currentPage === 'advisor'
-                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 font-semibold'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
-                }`}
-              >
-                <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-                <span>Advisor</span>
-              </button>
-
-              {/* Analytics & Tools Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => setToolsDropdownOpen(prev => !prev)}
-                  className={`px-3 py-2 rounded-lg text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1 ${
-                    isToolsActive
-                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 font-semibold'
-                      : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
-                  }`}
-                >
-                  <span>Analytics</span>
-                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${toolsDropdownOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                {toolsDropdownOpen && (
-                  <div className="absolute top-full left-0 mt-1 w-56 bg-slate-900 rounded-xl border border-slate-800 p-1.5 shadow-xl z-50 space-y-1">
-                    <button
-                      onClick={() => navigateTo('calculator')}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-2 transition-colors ${
-                        currentPage === 'calculator' ? 'bg-emerald-500/10 text-emerald-400' : 'text-slate-300 hover:bg-slate-800'
-                      }`}
-                    >
-                      <Calculator className="w-4 h-4 text-indigo-400" />
-                      <div>
-                        <div className="font-semibold">Financial Calculator</div>
-                        <div className="text-[10px] text-slate-400">Unit P&L and break-even</div>
-                      </div>
-                    </button>
-
-                    <button
-                      onClick={() => navigateTo('simulator')}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-2 transition-colors ${
-                        currentPage === 'simulator' ? 'bg-emerald-500/10 text-emerald-400' : 'text-slate-300 hover:bg-slate-800'
-                      }`}
-                    >
-                      <Activity className="w-4 h-4 text-teal-500" />
-                      <div>
-                        <div className="font-semibold">Scenario Simulator</div>
-                        <div className="text-[10px] text-slate-400">Macro stress-testing</div>
-                      </div>
-                    </button>
-
-                    <button
-                      onClick={() => navigateTo('location')}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-xs font-medium flex items-center gap-2 transition-colors ${
-                        currentPage === 'location' ? 'bg-emerald-500/10 text-emerald-400' : 'text-slate-300 hover:bg-slate-800'
-                      }`}
-                    >
-                      <MapPin className="w-4 h-4 text-indigo-500" />
-                      <div>
-                        <div className="font-semibold">Location Intelligence</div>
-                        <div className="text-[10px] text-slate-400">Catchment & radar</div>
-                      </div>
-                    </button>
-                  </div>
-                )}
+            <div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xl font-black tracking-tight text-white">Franchise<span className="text-emerald-400">IQ</span></span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold tracking-wide uppercase">Intelligence</span>
               </div>
+              <p className="text-[11px] text-slate-400 font-medium">Invest in the right franchise, not just the brand</p>
+            </div>
+          </div>
 
-              <button
-                onClick={() => setAboutModalOpen(true)}
-                className="px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-800/40 transition-colors cursor-pointer"
-              >
-                About
-              </button>
-
-              {user?.role === 'admin' && (
+          {/* Desktop Nav Items */}
+          <nav className="hidden xl:flex items-center gap-1">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = currentPage === item.id;
+              return (
                 <button
-                  onClick={() => navigateTo('admin')}
-                  className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors ${
-                    currentPage === 'admin'
-                      ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20'
-                      : 'text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30'
+                  key={item.id}
+                  onClick={() => setCurrentPage(item.id)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all relative cursor-pointer ${
+                    isActive
+                      ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                      : item.highlight
+                      ? 'bg-indigo-950/60 text-indigo-300 border border-indigo-500/30 hover:bg-indigo-900/60'
+                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
                   }`}
                 >
-                  <Shield className="w-3.5 h-3.5" />
-                  <span>Admin</span>
+                  <Icon className={`w-3.5 h-3.5 ${item.highlight ? 'text-indigo-400' : ''}`} />
+                  <span>{item.label}</span>
+                  {item.badge !== undefined && item.badge > 0 && (
+                    <span className="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-500 text-slate-950 font-bold">
+                      {item.badge}
+                    </span>
+                  )}
                 </button>
-              )}
-            </nav>
+              );
+            })}
 
-            {/* Right Action Utilities */}
-            <div className="flex items-center gap-2">
-              {/* Watchlist Symbol Icon with Counter Badge */}
+            {user?.role === 'admin' && (
               <button
-                onClick={() => navigateTo('watchlist')}
-                title={`Watchlist (${watchlist.length} saved)`}
-                className={`relative p-2 rounded-lg transition-colors cursor-pointer flex items-center justify-center ${
-                  currentPage === 'watchlist'
-                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 font-semibold'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                onClick={() => setCurrentPage('admin')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                  currentPage === 'admin'
+                    ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                    : 'text-rose-400 hover:bg-rose-950/40 border border-rose-500/20'
                 }`}
-                aria-label="Watchlist"
               >
-                <BookmarkCheck className="w-4 h-4" />
-                {watchlist.length > 0 && (
-                  <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-emerald-500 text-slate-950 font-bold text-[9px] flex items-center justify-center shadow-xs">
-                    {watchlist.length}
-                  </span>
-                )}
+                <Shield className="w-3.5 h-3.5 text-rose-400" />
+                <span>Admin Portal</span>
               </button>
+            )}
+          </nav>
 
-              {/* Auth Button */}
-              {!user ? (
+          {/* User & Demo Switcher */}
+          <div className="flex items-center gap-2">
+            {!user ? (
+              <div className="flex items-center gap-2">
                 <button
-                  onClick={() => navigateTo('login')}
-                  className="hidden sm:inline-flex text-xs px-3.5 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold transition-colors items-center gap-1.5 cursor-pointer shadow-xs"
+                  onClick={() => setCurrentPage('login')}
+                  className="text-xs px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-bold transition-all shadow-md shadow-emerald-500/20 flex items-center gap-1.5 cursor-pointer"
                 >
                   <UserIcon className="w-3.5 h-3.5" />
-                  <span>Sign In</span>
+                  <span>Sign In / Onboard</span>
                 </button>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <div className="hidden sm:flex flex-col items-end">
-                    <span className="text-xs font-semibold text-white flex items-center gap-1">
-                      <UserIcon className="w-3 h-3 text-indigo-400" />
-                      {user.name}
-                    </span>
-                    <span className="text-[10px] text-slate-400 uppercase tracking-wider font-mono">
-                      {user.role}
-                    </span>
-                  </div>
-
-                  {user.role !== 'admin' && (
-                    <button
-                      onClick={loginDemoAdmin}
-                      className="text-[11px] px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 font-medium transition-colors"
-                      title="Switch to Demo Admin Mode"
-                    >
-                      Admin
-                    </button>
-                  )}
-
-                  <button
-                    onClick={logout}
-                    className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
-                    title="Logout"
-                  >
-                    <LogOut className="w-4 h-4" />
-                  </button>
+                <button
+                  onClick={loginDemoInvestor}
+                  className="hidden sm:flex text-xs px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition-all border border-slate-700 cursor-pointer items-center gap-1"
+                >
+                  <Sparkles className="w-3 h-3 text-emerald-400" />
+                  <span>Demo</span>
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                <div className="hidden sm:flex flex-col items-end">
+                  <span className="text-xs font-semibold text-white flex items-center gap-1">
+                    <UserIcon className="w-3 h-3 text-emerald-400" />
+                    {user.name}
+                  </span>
+                  <span className="text-[10px] text-slate-400 uppercase tracking-wider font-mono">
+                    {user.role} mode
+                  </span>
                 </div>
-              )}
 
-              {/* Mobile Hamburger Toggle Button */}
-              <button
-                onClick={() => setMobileMenuOpen(prev => !prev)}
-                className="lg:hidden p-2 rounded-lg text-slate-400 hover:text-white transition-colors"
-                aria-label="Toggle navigation menu"
-              >
-                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-              </button>
-            </div>
+                {user.role !== 'admin' && (
+                  <button
+                    onClick={loginDemoAdmin}
+                    className="text-[11px] px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 cursor-pointer"
+                    title="Switch to Admin Mode"
+                  >
+                    Switch to Admin
+                  </button>
+                )}
+
+                <button
+                  onClick={logout}
+                  className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
+                  title="Logout"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-slate-800 bg-[#090d16] px-4 py-4 space-y-1.5 animate-in slide-in-from-top-2 duration-150">
+        {/* Mobile secondary navigation bar */}
+        <div className="xl:hidden flex items-center gap-1 py-2 overflow-x-auto border-t border-slate-800/80 text-xs">
+          {navItems.map((item) => (
             <button
-              onClick={() => navigateTo('dashboard')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors flex items-center justify-between ${
-                currentPage === 'dashboard' ? 'bg-emerald-500/10 text-emerald-400' : 'text-slate-300'
+              key={item.id}
+              onClick={() => setCurrentPage(item.id)}
+              className={`px-2.5 py-1 rounded-md whitespace-nowrap ${
+                currentPage === item.id ? 'bg-emerald-500/20 text-emerald-400 font-semibold' : 'text-slate-400'
               }`}
             >
-              <span>Home</span>
-              <Building2 className="w-4 h-4 text-slate-400" />
+              {item.label}
             </button>
-
+          ))}
+          {user?.role === 'admin' && (
             <button
-              onClick={() => navigateTo('explore')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors flex items-center justify-between ${
-                currentPage === 'explore' ? 'bg-emerald-500/10 text-emerald-400' : 'text-slate-300'
+              onClick={() => setCurrentPage('admin')}
+              className={`px-2.5 py-1 rounded-md whitespace-nowrap ${
+                currentPage === 'admin' ? 'bg-rose-500/20 text-rose-300 font-semibold' : 'text-rose-400'
               }`}
             >
-              <span>Explore Franchises</span>
-              <SlidersHorizontal className="w-4 h-4 text-slate-400" />
+              Admin
             </button>
-
-            <button
-              onClick={() => navigateTo('compare')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors flex items-center justify-between ${
-                currentPage === 'compare' ? 'bg-emerald-500/10 text-emerald-400' : 'text-slate-300'
-              }`}
-            >
-              <span>Compare Franchises</span>
-              <div className="flex items-center gap-2">
-                {comparisonList.length > 0 && (
-                  <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-emerald-500 text-slate-950 font-bold">
-                    {comparisonList.length}
-                  </span>
-                )}
-                <Scale className="w-4 h-4 text-slate-400" />
-              </div>
-            </button>
-
-            <button
-              onClick={() => navigateTo('advisor')}
-              className={`w-full text-left px-3.5 py-2.5 rounded-lg text-xs font-semibold transition-colors flex items-center justify-between ${
-                currentPage === 'advisor' ? 'bg-emerald-500/10 text-emerald-400' : 'text-slate-300'
-              }`}
-            >
-              <span>Investor Advisor</span>
-              <Sparkles className="w-4 h-4 text-indigo-400" />
-            </button>
-
-            <div className="pt-2 pb-1 border-t border-slate-800">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3">
-                Analytics & Calculations
-              </span>
-            </div>
-
-            <button
-              onClick={() => navigateTo('calculator')}
-              className={`w-full text-left px-3.5 py-2 rounded-lg text-xs font-medium transition-colors flex items-center justify-between ${
-                currentPage === 'calculator' ? 'bg-emerald-500/10 text-emerald-400' : 'text-slate-300'
-              }`}
-            >
-              <span>Financial Calculator</span>
-              <Calculator className="w-4 h-4 text-indigo-400" />
-            </button>
-
-            <button
-              onClick={() => navigateTo('simulator')}
-              className={`w-full text-left px-3.5 py-2 rounded-lg text-xs font-medium transition-colors flex items-center justify-between ${
-                currentPage === 'simulator' ? 'bg-emerald-500/10 text-emerald-400' : 'text-slate-300'
-              }`}
-            >
-              <span>Scenario Simulator</span>
-              <Activity className="w-4 h-4 text-teal-500" />
-            </button>
-
-            <button
-              onClick={() => navigateTo('location')}
-              className={`w-full text-left px-3.5 py-2 rounded-lg text-xs font-medium transition-colors flex items-center justify-between ${
-                currentPage === 'location' ? 'bg-emerald-500/10 text-emerald-400' : 'text-slate-300'
-              }`}
-            >
-              <span>Location Intelligence</span>
-              <MapPin className="w-4 h-4 text-indigo-500" />
-            </button>
-
-            <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
-              <button
-                onClick={() => {
-                  setAboutModalOpen(true);
-                  setMobileMenuOpen(false);
-                }}
-                className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-blue-600 flex items-center gap-1.5 px-3 py-1.5"
-              >
-                <Info className="w-3.5 h-3.5" />
-                <span>About FranchiseIQ</span>
-              </button>
-
-              {!user && (
-                <button
-                  onClick={() => navigateTo('login')}
-                  className="text-xs px-3.5 py-1.5 rounded-lg bg-blue-600 text-white font-semibold"
-                >
-                  Sign In
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-      </header>
-
-      {/* About FranchiseIQ Modal */}
-      <AboutModal
-        isOpen={aboutModalOpen}
-        onClose={() => setAboutModalOpen(false)}
-        setCurrentPage={setCurrentPage}
-      />
-    </>
+          )}
+        </div>
+      </div>
+    </header>
   );
 };

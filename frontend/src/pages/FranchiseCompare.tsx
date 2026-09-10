@@ -37,7 +37,7 @@ export const FranchiseCompare: React.FC<FranchiseCompareProps> = ({ setCurrentPa
   if (comparisonList.length < 2) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center space-y-6">
-        <div className="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+        <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto">
           <Scale className="w-8 h-8" />
         </div>
         <h2 className="text-2xl font-black text-white">Compare Franchises Side-by-Side</h2>
@@ -106,7 +106,7 @@ export const FranchiseCompare: React.FC<FranchiseCompareProps> = ({ setCurrentPa
           <p className="text-slate-400 text-xs">Generating comparative metrics...</p>
         </div>
       ) : (
-        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 shadow-sm overflow-x-auto">
+        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
               <tr className="border-b border-slate-800">
@@ -148,10 +148,10 @@ export const FranchiseCompare: React.FC<FranchiseCompareProps> = ({ setCurrentPa
                   const isBest = best_highlights.lowest_investment_id === f.id;
                   return (
                     <td key={f.id} className="py-3 px-4">
-                      <span className={`font-bold ${isBest ? 'text-emerald-400' : 'text-slate-800 dark:text-slate-200'}`}>
+                      <span className={`font-bold ${isBest ? 'text-emerald-400' : 'text-slate-200'}`}>
                         ₹{(f.total_investment / 100000).toFixed(1)} Lakhs
                       </span>
-                      {isBest && <span className="ml-1.5 text-[10px] px-1.5 py-0.2 rounded bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-semibold border border-emerald-200 dark:border-emerald-500/30">Lowest</span>}
+                      {isBest && <span className="ml-1.5 text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-semibold">Lowest</span>}
                     </td>
                   );
                 })}
@@ -174,10 +174,10 @@ export const FranchiseCompare: React.FC<FranchiseCompareProps> = ({ setCurrentPa
                   const isBest = best_highlights.lowest_royalty_id === f.id;
                   return (
                     <td key={f.id} className="py-3 px-4">
-                      <span className={`font-semibold ${isBest ? 'text-emerald-400' : 'text-slate-800 dark:text-slate-200'}`}>
+                      <span className={`font-semibold ${isBest ? 'text-emerald-400' : 'text-slate-200'}`}>
                         {f.royalty_pct}% of Gross Sales
                       </span>
-                      {isBest && <span className="ml-1.5 text-[10px] px-1.5 py-0.2 rounded bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-semibold border border-emerald-200 dark:border-emerald-500/30">Best</span>}
+                      {isBest && <span className="ml-1.5 text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-semibold">Best</span>}
                     </td>
                   );
                 })}
@@ -200,10 +200,10 @@ export const FranchiseCompare: React.FC<FranchiseCompareProps> = ({ setCurrentPa
                   const isBest = best_highlights.highest_profit_id === f.id;
                   return (
                     <td key={f.id} className="py-3 px-4">
-                      <span className={`font-bold ${isBest ? 'text-emerald-400' : 'text-slate-800 dark:text-slate-200'}`}>
+                      <span className={`font-bold ${isBest ? 'text-emerald-400' : 'text-slate-200'}`}>
                         ₹{f.monthly_profit.toLocaleString('en-IN')}
                       </span>
-                      {isBest && <span className="ml-1.5 text-[10px] px-1.5 py-0.2 rounded bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-semibold border border-emerald-200 dark:border-emerald-500/30">Highest</span>}
+                      {isBest && <span className="ml-1.5 text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-semibold">Highest</span>}
                     </td>
                   );
                 })}
@@ -242,7 +242,7 @@ export const FranchiseCompare: React.FC<FranchiseCompareProps> = ({ setCurrentPa
                   const isBest = best_highlights.fastest_payback_id === f.id;
                   return (
                     <td key={f.id} className="py-3 px-4">
-                      <span className={`font-bold ${isBest ? 'text-amber-400' : 'text-slate-800 dark:text-slate-200'}`}>
+                      <span className={`font-bold ${isBest ? 'text-amber-400' : 'text-slate-200'}`}>
                         {f.payback_months} Months
                       </span>
                       {isBest && <span className="ml-1.5 text-[10px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 font-semibold">Fastest</span>}
@@ -263,7 +263,7 @@ export const FranchiseCompare: React.FC<FranchiseCompareProps> = ({ setCurrentPa
                       }`}>
                         {f.risk_tier} ({f.risk_score}/100)
                       </span>
-                      {isBest && <span className="ml-1.5 text-[10px] px-1.5 py-0.2 rounded bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-semibold border border-emerald-200 dark:border-emerald-500/30">Safest</span>}
+                      {isBest && <span className="ml-1.5 text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-semibold">Safest</span>}
                     </td>
                   );
                 })}
@@ -306,10 +306,10 @@ export const FranchiseCompare: React.FC<FranchiseCompareProps> = ({ setCurrentPa
                   const isBest = best_highlights.highest_satisfaction_id === f.id;
                   return (
                     <td key={f.id} className="py-3 px-4">
-                      <span className={`font-bold ${isBest ? 'text-emerald-400' : 'text-slate-800 dark:text-slate-200'}`}>
+                      <span className={`font-bold ${isBest ? 'text-emerald-400' : 'text-slate-200'}`}>
                         {f.franchisee_satisfaction}/100
                       </span>
-                      {isBest && <span className="ml-1.5 text-[10px] px-1.5 py-0.2 rounded bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-semibold border border-emerald-200 dark:border-emerald-500/30">Highest</span>}
+                      {isBest && <span className="ml-1.5 text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-semibold">Highest</span>}
                     </td>
                   );
                 })}

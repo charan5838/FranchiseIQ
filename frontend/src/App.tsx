@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import { InvestorProvider } from './context/InvestorContext';
-import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { DemoBanner } from './components/DemoBanner';
 import { Dashboard } from './pages/Dashboard';
 import { InvestorAdvisor } from './pages/InvestorAdvisor';
 import { ExploreFranchises } from './pages/ExploreFranchises';
@@ -55,7 +55,8 @@ export const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#090d16] text-slate-900 dark:text-slate-100 transition-colors duration-150">
+    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-white">
+      <DemoBanner />
       <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
       <main className="flex-1">
         {renderPage()}
@@ -67,12 +68,10 @@ export const AppContent: React.FC = () => {
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <InvestorProvider>
-          <AppContent />
-        </InvestorProvider>
-      </AuthProvider>
-    </ThemeProvider>
+    <AuthProvider>
+      <InvestorProvider>
+        <AppContent />
+      </InvestorProvider>
+    </AuthProvider>
   );
 }
