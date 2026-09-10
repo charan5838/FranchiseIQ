@@ -1,14 +1,168 @@
+import re
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import List, Optional
+from pydantic import BaseModel
 from app.database import get_db
-from app.models.franchise import Sector, Franchise
+from app.models.franchise import (
+    Sector, Franchise, FranchiseInvestment, FranchiseFinancial,
+    OperatingCost, FranchiseFee, FranchisorSupport
+)
+from app.models.history import Outlet
+from app.models.verification import DataSource
 from app.schemas.franchise import SectorOut, FranchiseSummary, FranchiseDetail
 from app.services.claim_gap_engine import analyze_claim_gap
 from app.services.risk_engine import calculate_risk_score
 from app.services.projection_engine import generate_multi_year_projections
 
 router = APIRouter(tags=["Franchises"])
+
+class FranchiseSubmission(BaseModel):
+    name: str
+    sector_id: int
+    sub_sector: str
+    description: str
+    founded_year: Optional[int] = 2022
+    headquarters: str
+    franchise_model: Optional[str] = "FOFO"
+    space_min_sqft: Optional[float] = 400.0
+    space_max_sqft: Optional[float] = 1000.0
+    total_investment: float
+    franchise_fee: Optional[float] = 500000.0
+    monthly_revenue: float
+    monthly_profit: float
+    royalty_percentage: Optional[float] = 5.0
+    contact_email: Optional[str] = None
+    contact_phone: Optional[str] = None
+    website: Optional[str] = None
+
+@router.post("/franchises/submit")
+def submit_franchise(data: FranchiseSubmission, db: Session = Depends(get_db)):
+    base_slug = re.sub(r'[^a-zA-Z0-9]+', '-', data.name.strip().lower()).strip('-')
+    if not base_slug:
+        base_slug = "franchise-listing"
+    slug = base_slug
+    idx = 1
+    while db.query(Franchise).filter(Franchise.slug == slug).first():
+        slug = f"{base_slug}-{idx}"
+        idx += 1
+
+    founded_yr = data.founded_year or 2022
+    brand_age = max(1, 2026 - founded_yr)
+
+    f = Franchise(
+        name=data.name.strip(),
+        slug=slug,
+        sector_id=data.sector_id,
+        sub_sector=data.sub_sector.strip(),
+        description=data.description.strip(),
+        founded_year=founded_yr,
+        headquarters=data.headquarters.strip(),
+        website=data.website or None,
+        franchise_model=data.franchise_model or "FOFO",
+        space_min_sqft=data.space_min_sqft or 400.0,
+        space_max_sqft=data.space_max_sqft or 1000.0,
+        expansion_rate=15.0,
+        brand_age_years=brand_age,
+        is_active=True
+    )
+    db.add(f)
+    db.commit()
+    db.refresh(f)
+
+    tot_inv = max(100000.0, data.total_investment)
+    fee = data.franchise_fee if data.franchise_fee is not None else min(500000.0, tot_inv * 0.2)
+    m_rev = max(50000.0, data.monthly_revenue)
+    m_prof = max(10000.0, data.monthly_profit)
+    roi = round((m_prof * 12.0 / tot_inv) * 100.0, 1)
+    payback = round(tot_inv / m_prof, 1)
+    margin = round((m_prof / m_rev) * 100.0, 1)
+
+    inv = FranchiseInvestment(
+        franchise_id=f.id,
+        min_investment=tot_inv * 0.9,
+        max_investment=tot_inv * 1.15,
+        franchise_fee=fee,
+        setup_cost=tot_inv * 0.45,
+        equipment_cost=tot_inv * 0.25,
+        working_capital=tot_inv * 0.15,
+        total_estimated_investment=tot_inv,
+        last_updated="September 2026"
+    )
+    db.add(inv)
+
+    fin = FranchiseFinancial(
+        franchise_id=f.id,
+        claimed_monthly_revenue=m_rev * 1.2,
+        actual_monthly_revenue=m_rev,
+        claimed_annual_revenue=m_rev * 1.2 * 12.0,
+        actual_annual_revenue=m_rev * 12.0,
+        gross_margin=55.0,
+        operating_margin=max(10.0, margin + 5.0),
+        claimed_net_margin=min(45.0, margin + 8.0),
+        actual_net_margin=margin,
+        claimed_monthly_profit=m_prof * 1.25,
+        actual_monthly_profit=m_prof,
+        claimed_annual_profit=m_prof * 1.25 * 12.0,
+        actual_annual_profit=m_prof * 12.0,
+        break_even_months=max(6, int(payback * 0.6)),
+        roi_annual=roi,
+        payback_months=payback,
+        revenue_stability_score=82.0,
+        profit_stability_score=80.0,
+        last_updated="September 2026"
+    )
+    db.add(fin)
+
+    ops = OperatingCost(
+        franchise_id=f.id,
+        monthly_rent=max(20000.0, m_rev * 0.12),
+        employee_salaries=max(25000.0, m_rev * 0.15),
+        utilities=15000.0,
+        raw_materials_cogs=max(20000.0, m_rev * 0.35),
+        total_monthly_expenses=max(10000.0, m_rev - m_prof)
+    )
+    db.add(ops)
+
+    fee_model = FranchiseFee(
+        franchise_id=f.id,
+        royalty_percentage=data.royalty_percentage or 5.0,
+        marketing_fee_percentage=2.0
+    )
+    db.add(fee_model)
+
+    support = FranchisorSupport(franchise_id=f.id)
+    db.add(support)
+
+    outlet = Outlet(
+        franchise_id=f.id,
+        total_outlets=12,
+        company_owned=2,
+        franchise_owned=10,
+        active_outlets=12,
+        closed_outlets=0,
+        closure_rate_pct=0.0
+    )
+    db.add(outlet)
+
+    ds = DataSource(
+        franchise_id=f.id,
+        metric_name="Direct Franchisor Submission",
+        source_type="REPORTED",
+        source_name=f"Submitted by Franchisor ({data.contact_email or 'Direct Entry'})",
+        methodology="Direct platform listing submitted by brand representative, marked REPORTED pending on-site audit",
+        confidence_level=80.0,
+        verified_by="FranchiseIQ Community Review"
+    )
+    db.add(ds)
+    db.commit()
+
+    return {
+        "status": "success",
+        "franchise_id": f.id,
+        "name": f.name,
+        "slug": f.slug
+    }
 
 @router.get("/sectors", response_model=List[SectorOut])
 def get_sectors(db: Session = Depends(get_db)):

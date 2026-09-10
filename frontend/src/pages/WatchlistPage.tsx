@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { api } from '../services/api';
 import { WatchlistItem, NotificationItem } from '../types';
+import { useInvestor } from '../context/InvestorContext';
 
 interface WatchlistPageProps {
   setCurrentPage: (page: string) => void;
@@ -15,25 +16,65 @@ export const WatchlistPage: React.FC<WatchlistPageProps> = ({ setCurrentPage, se
   const [watchlist, setWatchlist] = useState<WatchlistItem[]>([]);
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const { watchlist: contextWatchlistIds, toggleWatchlist } = useInvestor();
 
-  const loadData = () => {
+  const loadData = async () => {
     setLoading(true);
-    Promise.all([
-      api.getWatchlist(),
-      api.getNotifications()
-    ]).then(([wList, nList]) => {
-      setWatchlist(wList);
+    try {
+      const [wList, nList] = await Promise.all([
+        api.getWatchlist().catch(() => [] as WatchlistItem[]),
+        api.getNotifications().catch(() => [] as NotificationItem[])
+      ]);
+
+      // If backend returns items, use them; if user added local watchlist items not yet in API:
+      let combined = [...wList];
+      const existingIds = new Set(combined.map(c => c.franchise_id));
+      const missingIds = contextWatchlistIds.filter(id => !existingIds.has(id));
+
+      if (missingIds.length > 0) {
+        const allFranchises = await api.getFranchises().catch(() => []);
+        missingIds.forEach(mId => {
+          const f = allFranchises.find(item => item.id === mId);
+          if (f) {
+            combined.push({
+              watchlist_id: mId * 1000,
+              franchise_id: f.id,
+              name: f.name,
+              slug: f.slug,
+              logo_url: f.logo_url,
+              sector: f.sector_name,
+              added_date: 'Today',
+              added_investment: f.total_investment,
+              current_investment: f.total_investment,
+              investment_delta: 0,
+              added_roi: f.roi_annual,
+              current_roi: f.roi_annual,
+              roi_delta: 0,
+              added_risk: f.risk_tier,
+              current_risk: f.risk_tier,
+              risk_score: f.risk_score,
+              payback_months: f.payback_months,
+              monthly_profit: f.monthly_profit
+            });
+          }
+        });
+      }
+
+      setWatchlist(combined);
       setNotifications(nList);
-    }).catch(console.error)
-      .finally(() => setLoading(false));
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [contextWatchlistIds]);
 
   const handleRemove = async (franchiseId: number) => {
-    await api.toggleWatchlist(franchiseId);
+    await toggleWatchlist(franchiseId);
     loadData();
   };
 

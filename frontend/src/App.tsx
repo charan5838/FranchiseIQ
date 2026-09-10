@@ -3,7 +3,6 @@ import { AuthProvider } from './context/AuthContext';
 import { InvestorProvider } from './context/InvestorContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
-import { DemoBanner } from './components/DemoBanner';
 import { Dashboard } from './pages/Dashboard';
 import { InvestorAdvisor } from './pages/InvestorAdvisor';
 import { ExploreFranchises } from './pages/ExploreFranchises';
@@ -56,7 +55,6 @@ export const AppContent: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 selection:bg-emerald-500 selection:text-white">
-      <DemoBanner />
       <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
       <main className="flex-1">
         {renderPage()}

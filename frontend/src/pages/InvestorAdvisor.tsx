@@ -3,7 +3,7 @@ import {
   Sparkles, CheckCircle2, AlertTriangle, ArrowRight, 
   Building2, Sliders, Scale, ShieldCheck, HelpCircle, MapPin,
   Filter, ArrowUpDown, LayoutGrid, ListOrdered, Search,
-  Calculator, DollarSign, TrendingUp, ChevronRight, BarChart3
+  Calculator, DollarSign, TrendingUp, ChevronRight, BarChart3, BookmarkCheck
 } from 'lucide-react';
 import { api } from '../services/api';
 import { RankedFranchise, Sector } from '../types';
@@ -17,7 +17,7 @@ interface InvestorAdvisorProps {
 }
 
 export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage, setSelectedFranchiseId }) => {
-  const { preferences, updatePreferences, toggleComparison, comparisonList } = useInvestor();
+  const { preferences, updatePreferences, toggleComparison, comparisonList, toggleWatchlist, isWatched } = useInvestor();
   const [sectors, setSectors] = useState<Sector[]>([]);
   const [results, setResults] = useState<RankedFranchise[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -385,6 +385,20 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
             >
               <Scale className="w-3.5 h-3.5" />
               <span>{isCompared ? 'In Compare' : 'Compare'}</span>
+            </button>
+
+            {/* Watchlist */}
+            <button
+              onClick={() => toggleWatchlist(f.franchise_id)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1 ${
+                isWatched(f.franchise_id)
+                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+              }`}
+              title={isWatched(f.franchise_id) ? 'Remove from Watchlist' : 'Add to Watchlist'}
+            >
+              <BookmarkCheck className={`w-3.5 h-3.5 ${isWatched(f.franchise_id) ? 'text-amber-400' : 'text-slate-400'}`} />
+              <span>{isWatched(f.franchise_id) ? 'Watched' : 'Watchlist'}</span>
             </button>
 
             {/* Deep Dive */}
