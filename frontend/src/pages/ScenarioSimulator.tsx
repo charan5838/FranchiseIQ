@@ -82,7 +82,7 @@ export const ScenarioSimulator: React.FC = () => {
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 text-rose-400 text-xs font-semibold uppercase tracking-wider mb-2">
           <Activity className="w-3.5 h-3.5" /> Macro Shock Stress-Testing
         </div>
-        <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Scenario Stress Simulator</h1>
+        <h1 className="text-3xl font-black text-white tracking-tight">Scenario Stress Simulator</h1>
         <p className="text-slate-500 dark:text-slate-400 text-sm mt-1 max-w-3xl">
           Test unit resilience against economic shocks: <em>"What happens if sales fall by 20%? What if rent jumps 15%?"</em> Observe instant cash flow contractions and extended payback horizons.
         </p>
@@ -91,13 +91,13 @@ export const ScenarioSimulator: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Shock Sliders (5 cols) */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
+          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
             <div>
               <label className="text-xs text-slate-300 font-medium block mb-1">Select Franchise Candidate</label>
               <select
                 value={selectedFranchiseId}
                 onChange={(e) => setSelectedFranchiseId(Number(e.target.value))}
-                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
+                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
               >
                 {franchises.map((f) => (
                   <option key={f.id} value={f.id}>{f.name} (₹{(f.total_investment/100000).toFixed(1)}L • {f.roi_annual}% ROI)</option>
@@ -237,7 +237,7 @@ export const ScenarioSimulator: React.FC = () => {
               {/* Comparative Before vs After Cards */}
               <div className="grid grid-cols-2 gap-4">
                 {/* Monthly Profit Delta */}
-                <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl space-y-2">
+                <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl space-y-2">
                   <span className="text-xs text-slate-500 dark:text-slate-400 font-medium block">Monthly Cash Profit</span>
                   <div className="flex items-baseline justify-between text-xs text-slate-400">
                     <span>Baseline:</span>
@@ -258,7 +258,7 @@ export const ScenarioSimulator: React.FC = () => {
                 </div>
 
                 {/* ROI & Payback Impact */}
-                <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 p-5 rounded-2xl space-y-2">
+                <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl space-y-2">
                   <span className="text-xs text-slate-500 dark:text-slate-400 font-medium block">Annual ROI & Payback</span>
                   <div className="flex items-baseline justify-between text-xs text-slate-400">
                     <span>Baseline ROI:</span>
@@ -287,7 +287,7 @@ export const ScenarioSimulator: React.FC = () => {
                     <span className="text-slate-400">Gross Monthly Revenue</span>
                     <div className="text-right">
                       <span className="text-slate-400 mr-3">₹{simResult.base_revenue.toLocaleString('en-IN')}</span>
-                      <span className="font-bold text-slate-900 dark:text-white">₹{simResult.simulated_revenue.toLocaleString('en-IN')}</span>
+                      <span className="font-bold text-white">₹{simResult.simulated_revenue.toLocaleString('en-IN')}</span>
                     </div>
                   </div>
                   <div className="py-2.5 flex justify-between">

@@ -213,7 +213,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
               {!user ? (
                 <button
                   onClick={() => navigateTo('login')}
-                  className="hidden sm:inline-flex text-xs px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors items-center gap-1.5 cursor-pointer shadow-xs"
+                  className="hidden sm:inline-flex text-xs px-3.5 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold transition-colors items-center gap-1.5 cursor-pointer shadow-xs"
                 >
                   <UserIcon className="w-3.5 h-3.5" />
                   <span>Sign In</span>
@@ -312,7 +312,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
               <Sparkles className="w-4 h-4 text-blue-500" />
             </button>
 
-            <div className="pt-2 pb-1 border-t border-slate-200 dark:border-slate-800">
+            <div className="pt-2 pb-1 border-t border-slate-800">
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3">
                 Analytics & Calculations
               </span>

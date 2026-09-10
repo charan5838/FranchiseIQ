@@ -111,7 +111,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
             className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
               isCompared 
                 ? 'bg-blue-600 text-white font-bold' 
-                : 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
+                : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-200 dark:border-slate-700'
             }`}
           >
             {isCompared ? 'Comparing' : '+ Compare Side-by-Side'}
@@ -120,7 +120,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
       </div>
 
       {/* Hero Profile Banner */}
-      <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm">
+      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div className="max-w-3xl">
             <div className="flex flex-wrap items-center gap-2 mb-2">
@@ -138,14 +138,14 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
               <span className="text-xs text-slate-500">• Founded {franchise.founded_year} ({franchise.brand_age_years} yrs)</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">{franchise.name}</h1>
+            <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">{franchise.name}</h1>
             <p className="text-slate-600 dark:text-slate-300 text-sm mt-3 leading-relaxed">{franchise.description}</p>
 
-            <div className="flex flex-wrap items-center gap-6 mt-4 text-xs text-slate-500 dark:text-slate-400">
-              <span>HQ: <strong className="text-slate-800 dark:text-slate-200">{franchise.headquarters}</strong></span>
-              <span>Model: <strong className="text-slate-800 dark:text-slate-200">{franchise.franchise_model}</strong></span>
-              <span>Space Req: <strong className="text-slate-800 dark:text-slate-200">{franchise.space_min_sqft} - {franchise.space_max_sqft} sq ft</strong></span>
-              <span>Outlets: <strong className="text-slate-800 dark:text-slate-200">{franchise.total_outlets}</strong></span>
+            <div className="flex flex-wrap items-center gap-6 mt-4 text-xs text-slate-400">
+              <span>HQ: <strong className="text-slate-200">{franchise.headquarters}</strong></span>
+              <span>Model: <strong className="text-slate-200">{franchise.franchise_model}</strong></span>
+              <span>Space Req: <strong className="text-slate-200">{franchise.space_min_sqft} - {franchise.space_max_sqft} sq ft</strong></span>
+              <span>Outlets: <strong className="text-slate-200">{franchise.total_outlets}</strong></span>
               <span>Data Updated: <strong className="text-emerald-400">{franchise.financial?.last_updated || 'September 2026'}</strong></span>
             </div>
           </div>
@@ -200,8 +200,8 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex items-center gap-1.5 py-3 px-4 border-b-2 transition-all cursor-pointer whitespace-nowrap ${
                 isActive
-                  ? 'border-blue-600 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/5'
-                  : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-slate-600'
+                  ? 'border-emerald-500 text-emerald-400 bg-emerald-500/5'
+                  : 'border-transparent text-slate-400 hover:text-white hover:border-slate-700'
               }`}
             >
               <Icon className="w-3.5 h-3.5" />
@@ -221,37 +221,37 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
               <span className="text-xs text-slate-500 dark:text-slate-400 font-normal">Updated: {franchise.investment.last_updated}</span>
             </h3>
 
-            <div className="divide-y divide-slate-100 dark:divide-slate-800/80 text-xs">
+            <div className="divide-y divide-slate-800/80 text-xs">
               <div className="py-2.5 flex justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Upfront Franchise Fee</span>
-                <span className="font-semibold text-slate-900 dark:text-white">₹{franchise.investment.franchise_fee.toLocaleString('en-IN')}</span>
+                <span className="text-slate-400">Upfront Franchise Fee</span>
+                <span className="font-semibold text-white">₹{franchise.investment.franchise_fee.toLocaleString('en-IN')}</span>
               </div>
               <div className="py-2.5 flex justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Store Infrastructure & Setup</span>
-                <span className="font-semibold text-slate-900 dark:text-white">₹{franchise.investment.setup_cost.toLocaleString('en-IN')}</span>
+                <span className="text-slate-400">Store Infrastructure & Setup</span>
+                <span className="font-semibold text-white">₹{franchise.investment.setup_cost.toLocaleString('en-IN')}</span>
               </div>
               <div className="py-2.5 flex justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Commercial Equipment & Machinery</span>
-                <span className="font-semibold text-slate-900 dark:text-white">₹{franchise.investment.equipment_cost.toLocaleString('en-IN')}</span>
+                <span className="text-slate-400">Commercial Equipment & Machinery</span>
+                <span className="font-semibold text-white">₹{franchise.investment.equipment_cost.toLocaleString('en-IN')}</span>
               </div>
               <div className="py-2.5 flex justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Interior Fitout & Branding</span>
-                <span className="font-semibold text-slate-900 dark:text-white">₹{franchise.investment.interior_cost.toLocaleString('en-IN')}</span>
+                <span className="text-slate-400">Interior Fitout & Branding</span>
+                <span className="font-semibold text-white">₹{franchise.investment.interior_cost.toLocaleString('en-IN')}</span>
               </div>
               <div className="py-2.5 flex justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Initial Opening Stock & Inventory</span>
-                <span className="font-semibold text-slate-900 dark:text-white">₹{franchise.investment.initial_inventory.toLocaleString('en-IN')}</span>
+                <span className="text-slate-400">Initial Opening Stock & Inventory</span>
+                <span className="font-semibold text-white">₹{franchise.investment.initial_inventory.toLocaleString('en-IN')}</span>
               </div>
               <div className="py-2.5 flex justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Working Capital Reserve (90 days)</span>
-                <span className="font-semibold text-slate-900 dark:text-white">₹{franchise.investment.working_capital.toLocaleString('en-IN')}</span>
+                <span className="text-slate-400">Working Capital Reserve (90 days)</span>
+                <span className="font-semibold text-white">₹{franchise.investment.working_capital.toLocaleString('en-IN')}</span>
               </div>
               <div className="py-2.5 flex justify-between">
-                <span className="text-slate-500 dark:text-slate-400">Technology & POS Setup</span>
-                <span className="font-semibold text-slate-900 dark:text-white">₹{franchise.investment.technology_cost.toLocaleString('en-IN')}</span>
+                <span className="text-slate-400">Technology & POS Setup</span>
+                <span className="font-semibold text-white">₹{franchise.investment.technology_cost.toLocaleString('en-IN')}</span>
               </div>
               <div className="py-3 flex justify-between text-sm bg-slate-50 dark:bg-slate-950/60 px-3 rounded-lg mt-2 font-bold border border-slate-200 dark:border-transparent">
-                <span className="text-slate-900 dark:text-white">Total Estimated Capital Outlay</span>
+                <span className="text-white">Total Estimated Capital Outlay</span>
                 <span className="text-emerald-400">₹{franchise.investment.total_estimated_investment.toLocaleString('en-IN')}</span>
               </div>
             </div>
@@ -264,7 +264,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
               <span className="text-xs font-semibold text-emerald-400">ROI: {franchise.financial.roi_annual}% / yr</span>
             </h3>
 
-            <div className="divide-y divide-slate-100 dark:divide-slate-800/80 text-xs">
+            <div className="divide-y divide-slate-800/80 text-xs">
               <div className="py-2.5 flex justify-between font-bold text-slate-200">
                 <span>Verified Monthly Gross Revenue</span>
                 <span className="text-white">₹{franchise.financial.actual_monthly_revenue.toLocaleString('en-IN')}</span>
@@ -322,7 +322,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
         <div className="space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
             <div>
-              <h4 className="text-sm font-bold text-slate-900 dark:text-white">5-Year Historical Evolution (2022 → 2026)</h4>
+              <h4 className="text-sm font-bold text-white">5-Year Historical Evolution (2022 → 2026)</h4>
               <p className="text-xs text-slate-400 mt-0.5">Tracking real network unit economics through inflation and expansion cycles</p>
             </div>
             <div className="flex items-center gap-2">
@@ -394,11 +394,11 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
               <tbody className="divide-y divide-slate-800/60">
                 {franchise.historical_financials?.map((h) => (
                   <tr key={h.year} className="hover:bg-slate-800/30">
-                    <td className="py-2.5 px-3 font-bold text-slate-900 dark:text-white">{h.year}</td>
+                    <td className="py-2.5 px-3 font-bold text-white">{h.year}</td>
                     <td className="py-2.5 px-3 text-slate-300">₹{(h.total_investment/100000).toFixed(1)}L</td>
                     <td className="py-2.5 px-3 text-slate-200 font-medium">₹{(h.annual_revenue/100000).toFixed(1)}L</td>
                     <td className="py-2.5 px-3 text-emerald-400 font-bold">₹{(h.annual_profit/100000).toFixed(1)}L</td>
-                    <td className="py-2.5 px-3 font-bold text-slate-900 dark:text-white">{h.roi_annual}%</td>
+                    <td className="py-2.5 px-3 font-bold text-white">{h.roi_annual}%</td>
                     <td className="py-2.5 px-3 text-slate-300">{h.total_outlets}</td>
                     <td className="py-2.5 px-3 text-emerald-400 font-medium">+{h.outlet_openings}</td>
                     <td className="py-2.5 px-3 text-rose-400 font-medium">-{h.outlet_closures}</td>
@@ -416,7 +416,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
         <div className="space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
             <div>
-              <h4 className="text-sm font-bold text-slate-900 dark:text-white">Scenario Projections (1, 3, 5 Years)</h4>
+              <h4 className="text-sm font-bold text-white">Scenario Projections (1, 3, 5 Years)</h4>
               <p className="text-xs text-amber-300/80 font-medium mt-0.5 flex items-center gap-1.5">
                 <AlertTriangle className="w-3.5 h-3.5" />
                 MODEL ESTIMATE — NOT GUARANTEED
@@ -443,8 +443,8 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {franchise.projections?.[selectedProjectionScenario]?.map((p) => (
               <div key={p.timeframe_years} className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
-                  <span className="text-sm font-bold text-slate-900 dark:text-white">{p.timeframe_years} Year Outlook</span>
+                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                  <span className="text-sm font-bold text-white">{p.timeframe_years} Year Outlook</span>
                   <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 uppercase font-mono">
                     {selectedProjectionScenario}
                   </span>
@@ -452,28 +452,28 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
 
                 <div className="space-y-2.5 text-xs">
                   <div className="flex justify-between">
-                    <span className="text-slate-500 dark:text-slate-400">Projected Annual Revenue</span>
-                    <span className="font-semibold text-slate-900 dark:text-white">₹{(p.projected_annual_revenue/100000).toFixed(1)} Lakhs</span>
+                    <span className="text-slate-400">Projected Annual Revenue</span>
+                    <span className="font-semibold text-white">₹{(p.projected_annual_revenue/100000).toFixed(1)} Lakhs</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500 dark:text-slate-400">Projected Operating Expenses</span>
+                    <span className="text-slate-400">Projected Operating Expenses</span>
                     <span className="font-semibold text-rose-400/90">₹{(p.projected_annual_expenses/100000).toFixed(1)} Lakhs</span>
                   </div>
-                  <div className="flex justify-between font-bold pt-2 border-t border-slate-100 dark:border-slate-800">
-                    <span className="text-slate-700 dark:text-slate-300">Projected Annual Profit</span>
+                  <div className="flex justify-between font-bold pt-2 border-t border-slate-800">
+                    <span className="text-slate-300">Projected Annual Profit</span>
                     <span className="text-emerald-400 text-sm">₹{(p.projected_annual_profit/100000).toFixed(1)} Lakhs</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500 dark:text-slate-400">Projected Annual ROI</span>
-                    <span className="font-bold text-slate-900 dark:text-white">{p.projected_roi}%</span>
+                    <span className="text-slate-400">Projected Annual ROI</span>
+                    <span className="font-bold text-white">{p.projected_roi}%</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500 dark:text-slate-400">Payback Period</span>
-                    <span className="text-slate-800 dark:text-slate-200">{p.projected_payback_months} Months</span>
+                    <span className="text-slate-400">Payback Period</span>
+                    <span className="text-slate-200">{p.projected_payback_months} Months</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-500 dark:text-slate-400">Est. Total Outlets</span>
-                    <span className="text-slate-800 dark:text-slate-200 font-semibold">{p.projected_total_outlets} units</span>
+                    <span className="text-slate-400">Est. Total Outlets</span>
+                    <span className="text-slate-200 font-semibold">{p.projected_total_outlets} units</span>
                   </div>
                 </div>
               </div>
@@ -486,7 +486,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
       {activeTab === 'support' && (
         <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-sm space-y-6">
           <div>
-            <h4 className="text-base font-bold text-slate-900 dark:text-white">14 Franchisor Deliverables & Support Matrix</h4>
+            <h4 className="text-base font-bold text-white">14 Franchisor Deliverables & Support Matrix</h4>
             <p className="text-xs text-slate-400 mt-1">Verified operational and brand enablement commitments provided by franchisor headquarters.</p>
           </div>
 
@@ -529,7 +529,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 text-center">
-              <div className="text-xs text-slate-500 dark:text-slate-400">Franchisee Satisfaction Score</div>
+              <div className="text-xs text-slate-400">Franchisee Satisfaction Score</div>
               <div className="text-3xl font-black text-emerald-400 mt-1">
                 {franchise.franchisee_satisfaction_score}<span className="text-xs text-slate-500 font-normal">/100</span>
               </div>
@@ -537,29 +537,29 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
             </div>
 
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 text-center">
-              <div className="text-xs text-slate-500 dark:text-slate-400">Would Reinvest in this Franchise?</div>
+              <div className="text-xs text-slate-400">Would Reinvest in this Franchise?</div>
               <div className="text-3xl font-black text-white mt-1">88%</div>
               <p className="text-[11px] text-emerald-400 mt-1">High operator loyalty</p>
             </div>
 
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 text-center">
-              <div className="text-xs text-slate-500 dark:text-slate-400">Would Recommend to Peers?</div>
+              <div className="text-xs text-slate-400">Would Recommend to Peers?</div>
               <div className="text-3xl font-black text-white mt-1">92%</div>
               <p className="text-[11px] text-emerald-400 mt-1">Strong brand advocacy</p>
             </div>
           </div>
 
           <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-6 shadow-sm space-y-4">
-            <h4 className="text-base font-bold text-slate-900 dark:text-white">Verified Operator Testimonials & Reviews</h4>
+            <h4 className="text-base font-bold text-white">Verified Operator Testimonials & Reviews</h4>
             <div className="space-y-3">
               {franchise.reviews?.map((r) => (
                 <div key={r.id} className="p-4 rounded-xl bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-900 dark:text-white">{r.title}</span>
+                    <span className="font-bold text-white">{r.title}</span>
                     <span className="text-amber-400 font-bold">★ {r.rating} / 5.0</span>
                   </div>
                   <p className="text-slate-300 leading-relaxed">{r.comment}</p>
-                  <div className="text-[11px] text-slate-500 pt-1 border-t border-slate-100 dark:border-slate-800/60 flex items-center justify-between">
+                  <div className="text-[11px] text-slate-500 pt-1 border-t border-slate-800/60 flex items-center justify-between">
                     <span>{r.user_name} (Verified Unit Operator)</span>
                     <span>{r.created_at}</span>
                   </div>

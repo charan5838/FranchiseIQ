@@ -38,16 +38,16 @@ export const SectorProfitLeaders: React.FC<SectorProfitLeadersProps> = ({
   return (
     <section className="space-y-4">
       {/* Value Proposition Header - Minimal & Attractive */}
-      <div className="rounded-xl bg-white dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800/80 p-5 md:p-6 shadow-sm">
+      <div className="rounded-xl bg-slate-900/40 border border-slate-800/60 p-5 md:p-6 shadow-sm">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="space-y-1.5 max-w-2xl">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-blue-700 dark:text-blue-400 text-[11px] font-semibold">
               <Award className="w-3 h-3" />
               <span>Sector Profit Benchmarks</span>
             </div>
-            <h2 className="text-xl md:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            <h2 className="text-xl md:text-2xl font-bold tracking-tight text-white">
               {user ? (
-                <>Welcome back, <span className="text-blue-600 dark:text-blue-400">{user.name}</span></>
+                <>Welcome back, <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">{user.name}</span></>
               ) : (
                 <>Sector Profitability Intelligence</>
               )}
@@ -61,7 +61,7 @@ export const SectorProfitLeaders: React.FC<SectorProfitLeadersProps> = ({
             {!user ? (
               <button
                 onClick={() => setCurrentPage('login')}
-                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer"
+                className="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer"
               >
                 <span>Enter Investor Profile</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -127,7 +127,7 @@ export const SectorProfitLeaders: React.FC<SectorProfitLeadersProps> = ({
             return (
               <div
                 key={sec.sector_id}
-                className="bg-white dark:bg-slate-900/50 border border-slate-200/90 dark:border-slate-800/80 hover:border-slate-300 dark:hover:border-slate-700 rounded-xl p-5 transition-all duration-200 flex flex-col justify-between group shadow-sm hover:shadow-md"
+                className="bg-slate-900/60 border border-slate-800/80 hover:border-slate-300 dark:hover:border-slate-700 rounded-xl p-5 transition-all duration-200 flex flex-col justify-between group shadow-sm hover:shadow-md"
               >
                 <div>
                   {/* Top Sector & Verification Header */}
@@ -140,14 +140,14 @@ export const SectorProfitLeaders: React.FC<SectorProfitLeadersProps> = ({
 
                   {/* Brand & Sub-Sector */}
                   <div className="mb-3">
-                    <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-emerald-400 transition-colors">
                       {leader.name}
                     </h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{leader.sub_sector} • {leader.headquarters}</p>
+                    <p className="text-xs text-slate-400">{leader.sub_sector} • {leader.headquarters}</p>
                   </div>
 
                   {/* Net Monthly Profit Box - Minimal */}
-                  <div className="bg-slate-50 dark:bg-slate-950/50 border border-slate-200/80 dark:border-slate-800/60 rounded-lg p-3 mb-3">
+                  <div className="bg-slate-950/50 border border-slate-800/60 rounded-lg p-3 mb-3">
                     <div className="flex items-center justify-between text-xs">
                       <span className="text-slate-600 dark:text-slate-400 font-medium">Net Monthly Profit</span>
                       <span className="text-[11px] px-1.5 py-0.5 rounded bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 font-semibold border border-emerald-200 dark:border-emerald-500/20">
@@ -209,7 +209,7 @@ export const SectorProfitLeaders: React.FC<SectorProfitLeadersProps> = ({
                 </div>
 
                 {/* Card Action Buttons */}
-                <div className="pt-3 border-t border-slate-100 dark:border-slate-800/60 flex items-center gap-2">
+                <div className="pt-3 border-t border-slate-800/60 flex items-center gap-2">
                   <button
                     onClick={() => {
                       setSelectedFranchiseId(leader.id);

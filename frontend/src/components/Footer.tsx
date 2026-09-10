@@ -27,7 +27,7 @@ export const Footer: React.FC<{ setCurrentPage?: (page: string) => void }> = ({ 
 
           <div>
             <h5 className="font-semibold text-slate-900 dark:text-white uppercase tracking-wider text-[11px] mb-3">Analytics & Tools</h5>
-            <ul className="space-y-2 text-slate-600 dark:text-slate-400">
+            <ul className="space-y-2 text-slate-400">
               <li><button onClick={() => setCurrentPage?.('advisor')} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">Investor Advisor</button></li>
               <li><button onClick={() => setCurrentPage?.('explore')} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">Franchise Directory</button></li>
               <li><button onClick={() => setCurrentPage?.('calculator')} className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer">Unit Financial Calculator</button></li>
@@ -38,7 +38,7 @@ export const Footer: React.FC<{ setCurrentPage?: (page: string) => void }> = ({ 
 
           <div>
             <h5 className="font-semibold text-slate-900 dark:text-white uppercase tracking-wider text-[11px] mb-3">Data Governance</h5>
-            <ul className="space-y-2 text-slate-600 dark:text-slate-400">
+            <ul className="space-y-2 text-slate-400">
               <li><span className="text-emerald-600 dark:text-emerald-400 font-medium">🟢 Verified Audits</span></li>
               <li><span className="text-blue-600 dark:text-blue-400 font-medium">🔵 Reported Submissions</span></li>
               <li><span className="text-amber-600 dark:text-amber-400 font-medium">🟡 Platform Estimates</span></li>
@@ -50,7 +50,7 @@ export const Footer: React.FC<{ setCurrentPage?: (page: string) => void }> = ({ 
 
         <div className="border-t border-slate-200 dark:border-slate-800/80 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 dark:text-slate-500">
           <p>© 2026 FranchiseIQ. All rights reserved. Built with precision for franchise investors.</p>
-          <p className="max-w-xl text-center md:text-right text-slate-500 dark:text-slate-400">
+          <p className="max-w-xl text-center md:text-right text-slate-400">
             <strong>Legal Notice:</strong> Estimated monthly profit based on available data. Actual results may vary based on location, execution, expenses and market conditions. Never treat projections as guaranteed return commitments.
           </p>
         </div>
