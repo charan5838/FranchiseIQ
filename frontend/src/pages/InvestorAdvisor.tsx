@@ -7,6 +7,7 @@ import { api } from '../services/api';
 import { RankedFranchise, Sector } from '../types';
 import { useInvestor } from '../context/InvestorContext';
 import { VerificationBadge } from '../components/VerificationBadge';
+import { CITIES_AND_LOCALITIES, getCityInfo } from '../data/citiesAndLocalities';
 
 interface InvestorAdvisorProps {
   setCurrentPage: (page: string) => void;
@@ -23,7 +24,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
   // Form State
   const [budgetLakhs, setBudgetLakhs] = useState<number>(preferences.budget / 100000 || 25);
   const [city, setCity] = useState<string>(preferences.city || 'Hyderabad');
-  const [locality, setLocality] = useState<string>(preferences.locality || 'Madhapur');
+  const [locality, setLocality] = useState<string>(preferences.locality || 'Hitec City');
   const [sectorId, setSectorId] = useState<number | null>(preferences.preferred_sector_id || null);
   const [areaSqft, setAreaSqft] = useState<number>(preferences.shop_area_sqft || 800);
   const [experience, setExperience] = useState<string>(preferences.business_experience || '0-2 years');
@@ -32,6 +33,16 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
   const [desiredReturn, setDesiredReturn] = useState<number>(preferences.desired_return_pct || 25);
   const [maxPayback, setMaxPayback] = useState<number>(preferences.max_payback_months || 30);
   const [goal, setGoal] = useState<string>(preferences.goal || 'Maximum ROI');
+
+  const currentCityInfo = getCityInfo(city) || CITIES_AND_LOCALITIES[0];
+
+  const handleCityChange = (newCity: string) => {
+    setCity(newCity);
+    const target = getCityInfo(newCity);
+    if (target && target.localities.length > 0) {
+      setLocality(target.localities[0].locality);
+    }
+  };
 
   useEffect(() => {
     api.getSectors().then(setSectors).catch(console.error);
@@ -127,30 +138,35 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
             </div>
 
             {/* City & Locality */}
-            <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-3">
               <div>
-                <label className="text-xs text-slate-300 font-medium block mb-1">Target City</label>
+                <label className="text-xs text-slate-300 font-medium block mb-1">Target Commercial Metro</label>
                 <select
                   value={city}
-                  onChange={(e) => setCity(e.target.value)}
+                  onChange={(e) => handleCityChange(e.target.value)}
                   className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
                 >
-                  <option value="Hyderabad">Hyderabad</option>
-                  <option value="Bangalore">Bangalore</option>
-                  <option value="Mumbai">Mumbai</option>
-                  <option value="Pune">Pune</option>
-                  <option value="Delhi">Delhi</option>
+                  {CITIES_AND_LOCALITIES.map((c) => (
+                    <option key={c.city} value={c.city}>
+                      {c.label}
+                    </option>
+                  ))}
                 </select>
               </div>
+
               <div>
-                <label className="text-xs text-slate-300 font-medium block mb-1">Specific Locality</label>
-                <input
-                  type="text"
+                <label className="text-xs text-slate-300 font-medium block mb-1">Prime Area / Catchment Locality</label>
+                <select
                   value={locality}
                   onChange={(e) => setLocality(e.target.value)}
-                  placeholder="e.g. Madhapur"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
-                />
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none font-medium"
+                >
+                  {currentCityInfo.localities.map((loc) => (
+                    <option key={loc.locality} value={loc.locality}>
+                      ⭐ {loc.locality} ({loc.tag})
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 

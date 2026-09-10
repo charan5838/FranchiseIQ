@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { 
   MapPin, Store, Users, TrendingUp, AlertTriangle, 
-  CheckCircle2, Compass, BarChart3, Navigation, Layers
+  CheckCircle2, Compass, BarChart3, Navigation, Layers, Building2, Sparkles
 } from 'lucide-react';
 import { api } from '../services/api';
 import { LocationAnalysisResult } from '../types';
+import { CITIES_AND_LOCALITIES, getCityInfo } from '../data/citiesAndLocalities';
 
 export const LocationAnalysis: React.FC = () => {
   const [city, setCity] = useState('Hyderabad');
-  const [locality, setLocality] = useState('Madhapur');
+  const [locality, setLocality] = useState('Hitec City');
   const [pinCode, setPinCode] = useState('500081');
   const [areaSqft, setAreaSqft] = useState(800);
-  const [monthlyRent, setMonthlyRent] = useState(75000);
-  const [footfall, setFootfall] = useState(1650);
+  const [monthlyRent, setMonthlyRent] = useState(108000);
+  const [footfall, setFootfall] = useState(2200);
 
   const [result, setResult] = useState<LocationAnalysisResult | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const currentCityInfo = getCityInfo(city) || CITIES_AND_LOCALITIES[0];
 
   const runLocationAnalysis = () => {
     setLoading(true);
@@ -37,26 +40,23 @@ export const LocationAnalysis: React.FC = () => {
 
   const handleCityChange = (newCity: string) => {
     setCity(newCity);
-    if (newCity === 'Hyderabad') {
-      setLocality('Madhapur');
-      setPinCode('500081');
-      setMonthlyRent(75000);
-    } else if (newCity === 'Bangalore') {
-      setLocality('Indiranagar');
-      setPinCode('560038');
-      setMonthlyRent(95000);
-    } else if (newCity === 'Mumbai') {
-      setLocality('Andheri West');
-      setPinCode('400053');
-      setMonthlyRent(135000);
-    } else if (newCity === 'Pune') {
-      setLocality('Kothrud');
-      setPinCode('411038');
-      setMonthlyRent(60000);
-    } else if (newCity === 'Delhi') {
-      setLocality('Connaught Place');
-      setPinCode('110001');
-      setMonthlyRent(180000);
+    const target = getCityInfo(newCity);
+    if (target && target.localities.length > 0) {
+      const firstLoc = target.localities[0];
+      setLocality(firstLoc.locality);
+      setPinCode(firstLoc.pinCode);
+      setMonthlyRent(firstLoc.defaultRent);
+      setFootfall(firstLoc.footfall);
+    }
+  };
+
+  const handleLocalitySelect = (selectedLocalityName: string) => {
+    setLocality(selectedLocalityName);
+    const locInfo = currentCityInfo.localities.find(l => l.locality === selectedLocalityName);
+    if (locInfo) {
+      setPinCode(locInfo.pinCode);
+      setMonthlyRent(locInfo.defaultRent);
+      setFootfall(locInfo.footfall);
     }
   };
 
@@ -89,32 +89,50 @@ export const LocationAnalysis: React.FC = () => {
                 onChange={(e) => handleCityChange(e.target.value)}
                 className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
               >
-                <option value="Hyderabad">Hyderabad (Cyberabad Corridor)</option>
-                <option value="Bangalore">Bangalore (Tech Corridor)</option>
-                <option value="Mumbai">Mumbai (Western Suburbs)</option>
-                <option value="Pune">Pune (High Street West)</option>
-                <option value="Delhi">Delhi NCR (Central Business District)</option>
+                {CITIES_AND_LOCALITIES.map((c) => (
+                  <option key={c.city} value={c.city}>
+                    {c.label}
+                  </option>
+                ))}
               </select>
             </div>
 
-            {/* Locality & PIN */}
+            {/* Prime Locality Selector */}
+            <div>
+              <label className="text-xs text-slate-300 font-medium block mb-1">
+                Prime Catchment Locality / Commercial Hub
+              </label>
+              <select
+                value={locality}
+                onChange={(e) => handleLocalitySelect(e.target.value)}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none font-medium"
+              >
+                {currentCityInfo.localities.map((loc) => (
+                  <option key={loc.locality} value={loc.locality}>
+                    ⭐ {loc.locality} — {loc.tag}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Locality Edit & PIN */}
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="text-xs text-slate-300 font-medium block mb-1">Locality</label>
+                <label className="text-[11px] text-slate-400 font-medium block mb-1">Locality Label</label>
                 <input
                   type="text"
                   value={locality}
                   onChange={(e) => setLocality(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:border-emerald-500 outline-none"
                 />
               </div>
               <div>
-                <label className="text-xs text-slate-300 font-medium block mb-1">PIN Code</label>
+                <label className="text-[11px] text-slate-400 font-medium block mb-1">PIN Code</label>
                 <input
                   type="text"
                   value={pinCode}
                   onChange={(e) => setPinCode(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-white focus:border-emerald-500 outline-none"
                 />
               </div>
             </div>

@@ -87,18 +87,67 @@ def seed_all_data():
             db.refresh(s)
             sector_objs[name] = s
 
-        # 3. Locations
+        # 3. Prime Commercial Catchment Locations (Expanded Metro Coverage)
         locations_data = [
-            ("Hyderabad", "Madhapur", "500081", "Telangana", "Tier-1 Metro", 85000, 110.0, 88.0, 72.0, 85.0, 92.0, 48.0),
-            ("Bangalore", "Indiranagar", "560038", "Karnataka", "Tier-1 Metro", 95000, 140.0, 94.0, 82.0, 91.0, 96.0, 65.0),
-            ("Mumbai", "Bandra West", "400050", "Maharashtra", "Tier-1 Metro", 120000, 220.0, 96.0, 88.0, 94.0, 98.0, 78.0),
-            ("Pune", "Kothrud", "411038", "Maharashtra", "Tier-1 Metro", 75000, 85.0, 82.0, 65.0, 79.0, 84.0, 42.0),
-            ("Chennai", "Anna Nagar", "600040", "Tamil Nadu", "Tier-1 Metro", 80000, 95.0, 84.0, 70.0, 82.0, 87.0, 50.0),
-            ("Delhi NCR", "Gurugram Cyber City", "122002", "Haryana", "Tier-1 Metro", 110000, 180.0, 95.0, 85.0, 92.0, 97.0, 72.0),
-            ("Kolkata", "Salt Lake Sector V", "700091", "West Bengal", "Tier-1 Metro", 65000, 70.0, 80.0, 60.0, 76.0, 81.0, 38.0),
-            ("Ahmedabad", "SG Highway", "380054", "Gujarat", "Tier-2 Metro", 70000, 65.0, 78.0, 58.0, 75.0, 79.0, 35.0),
-            ("Jaipur", "Malviya Nagar", "302017", "Rajasthan", "Tier-2 Metro", 55000, 50.0, 74.0, 52.0, 71.0, 75.0, 30.0),
-            ("Chandigarh", "Sector 35", "160035", "Punjab", "Tier-2 Metro", 68000, 75.0, 81.0, 62.0, 78.0, 83.0, 40.0)
+            # Hyderabad Prime Localities
+            ("Hyderabad", "Hitec City", "500081", "Telangana", "Tier-1 Metro", 92000, 135.0, 94.0, 75.0, 82.0, 95.0, 52.0),
+            ("Hyderabad", "Jubilee Hills", "500033", "Telangana", "Tier-1 Metro", 78000, 180.0, 98.0, 78.0, 72.0, 96.0, 58.0),
+            ("Hyderabad", "Banjara Hills", "500034", "Telangana", "Tier-1 Metro", 82000, 165.0, 96.0, 76.0, 75.0, 94.0, 55.0),
+            ("Hyderabad", "Gachibowli", "500032", "Telangana", "Tier-1 Metro", 88000, 120.0, 92.0, 70.0, 85.0, 90.0, 48.0),
+            ("Hyderabad", "Madhapur", "500081", "Telangana", "Tier-1 Metro", 89000, 115.0, 93.0, 72.0, 85.0, 92.0, 50.0),
+            ("Hyderabad", "Kondapur", "500084", "Telangana", "Tier-1 Metro", 95000, 95.0, 88.0, 65.0, 88.0, 86.0, 45.0),
+            ("Hyderabad", "Kukatpally", "500072", "Telangana", "Tier-1 Metro", 115000, 105.0, 90.0, 74.0, 86.0, 92.0, 52.0),
+            ("Hyderabad", "Begumpet", "500016", "Telangana", "Tier-1 Metro", 85000, 110.0, 87.0, 68.0, 84.0, 88.0, 46.0),
+
+            # Bangalore Prime Localities
+            ("Bangalore", "Indiranagar", "560038", "Karnataka", "Tier-1 Metro", 95000, 150.0, 97.0, 82.0, 88.0, 95.0, 65.0),
+            ("Bangalore", "Koramangala", "560034", "Karnataka", "Tier-1 Metro", 100000, 140.0, 95.0, 80.0, 89.0, 94.0, 62.0),
+            ("Bangalore", "Whitefield", "560066", "Karnataka", "Tier-1 Metro", 92000, 110.0, 91.0, 68.0, 86.0, 90.0, 48.0),
+            ("Bangalore", "HSR Layout", "560102", "Karnataka", "Tier-1 Metro", 98000, 125.0, 93.0, 74.0, 87.0, 92.0, 54.0),
+            ("Bangalore", "Jayanagar", "560011", "Karnataka", "Tier-1 Metro", 88000, 115.0, 89.0, 70.0, 85.0, 90.0, 50.0),
+            ("Bangalore", "MG Road", "560001", "Karnataka", "Tier-1 Metro", 80000, 210.0, 99.0, 86.0, 74.0, 97.0, 72.0),
+
+            # Mumbai Prime Localities
+            ("Mumbai", "Bandra West", "400050", "Maharashtra", "Tier-1 Metro", 120000, 230.0, 99.0, 88.0, 76.0, 98.0, 78.0),
+            ("Mumbai", "Andheri West", "400053", "Maharashtra", "Tier-1 Metro", 135000, 175.0, 96.0, 85.0, 80.0, 96.0, 70.0),
+            ("Mumbai", "Juhu", "400049", "Maharashtra", "Tier-1 Metro", 90000, 220.0, 95.0, 80.0, 75.0, 94.0, 68.0),
+            ("Mumbai", "BKC", "400051", "Maharashtra", "Tier-1 Metro", 70000, 260.0, 98.0, 82.0, 68.0, 93.0, 65.0),
+            ("Mumbai", "Lower Parel", "400013", "Maharashtra", "Tier-1 Metro", 95000, 210.0, 97.0, 84.0, 76.0, 95.0, 72.0),
+            ("Mumbai", "Powai", "400076", "Maharashtra", "Tier-1 Metro", 98000, 145.0, 92.0, 72.0, 84.0, 91.0, 55.0),
+
+            # Delhi NCR Prime Localities
+            ("Delhi NCR", "Gurugram Cyber City", "122002", "Haryana", "Tier-1 Metro", 110000, 200.0, 98.0, 85.0, 80.0, 96.0, 72.0),
+            ("Delhi NCR", "Connaught Place", "110001", "Delhi", "Tier-1 Metro", 85000, 240.0, 99.0, 88.0, 72.0, 97.0, 76.0),
+            ("Delhi NCR", "South Extension", "110049", "Delhi", "Tier-1 Metro", 95000, 190.0, 95.0, 80.0, 78.0, 94.0, 66.0),
+            ("Delhi NCR", "Noida Sector 18", "201301", "Uttar Pradesh", "Tier-1 Metro", 105000, 150.0, 94.0, 78.0, 82.0, 95.0, 62.0),
+            ("Delhi NCR", "Golf Course Road", "122002", "Haryana", "Tier-1 Metro", 88000, 175.0, 96.0, 76.0, 80.0, 92.0, 60.0),
+            ("Delhi NCR", "Hauz Khas", "110016", "Delhi", "Tier-1 Metro", 92000, 160.0, 93.0, 75.0, 82.0, 93.0, 58.0),
+
+            # Pune Prime Localities
+            ("Pune", "Koregaon Park", "411001", "Maharashtra", "Tier-1 Metro", 82000, 130.0, 94.0, 72.0, 85.0, 92.0, 52.0),
+            ("Pune", "Baner", "411045", "Maharashtra", "Tier-1 Metro", 89000, 110.0, 92.0, 68.0, 88.0, 90.0, 48.0),
+            ("Pune", "Kothrud", "411038", "Maharashtra", "Tier-1 Metro", 95000, 90.0, 86.0, 65.0, 90.0, 88.0, 42.0),
+            ("Pune", "Viman Nagar", "411014", "Maharashtra", "Tier-1 Metro", 91000, 120.0, 93.0, 70.0, 86.0, 93.0, 50.0),
+            ("Pune", "Hinjewadi", "411057", "Maharashtra", "Tier-1 Metro", 85000, 85.0, 90.0, 62.0, 91.0, 89.0, 40.0),
+
+            # Chennai Prime Localities
+            ("Chennai", "Anna Nagar", "600040", "Tamil Nadu", "Tier-1 Metro", 96000, 115.0, 92.0, 72.0, 85.0, 91.0, 50.0),
+            ("Chennai", "T. Nagar", "600017", "Tamil Nadu", "Tier-1 Metro", 125000, 165.0, 98.0, 84.0, 78.0, 98.0, 70.0),
+            ("Chennai", "Adyar", "600020", "Tamil Nadu", "Tier-1 Metro", 90000, 120.0, 91.0, 70.0, 86.0, 89.0, 48.0),
+            ("Chennai", "OMR", "600096", "Tamil Nadu", "Tier-1 Metro", 94000, 95.0, 89.0, 66.0, 89.0, 88.0, 44.0),
+            ("Chennai", "Velachery", "600042", "Tamil Nadu", "Tier-1 Metro", 102000, 100.0, 90.0, 70.0, 87.0, 90.0, 46.0),
+
+            # Kolkata Prime Localities
+            ("Kolkata", "Park Street", "700016", "West Bengal", "Tier-1 Metro", 92000, 170.0, 97.0, 80.0, 80.0, 95.0, 64.0),
+            ("Kolkata", "Salt Lake Sector V", "700091", "West Bengal", "Tier-1 Metro", 88000, 85.0, 91.0, 64.0, 88.0, 89.0, 42.0),
+            ("Kolkata", "New Town", "700156", "West Bengal", "Tier-1 Metro", 82000, 75.0, 88.0, 58.0, 90.0, 84.0, 38.0),
+            ("Kolkata", "Ballygunge", "700019", "West Bengal", "Tier-1 Metro", 110000, 130.0, 94.0, 74.0, 84.0, 93.0, 56.0),
+
+            # Ahmedabad Prime Localities
+            ("Ahmedabad", "SG Highway", "380054", "Gujarat", "Tier-2 Metro", 92000, 95.0, 93.0, 65.0, 89.0, 90.0, 45.0),
+            ("Ahmedabad", "Sindhu Bhavan Road", "380059", "Gujarat", "Tier-2 Metro", 80000, 140.0, 96.0, 75.0, 82.0, 93.0, 55.0),
+            ("Ahmedabad", "Prahlad Nagar", "380015", "Gujarat", "Tier-2 Metro", 94000, 110.0, 92.0, 70.0, 86.0, 91.0, 50.0),
+            ("Ahmedabad", "Bodakdev", "380054", "Gujarat", "Tier-2 Metro", 88000, 120.0, 94.0, 72.0, 85.0, 92.0, 52.0)
         ]
 
         loc_objs = []
@@ -919,48 +968,89 @@ def seed_all_data():
             )
             db.add(rev)
 
-        # Competitors in Hyderabad Madhapur
-        comp1 = Competitor(
-            location_id=loc_objs[0].id,
-            franchise_id=1,
-            competitor_name="Chaayos Cafe",
-            category="QSR / Beverage",
-            distance_km=0.4,
-            competitor_density=4.5,
-            similar_brand="Specialty Chai & Kiosk",
-            market_saturation_level="Medium",
-            estimated_demand="Very High",
-            competitive_intensity="Medium"
-        )
-        comp2 = Competitor(
-            location_id=loc_objs[0].id,
-            franchise_id=2,
-            competitor_name="McDonald's Cyber Towers",
-            category="QSR Burgers",
-            distance_km=0.7,
-            competitor_density=5.2,
-            similar_brand="Global Burger Fast Food",
-            market_saturation_level="High",
-            estimated_demand="High",
-            competitive_intensity="High"
-        )
-        comp3 = Competitor(
-            location_id=loc_objs[0].id,
-            franchise_id=3,
-            competitor_name="Vijaya Diagnostic Centre",
-            category="Healthcare / Pathology",
-            distance_km=1.1,
-            competitor_density=2.8,
-            similar_brand="Regional Clinical Lab",
-            market_saturation_level="Low",
-            estimated_demand="High",
-            competitive_intensity="Low"
-        )
-        db.add_all([comp1, comp2, comp3])
+        # Prime Area Competitors in Hyderabad & Metros
+        competitors_to_seed = [
+            # Hyderabad - Hitec City (loc_objs[0])
+            Competitor(
+                location_id=loc_objs[0].id, franchise_id=1, competitor_name="Chaayos Cyber Towers",
+                category="QSR / Beverage", distance_km=0.3, competitor_density=4.8,
+                similar_brand="Specialty Chai & Kiosk", market_saturation_level="Medium",
+                estimated_demand="Very High", competitive_intensity="Medium"
+            ),
+            Competitor(
+                location_id=loc_objs[0].id, franchise_id=2, competitor_name="McDonald's Hitec City",
+                category="QSR Burgers", distance_km=0.5, competitor_density=5.2,
+                similar_brand="Global Burger Fast Food", market_saturation_level="High",
+                estimated_demand="High", competitive_intensity="High"
+            ),
+            Competitor(
+                location_id=loc_objs[0].id, franchise_id=3, competitor_name="Cult.fit Mindspace",
+                category="Fitness / Gym", distance_km=0.6, competitor_density=3.5,
+                similar_brand="Smart Fitness Centre", market_saturation_level="Medium",
+                estimated_demand="High", competitive_intensity="Medium"
+            ),
+
+            # Hyderabad - Jubilee Hills (loc_objs[1])
+            Competitor(
+                location_id=loc_objs[1].id, franchise_id=1, competitor_name="Third Wave Coffee Road 36",
+                category="Cafes / Premium Roastery", distance_km=0.4, competitor_density=4.2,
+                similar_brand="Artisanal Cafe Lounge", market_saturation_level="Medium",
+                estimated_demand="Very High", competitive_intensity="Medium"
+            ),
+            Competitor(
+                location_id=loc_objs[1].id, franchise_id=2, competitor_name="Starbucks Jubilee Enclave",
+                category="Cafes / Beverage", distance_km=0.7, competitor_density=4.6,
+                similar_brand="International Coffee Chain", market_saturation_level="High",
+                estimated_demand="Very High", competitive_intensity="High"
+            ),
+            Competitor(
+                location_id=loc_objs[1].id, franchise_id=4, competitor_name="Apollo Pharmacy Road 45",
+                category="Healthcare / Retail", distance_km=0.5, competitor_density=3.1,
+                similar_brand="Omnichannel Pharmacy", market_saturation_level="Medium",
+                estimated_demand="High", competitive_intensity="Low"
+            ),
+
+            # Hyderabad - Banjara Hills (loc_objs[2])
+            Competitor(
+                location_id=loc_objs[2].id, franchise_id=1, competitor_name="Blue Tokai Coffee Roasters Road 12",
+                category="Cafes / Beverage", distance_km=0.5, competitor_density=3.8,
+                similar_brand="Artisanal Roastery", market_saturation_level="Medium",
+                estimated_demand="High", competitive_intensity="Medium"
+            ),
+            Competitor(
+                location_id=loc_objs[2].id, franchise_id=5, competitor_name="Dr Lal Pathlabs Banjara",
+                category="Healthcare / Diagnostics", distance_km=0.8, competitor_density=2.5,
+                similar_brand="Clinical Diagnostic Lab", market_saturation_level="Low",
+                estimated_demand="High", competitive_intensity="Low"
+            ),
+
+            # Bangalore - Indiranagar 100ft Rd (loc_objs[8])
+            Competitor(
+                location_id=loc_objs[8].id, franchise_id=1, competitor_name="Third Wave Coffee 12th Main",
+                category="Cafes / Roastery", distance_km=0.3, competitor_density=5.0,
+                similar_brand="Artisanal Specialty Coffee", market_saturation_level="High",
+                estimated_demand="Very High", competitive_intensity="High"
+            ),
+            Competitor(
+                location_id=loc_objs[8].id, franchise_id=3, competitor_name="Cult.fit Indiranagar",
+                category="Fitness / Studio", distance_km=0.6, competitor_density=4.2,
+                similar_brand="Smart Fitness Center", market_saturation_level="Medium",
+                estimated_demand="Very High", competitive_intensity="Medium"
+            ),
+
+            # Mumbai - Bandra West (loc_objs[14])
+            Competitor(
+                location_id=loc_objs[14].id, franchise_id=1, competitor_name="Subko Specialty Coffee Pali Hill",
+                category="Cafes / Specialty", distance_km=0.4, competitor_density=5.5,
+                similar_brand="Artisanal Bakery & Coffee", market_saturation_level="High",
+                estimated_demand="Very High", competitive_intensity="High"
+            )
+        ]
+        db.add_all(competitors_to_seed)
 
         # Commit everything
         db.commit()
-        print(f"Successfully seeded {len(franchises_master)} franchises across 12 sectors, 10 locations, 5-year historical records (2022-2026), and data verification metrics!")
+        print(f"Successfully seeded {len(franchises_master)} franchises across 12 sectors, {len(locations_data)} prime locations, 5-year historical records (2022-2026), and competitor radar metrics!")
 
     except Exception as e:
         db.rollback()

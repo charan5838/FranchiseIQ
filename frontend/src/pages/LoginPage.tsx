@@ -5,6 +5,7 @@ import {
   User, Mail, Phone, IndianRupee, MapPin, Briefcase,
   Shield, CheckCircle2, ArrowRight, Sparkles, Building2, KeyRound
 } from 'lucide-react';
+import { CITIES_AND_LOCALITIES, getCityInfo } from '../data/citiesAndLocalities';
 
 interface LoginPageProps {
   setCurrentPage: (page: string) => void;
@@ -22,9 +23,19 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
   const [password, setPassword] = useState<string>('');
   const [budget, setBudget] = useState<number>(2500000);
   const [city, setCity] = useState<string>('Hyderabad');
-  const [locality, setLocality] = useState<string>('Madhapur');
+  const [locality, setLocality] = useState<string>('Hitec City');
   const [experience, setExperience] = useState<string>('0-2 years');
   const [riskPreference, setRiskPreference] = useState<string>('Medium');
+
+  const currentCityInfo = getCityInfo(city) || CITIES_AND_LOCALITIES[0];
+
+  const handleCityChange = (newCity: string) => {
+    setCity(newCity);
+    const target = getCityInfo(newCity);
+    if (target && target.localities.length > 0) {
+      setLocality(target.localities[0].locality);
+    }
+  };
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -283,32 +294,33 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                   </label>
                   <select
                     value={city}
-                    onChange={(e) => setCity(e.target.value)}
+                    onChange={(e) => handleCityChange(e.target.value)}
                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors"
                   >
-                    <option value="Hyderabad">Hyderabad</option>
-                    <option value="Bangalore">Bangalore</option>
-                    <option value="Mumbai">Mumbai</option>
-                    <option value="Pune">Pune</option>
-                    <option value="Chennai">Chennai</option>
-                    <option value="Delhi NCR">Delhi NCR</option>
-                    <option value="Kolkata">Kolkata</option>
-                    <option value="Ahmedabad">Ahmedabad</option>
+                    {CITIES_AND_LOCALITIES.map((c) => (
+                      <option key={c.city} value={c.city}>
+                        {c.city} ({c.state})
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 <div className="space-y-1.5">
                   <label className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
                     <Building2 className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Locality / Commercial Area</span>
+                    <span>Prime Commercial Area</span>
                   </label>
-                  <input
-                    type="text"
+                  <select
                     value={locality}
                     onChange={(e) => setLocality(e.target.value)}
-                    placeholder="e.g. Madhapur, Hitec City"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 transition-colors"
-                  />
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors font-medium"
+                  >
+                    {currentCityInfo.localities.map((loc) => (
+                      <option key={loc.locality} value={loc.locality}>
+                        ⭐ {loc.locality} — {loc.tag}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
