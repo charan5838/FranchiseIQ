@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
+from typing import List, Optional, Dict, Any
 from app.database import get_db
-from app.models.franchise import Franchise
+from app.models.franchise import Franchise, Sector
 from app.schemas.analysis import (
     CalculatorRequest, CalculatorOut,
     ScenarioSimRequest, ScenarioSimOut
@@ -9,10 +10,32 @@ from app.schemas.analysis import (
 from app.services.financial_calc import (
     calculate_monthly_revenue,
     calculate_franchise_pnl,
-    generate_break_even_chart_data
+    generate_break_even_chart_data,
+    build_franchise_calculator_preset
 )
 
 router = APIRouter(prefix="/calculator", tags=["Financial Calculator & Simulator"])
+
+@router.get("/franchise-presets")
+def get_calculator_presets(
+    sector_id: Optional[int] = None,
+    db: Session = Depends(get_db)
+):
+    query = db.query(Franchise).filter(Franchise.is_active == True)
+    if sector_id:
+        query = query.filter(Franchise.sector_id == sector_id)
+    franchises = query.order_by(Franchise.sector_id, Franchise.name).all()
+    return [build_franchise_calculator_preset(f) for f in franchises]
+
+@router.get("/preset/{franchise_id}")
+def get_calculator_preset_by_id(
+    franchise_id: int,
+    db: Session = Depends(get_db)
+):
+    f = db.query(Franchise).filter(Franchise.id == franchise_id).first()
+    if not f:
+        raise HTTPException(status_code=404, detail="Franchise not found")
+    return build_franchise_calculator_preset(f)
 
 @router.post("/calculate", response_model=CalculatorOut)
 def run_financial_calculator(

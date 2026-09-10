@@ -33,7 +33,13 @@ export const AppContent: React.FC = () => {
       case 'compare':
         return <FranchiseCompare setCurrentPage={setCurrentPage} setSelectedFranchiseId={setSelectedFranchiseId} />;
       case 'calculator':
-        return <FinancialCalculator />;
+        return (
+          <FinancialCalculator
+            initialFranchiseId={selectedFranchiseId}
+            setSelectedFranchiseId={setSelectedFranchiseId}
+            setCurrentPage={setCurrentPage}
+          />
+        );
       case 'simulator':
         return <ScenarioSimulator />;
       case 'location':

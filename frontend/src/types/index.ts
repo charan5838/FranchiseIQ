@@ -309,6 +309,71 @@ export interface CalculatorResult {
   }>;
 }
 
+export interface FranchiseCalculatorPreset {
+  id: number;
+  name: string;
+  slug: string;
+  sector_id: number;
+  sector_name: string;
+  sub_sector: string;
+  logo_url?: string;
+  total_investment: number;
+  franchise_fee: number;
+  space_min_sqft: number;
+  space_max_sqft: number;
+  ticket_value: number;
+  claimed_data: {
+    monthly_revenue: number;
+    monthly_profit: number;
+    net_margin_pct: number;
+    annual_revenue: number;
+    annual_profit: number;
+    roi_annual: number;
+    payback_months: number;
+    customers_daily: number;
+  };
+  actual_data: {
+    monthly_revenue: number;
+    monthly_profit: number;
+    net_margin_pct: number;
+    annual_revenue: number;
+    annual_profit: number;
+    roi_annual: number;
+    payback_months: number;
+    customers_daily: number;
+  };
+  operating_costs: {
+    cogs_pct: number;
+    monthly_rent: number;
+    employee_salaries: number;
+    utilities: number;
+    marketing: number;
+    maintenance: number;
+    platform_commission: number;
+    tech_fees: number;
+    other_expenses: number;
+    royalty_pct: number;
+    royalty_fixed: number;
+  };
+  claim_gap: {
+    revenue_gap: number;
+    revenue_gap_pct: number;
+    profit_gap: number;
+    profit_gap_pct: number;
+    severity: string;
+  };
+  history: Array<{
+    year: number;
+    annual_revenue: number;
+    annual_profit: number;
+    annual_expenses: number;
+    total_investment: number;
+    roi_annual: number;
+    total_outlets: number;
+    closure_rate: number;
+  }>;
+}
+
 export interface ScenarioSimResult {
   base_revenue: number;
   simulated_revenue: number;

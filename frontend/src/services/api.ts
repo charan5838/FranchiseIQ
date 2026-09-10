@@ -1,7 +1,8 @@
 import {
   Sector, FranchiseSummary, FranchiseDetail,
   RankedFranchise, CalculatorResult, ScenarioSimResult,
-  LocationAnalysisResult, WatchlistItem, NotificationItem, User
+  LocationAnalysisResult, WatchlistItem, NotificationItem, User,
+  FranchiseCalculatorPreset
 } from '../types';
 
 const BASE_URL = import.meta.env.VITE_API_URL || '/api';
@@ -143,6 +144,15 @@ export const api = {
   },
 
   // Calculator
+  async getCalculatorPresets(sectorId?: number): Promise<FranchiseCalculatorPreset[]> {
+    const url = sectorId ? `/calculator/franchise-presets?sector_id=${sectorId}` : '/calculator/franchise-presets';
+    return request<FranchiseCalculatorPreset[]>(url);
+  },
+
+  async getCalculatorPresetById(franchiseId: number): Promise<FranchiseCalculatorPreset> {
+    return request<FranchiseCalculatorPreset>(`/calculator/preset/${franchiseId}`);
+  },
+
   async runCalculator(params: any): Promise<CalculatorResult> {
     return request<CalculatorResult>('/calculator/calculate', {
       method: 'POST',

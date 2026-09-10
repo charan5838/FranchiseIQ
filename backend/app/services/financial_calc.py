@@ -90,3 +90,136 @@ def generate_break_even_chart_data(fixed_costs: float, variable_cost_ratio: floa
             "profit": round(rev - total_costs, 0)
         })
     return points
+
+SECTOR_TICKET_BENCHMARKS: Dict[str, float] = {
+    "QSR": 280.0,
+    "Food & Beverage": 750.0,
+    "Cafes": 320.0,
+    "Healthcare": 550.0,
+    "Diagnostics": 1200.0,
+    "Fitness": 2800.0,
+    "Education": 5500.0,
+    "Logistics": 85.0,
+    "Retail": 1400.0,
+    "Beauty & Salon": 950.0,
+    "EV & Automotive": 2400.0,
+    "Home Services": 8500.0,
+}
+
+def build_franchise_calculator_preset(f) -> Dict[str, Any]:
+    sec_name = f.sector.name if f.sector else "QSR"
+    ticket_val = SECTOR_TICKET_BENCHMARKS.get(sec_name, 350.0)
+    
+    fin = f.financial
+    ops = f.operating_costs
+    fees = f.fees
+    inv = f.investment
+
+    claimed_rev = fin.claimed_monthly_revenue if fin else 600000.0
+    actual_rev = fin.actual_monthly_revenue if fin else 500000.0
+    claimed_prof = fin.claimed_monthly_profit if fin else 120000.0
+    actual_prof = fin.actual_monthly_profit if fin else 90000.0
+    claimed_margin = fin.claimed_net_margin if fin else 20.0
+    actual_margin = fin.actual_net_margin if fin else 15.0
+    tot_inv = inv.total_estimated_investment if inv else 2500000.0
+    fee = inv.franchise_fee if inv else 400000.0
+
+    claimed_customers = max(1, round(claimed_rev / (ticket_val * 30)))
+    actual_customers = max(1, round(actual_rev / (ticket_val * 30)))
+
+    cogs_pct = (ops.raw_materials_cogs / actual_rev * 100.0) if (ops and actual_rev > 0) else (100.0 - fin.gross_margin if fin else 35.0)
+    rent = ops.monthly_rent if ops else 65000.0
+    salaries = ops.employee_salaries if ops else 60000.0
+    utilities = ops.utilities if ops else 20000.0
+    marketing = ops.marketing if ops else 15000.0
+    maintenance = ops.maintenance if ops else 10000.0
+    platform_comm = ops.platform_delivery_commission if ops else 20000.0
+    tech_fees = ops.technology_software if ops else 5000.0
+    other_expenses = ops.other_operating_expenses if ops else 10000.0
+    royalty_pct = fees.royalty_percentage if fees else 5.0
+    royalty_fixed = fees.royalty_fixed if fees else 0.0
+
+    # Claim gap analysis
+    rev_gap = claimed_rev - actual_rev
+    rev_gap_pct = round((rev_gap / actual_rev * 100.0), 1) if actual_rev > 0 else 0.0
+    prof_gap = claimed_prof - actual_prof
+    prof_gap_pct = round((prof_gap / actual_prof * 100.0), 1) if actual_prof > 0 else 0.0
+
+    severity = "LOW"
+    if prof_gap_pct > 35:
+        severity = "CRITICAL"
+    elif prof_gap_pct > 22:
+        severity = "HIGH"
+    elif prof_gap_pct > 10:
+        severity = "MODERATE"
+
+    # Historical trends
+    history = []
+    if f.historical_financials:
+        for h in f.historical_financials:
+            history.append({
+                "year": h.year,
+                "annual_revenue": h.annual_revenue,
+                "annual_profit": h.annual_profit,
+                "annual_expenses": h.annual_expenses,
+                "total_investment": h.total_investment,
+                "roi_annual": h.roi_annual,
+                "total_outlets": h.total_outlets,
+                "closure_rate": h.closure_rate
+            })
+
+    return {
+        "id": f.id,
+        "name": f.name,
+        "slug": f.slug,
+        "sector_id": f.sector_id,
+        "sector_name": sec_name,
+        "sub_sector": f.sub_sector,
+        "logo_url": f.logo_url,
+        "total_investment": tot_inv,
+        "franchise_fee": fee,
+        "space_min_sqft": f.space_min_sqft,
+        "space_max_sqft": f.space_max_sqft,
+        "ticket_value": ticket_val,
+        "claimed_data": {
+            "monthly_revenue": claimed_rev,
+            "monthly_profit": claimed_prof,
+            "net_margin_pct": claimed_margin,
+            "annual_revenue": fin.claimed_annual_revenue if fin else claimed_rev * 12,
+            "annual_profit": fin.claimed_annual_profit if fin else claimed_prof * 12,
+            "roi_annual": round((claimed_prof * 12 / tot_inv * 100.0), 1) if tot_inv > 0 else 0.0,
+            "payback_months": round(tot_inv / claimed_prof, 1) if claimed_prof > 0 else 999.0,
+            "customers_daily": claimed_customers,
+        },
+        "actual_data": {
+            "monthly_revenue": actual_rev,
+            "monthly_profit": actual_prof,
+            "net_margin_pct": actual_margin,
+            "annual_revenue": fin.actual_annual_revenue if fin else actual_rev * 12,
+            "annual_profit": fin.actual_annual_profit if fin else actual_prof * 12,
+            "roi_annual": fin.roi_annual if fin else 25.0,
+            "payback_months": fin.payback_months if fin else 24.0,
+            "customers_daily": actual_customers,
+        },
+        "operating_costs": {
+            "cogs_pct": round(cogs_pct, 1),
+            "monthly_rent": rent,
+            "employee_salaries": salaries,
+            "utilities": utilities,
+            "marketing": marketing,
+            "maintenance": maintenance,
+            "platform_commission": platform_comm,
+            "tech_fees": tech_fees,
+            "other_expenses": other_expenses,
+            "royalty_pct": royalty_pct,
+            "royalty_fixed": royalty_fixed
+        },
+        "claim_gap": {
+            "revenue_gap": rev_gap,
+            "revenue_gap_pct": rev_gap_pct,
+            "profit_gap": prof_gap,
+            "profit_gap_pct": prof_gap_pct,
+            "severity": severity
+        },
+        "history": history
+    }
