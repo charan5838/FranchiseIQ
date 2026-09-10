@@ -176,7 +176,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                 className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500/40 text-left transition-all"
               >
                 <div className="text-xs font-bold text-blue-600 dark:text-blue-400">Rajesh Sharma</div>
-                <div className="text-[10px] text-slate-400">Investor (₹25L Demo)</div>
+                <div className="text-[10px] text-slate-500 dark:text-slate-400">Investor (₹25L Demo)</div>
               </button>
               <button
                 type="button"
@@ -185,14 +185,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
                 className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-cyan-500/40 text-left transition-all"
               >
                 <div className="text-xs font-bold text-cyan-400">Vikram Mehta</div>
-                <div className="text-[10px] text-slate-400">Admin / Chief Analyst</div>
+                <div className="text-[10px] text-slate-500 dark:text-slate-400">Admin / Chief Analyst</div>
               </button>
             </div>
           </div>
         </div>
 
         {/* Right Form Card */}
-        <div className="lg:col-span-7 bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative">
+        <div className="lg:col-span-7 bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-md backdrop-blur-xl relative">
           
           {/* Header & Mode Switcher */}
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
@@ -363,7 +363,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full mt-2 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black text-sm shadow-xl shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 hover:scale-[1.01]"
+                className="w-full mt-2 py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black text-sm shadow-sm shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 hover:scale-[1.01]"
               >
                 <span>{loading ? 'Analyzing Opportunities...' : 'Enter FranchiseIQ & View Sector Profit Leaders'}</span>
                 <ArrowRight className="w-4 h-4" />

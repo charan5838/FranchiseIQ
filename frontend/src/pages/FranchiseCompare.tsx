@@ -37,7 +37,7 @@ export const FranchiseCompare: React.FC<FranchiseCompareProps> = ({ setCurrentPa
   if (comparisonList.length < 2) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center space-y-6">
-        <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto">
+        <div className="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center mx-auto">
           <Scale className="w-8 h-8" />
         </div>
         <h2 className="text-2xl font-black text-slate-900 dark:text-white">Compare Franchises Side-by-Side</h2>

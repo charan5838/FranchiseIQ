@@ -120,7 +120,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
       </div>
 
       {/* Hero Profile Banner */}
-      <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl">
+      <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div className="max-w-3xl">
             <div className="flex flex-wrap items-center gap-2 mb-2">
@@ -378,7 +378,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
           {/* Historical Data Table */}
           <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 shadow-sm overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800 bg-slate-950/50">
+              <thead className="text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-800 bg-slate-950/50">
                 <tr>
                   <th className="py-2.5 px-3">Year</th>
                   <th className="py-2.5 px-3">Unit Investment</th>
@@ -443,7 +443,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {franchise.projections?.[selectedProjectionScenario]?.map((p) => (
               <div key={p.timeframe_years} className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
                   <span className="text-sm font-bold text-slate-900 dark:text-white">{p.timeframe_years} Year Outlook</span>
                   <span className="text-[10px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 uppercase font-mono">
                     {selectedProjectionScenario}
@@ -459,7 +459,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
                     <span className="text-slate-500 dark:text-slate-400">Projected Operating Expenses</span>
                     <span className="font-semibold text-rose-400/90">₹{(p.projected_annual_expenses/100000).toFixed(1)} Lakhs</span>
                   </div>
-                  <div className="flex justify-between font-bold pt-2 border-t border-slate-800">
+                  <div className="flex justify-between font-bold pt-2 border-t border-slate-100 dark:border-slate-800">
                     <span className="text-slate-700 dark:text-slate-300">Projected Annual Profit</span>
                     <span className="text-emerald-400 text-sm">₹{(p.projected_annual_profit/100000).toFixed(1)} Lakhs</span>
                   </div>
@@ -469,11 +469,11 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500 dark:text-slate-400">Payback Period</span>
-                    <span className="text-slate-200">{p.projected_payback_months} Months</span>
+                    <span className="text-slate-800 dark:text-slate-200">{p.projected_payback_months} Months</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-slate-500 dark:text-slate-400">Est. Total Outlets</span>
-                    <span className="text-slate-200 font-semibold">{p.projected_total_outlets} units</span>
+                    <span className="text-slate-800 dark:text-slate-200 font-semibold">{p.projected_total_outlets} units</span>
                   </div>
                 </div>
               </div>
@@ -533,7 +533,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
               <div className="text-3xl font-black text-emerald-400 mt-1">
                 {franchise.franchisee_satisfaction_score}<span className="text-xs text-slate-500 font-normal">/100</span>
               </div>
-              <p className="text-[11px] text-slate-400 mt-1">Based on verified regional operator audits</p>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Based on verified regional operator audits</p>
             </div>
 
             <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 text-center">

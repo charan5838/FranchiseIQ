@@ -340,7 +340,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                 <div className="grid grid-cols-2 gap-2 bg-slate-50 dark:bg-slate-950/60 p-3 rounded-lg border border-slate-200/80 dark:border-slate-800/70 text-xs mt-3.5">
                   <div>
                     <span className="text-slate-500 dark:text-slate-500 block text-[10px]">Total Investment</span>
-                    <span className="text-slate-900 dark:text-slate-200 font-bold">₹{(f.total_investment/100000).toFixed(1)} Lakhs</span>
+                    <span className="text-slate-900 dark:text-slate-900 dark:text-slate-200 font-bold">₹{(f.total_investment/100000).toFixed(1)} Lakhs</span>
                   </div>
                   <div>
                     <span className="text-slate-500 dark:text-slate-500 block text-[10px]">Annual ROI</span>
@@ -352,7 +352,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                   </div>
                   <div>
                     <span className="text-slate-500 dark:text-slate-500 block text-[10px]">Est. Payback</span>
-                    <span className="text-slate-800 dark:text-slate-200 font-semibold">{f.payback_months} Months</span>
+                    <span className="text-slate-800 dark:text-slate-800 dark:text-slate-200 font-semibold">{f.payback_months} Months</span>
                   </div>
                 </div>
 
@@ -415,7 +415,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
       {/* LIST YOUR FRANCHISE MODAL */}
       {showListModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl space-y-5">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-md space-y-5">
             <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">

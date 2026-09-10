@@ -220,7 +220,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
               <Building2 className="w-3.5 h-3.5 text-emerald-400" />
               <span>Select Sector & Individual Franchise</span>
             </h2>
-            <p className="text-[11px] text-slate-400 mt-0.5">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
               Choose from 60+ verified franchises to load historical claimed figures and ground-truth cost baselines.
             </p>
           </div>
@@ -290,13 +290,13 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
           {currentPreset && (
             <div className="sm:col-span-6 flex flex-wrap items-center justify-between gap-3 bg-slate-950/40 p-2.5 rounded-lg border border-slate-100 dark:border-slate-800/60">
               <div>
-                <span className="text-[11px] text-slate-400 block">Sub-Sector & Space</span>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Sub-Sector & Space</span>
                 <span className="text-xs font-semibold text-slate-900 dark:text-white">
                   {currentPreset.sub_sector} ({currentPreset.space_min_sqft}-{currentPreset.space_max_sqft} sq ft)
                 </span>
               </div>
               <div className="text-right">
-                <span className="text-[11px] text-slate-400 block">Franchise Fee</span>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Franchise Fee</span>
                 <span className="text-xs font-semibold text-emerald-400">
                   ₹{(currentPreset.franchise_fee / 100000).toFixed(1)} Lakhs
                 </span>
@@ -317,7 +317,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
                   Baseline Benchmark Model: <span className="text-emerald-400">{currentPreset.name}</span>
                 </h3>
               </div>
-              <p className="text-[11px] text-slate-400 mt-0.5">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                 Switch between franchisor's claimed pitch figures, audited ground-truth benchmarks, or custom simulation.
               </p>
             </div>
@@ -364,7 +364,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
           {/* Forensic Claim Gap Audit Bar */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2 border-t border-slate-100 dark:border-slate-800/60">
             <div className="bg-slate-950/40 p-2.5 rounded-lg border border-slate-100 dark:border-slate-800/60">
-              <span className="text-[11px] text-slate-400 block">Claimed vs Actual Revenue</span>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Claimed vs Actual Revenue</span>
               <div className="flex items-baseline gap-1.5 mt-0.5">
                 <span className="text-sm font-semibold text-amber-400">
                   ₹{(currentPreset.claimed_data.monthly_revenue / 100000).toFixed(1)}L
@@ -380,7 +380,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
             </div>
 
             <div className="bg-slate-950/40 p-2.5 rounded-lg border border-slate-100 dark:border-slate-800/60">
-              <span className="text-[11px] text-slate-400 block">Claimed vs Actual Monthly Profit</span>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Claimed vs Actual Monthly Profit</span>
               <div className="flex items-baseline gap-1.5 mt-0.5">
                 <span className="text-sm font-semibold text-amber-400">
                   ₹{(currentPreset.claimed_data.monthly_profit / 1000).toFixed(0)}k
@@ -396,7 +396,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
             </div>
 
             <div className="bg-slate-950/40 p-2.5 rounded-lg border border-slate-100 dark:border-slate-800/60">
-              <span className="text-[11px] text-slate-400 block">Claimed vs Actual Net Margin</span>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Claimed vs Actual Net Margin</span>
               <div className="flex items-baseline gap-1.5 mt-0.5">
                 <span className="text-sm font-semibold text-amber-400">
                   {currentPreset.claimed_data.net_margin_pct}%
@@ -406,13 +406,13 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
                   {currentPreset.actual_data.net_margin_pct}%
                 </span>
               </div>
-              <span className="text-[10px] text-slate-400 block mt-0.5">
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5">
                 Payback: {currentPreset.claimed_data.payback_months} vs {currentPreset.actual_data.payback_months} mo
               </span>
             </div>
 
             <div className="bg-slate-950/40 p-2.5 rounded-lg border border-slate-100 dark:border-slate-800/60 flex flex-col justify-between">
-              <span className="text-[11px] text-slate-400 block">Forensic Claim Severity</span>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Forensic Claim Severity</span>
               <div>
                 <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
                   currentPreset.claim_gap.severity === 'CRITICAL'
@@ -424,8 +424,8 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
                   {currentPreset.claim_gap.severity} VARIANCE
                 </span>
               </div>
-              <span className="text-[10px] text-slate-400 block mt-0.5">
-                Mode: <strong className="text-white font-medium">{benchmarkMode}</strong>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5">
+                Mode: <strong className="text-slate-900 dark:text-white font-medium">{benchmarkMode}</strong>
               </span>
             </div>
           </div>
@@ -643,7 +643,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
               {/* Primary KPI Scorecards */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                 <div className="bg-slate-900/35 border border-slate-100 dark:border-slate-800/60 p-3 sm:p-3.5 rounded-xl backdrop-blur-sm shadow-sm">
-                  <span className="text-[11px] text-slate-400 block">Monthly Revenue</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Monthly Revenue</span>
                   <span className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">₹{(result.revenue / 100000).toFixed(1)}L</span>
                   <span className="text-[10px] text-slate-500 block mt-0.5">₹{result.revenue.toLocaleString('en-IN')}</span>
                 </div>
@@ -651,7 +651,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
                 <div className="bg-slate-900/35 border border-emerald-500/30 p-3 sm:p-3.5 rounded-xl backdrop-blur-sm shadow-sm">
                   <span className="text-[11px] text-emerald-400 block font-medium">Monthly Net Profit</span>
                   <span className="text-base sm:text-lg font-bold text-emerald-400">₹{(result.monthly_net_profit / 100000).toFixed(2)}L</span>
-                  <span className="text-[10px] text-slate-400 block mt-0.5">Margin: {result.net_margin_pct}%</span>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 block mt-0.5">Margin: {result.net_margin_pct}%</span>
                 </div>
 
                 <div className="bg-slate-900/35 border border-slate-100 dark:border-slate-800/60 p-3 sm:p-3.5 rounded-xl backdrop-blur-sm shadow-sm">
@@ -675,12 +675,12 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
                       <BarChart2 className="w-4 h-4 text-emerald-400" />
                       <span>Visual Break-Even Curve</span>
                     </h3>
-                    <p className="text-[11px] text-slate-400 mt-0.5">
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                       Intersection of Revenue Line with Fixed + Variable Total Operating Costs
                     </p>
                   </div>
                   <div className="text-right">
-                    <span className="text-[11px] text-slate-400 block">Break-Even Monthly Sales</span>
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 block">Break-Even Monthly Sales</span>
                     <span className="text-xs sm:text-sm font-semibold text-amber-400">
                       ₹{Math.round(result.break_even_monthly_sales).toLocaleString('en-IN')}
                     </span>
@@ -766,8 +766,8 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 pt-2.5 border-t border-slate-100 dark:border-slate-800/60 text-[11px] text-slate-400">
-                  <div>Fixed Overhead Base: <strong className="text-slate-200">₹{result.fixed_costs.toLocaleString('en-IN')}/mo</strong></div>
-                  <div>Variable Cost Ratio: <strong className="text-slate-200">{(100 - result.contribution_margin_ratio * 100).toFixed(1)}%</strong></div>
+                  <div>Fixed Overhead Base: <strong className="text-slate-800 dark:text-slate-200">₹{result.fixed_costs.toLocaleString('en-IN')}/mo</strong></div>
+                  <div>Variable Cost Ratio: <strong className="text-slate-800 dark:text-slate-200">{(100 - result.contribution_margin_ratio * 100).toFixed(1)}%</strong></div>
                 </div>
               </div>
 
@@ -779,9 +779,9 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
                       <History className="w-3.5 h-3.5 text-emerald-400" />
                       <span>5-Year Historical Performance Record (2022 – 2026)</span>
                     </h3>
-                    <span className="text-[10px] text-slate-400">Ground Reality Audited</span>
+                    <span className="text-[10px] text-slate-500 dark:text-slate-400">Ground Reality Audited</span>
                   </div>
-                  <p className="text-[11px] text-slate-400">
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
                     How {currentPreset.name}'s units actually performed over consecutive operational financial years:
                   </p>
 

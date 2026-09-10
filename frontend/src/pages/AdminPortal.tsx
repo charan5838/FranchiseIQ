@@ -164,7 +164,7 @@ export const AdminPortal: React.FC = () => {
       </div>
 
       {/* Navigation Sub-Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto text-xs font-semibold">
+      <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2 overflow-x-auto text-xs font-semibold">
         {[
           { id: 'franchises', label: 'Create Franchise', icon: Plus },
           { id: 'verify', label: 'Verify Data Sources', icon: CheckCircle2 },
@@ -193,8 +193,8 @@ export const AdminPortal: React.FC = () => {
 
       {/* Tab 1: Create Franchise */}
       {activeAdminTab === 'franchises' && (
-        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl max-w-4xl space-y-6">
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-800 pb-3">
+        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm max-w-4xl space-y-6">
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3">
             Add New Franchise Opportunity
           </h3>
 
@@ -273,7 +273,7 @@ export const AdminPortal: React.FC = () => {
             </div>
 
             {/* Financial Parameters */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-3 border-t border-slate-800">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-3 border-t border-slate-100 dark:border-slate-800">
               <div>
                 <label className="text-slate-300 font-medium block mb-1">Total Investment (₹)</label>
                 <input
@@ -350,8 +350,8 @@ export const AdminPortal: React.FC = () => {
 
       {/* Tab 2: Verify Data Sources (Section 6) */}
       {activeAdminTab === 'verify' && (
-        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl max-w-3xl space-y-6">
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-800 pb-3">
+        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm max-w-3xl space-y-6">
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3">
             Certify & Audit Verification Badges
           </h3>
           <p className="text-xs text-slate-400 leading-relaxed">
@@ -427,8 +427,8 @@ export const AdminPortal: React.FC = () => {
 
       {/* Tab 3: Manage Sectors (Section 2) */}
       {activeAdminTab === 'sectors' && (
-        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl max-w-3xl space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm max-w-3xl space-y-6">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
             <h3 className="text-lg font-bold text-slate-900 dark:text-white">Manage & Add Sectors</h3>
             <span className="text-xs text-slate-500 dark:text-slate-400">{sectors.length} Active Sectors</span>
           </div>
@@ -488,7 +488,7 @@ export const AdminPortal: React.FC = () => {
 
       {/* Tab 4: Document Upload & Extraction (Section 26) */}
       {activeAdminTab === 'documents' && (
-        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl max-w-3xl space-y-6">
+        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm max-w-3xl space-y-6">
           <div>
             <h3 className="text-lg font-bold text-slate-900 dark:text-white">Document Ingestion & Automated Clause Parser</h3>
             <p className="text-xs text-slate-400 mt-1">
@@ -546,7 +546,7 @@ export const AdminPortal: React.FC = () => {
                 {Object.entries(extractedData.extracted_fields || {}).map(([k, v]) => (
                   <div key={k} className="flex justify-between border-b border-slate-200 dark:border-slate-800 pb-1">
                     <span className="text-slate-400 capitalize">{k.replace(/_/g, ' ')}:</span>
-                    <span className="text-white font-semibold">{String(v)}</span>
+                    <span className="text-slate-900 dark:text-white font-semibold">{String(v)}</span>
                   </div>
                 ))}
               </div>
@@ -561,8 +561,8 @@ export const AdminPortal: React.FC = () => {
 
       {/* Tab 5: Live Audit Logs (Section 25 & 32) */}
       {activeAdminTab === 'audit' && (
-        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
             <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <History className="w-4 h-4 text-emerald-400" />
               <span>Immutable Regulatory Audit Trail</span>
@@ -577,7 +577,7 @@ export const AdminPortal: React.FC = () => {
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800 bg-slate-950/50">
+              <thead className="text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-800 bg-slate-950/50">
                 <tr>
                   <th className="py-2.5 px-3">Timestamp</th>
                   <th className="py-2.5 px-3">Action</th>

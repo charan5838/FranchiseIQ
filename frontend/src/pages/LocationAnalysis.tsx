@@ -77,7 +77,7 @@ export const LocationAnalysis: React.FC = () => {
         {/* Left Inputs Pane (5 cols) */}
         <div className="lg:col-span-5 space-y-4">
           <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
-            <h2 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider text-slate-400 border-b border-slate-800 pb-3">
+            <h2 className="text-sm font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider border-b border-slate-100 dark:border-slate-800 pb-3">
               Location & Trade Catchment Details
             </h2>
 
@@ -118,7 +118,7 @@ export const LocationAnalysis: React.FC = () => {
             {/* Locality Edit & PIN */}
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="text-[11px] text-slate-400 font-medium block mb-1">Locality Label</label>
+                <label className="text-[11px] text-slate-500 dark:text-slate-400 font-medium block mb-1">Locality Label</label>
                 <input
                   type="text"
                   value={locality}
@@ -127,7 +127,7 @@ export const LocationAnalysis: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="text-[11px] text-slate-400 font-medium block mb-1">PIN Code</label>
+                <label className="text-[11px] text-slate-500 dark:text-slate-400 font-medium block mb-1">PIN Code</label>
                 <input
                   type="text"
                   value={pinCode}
@@ -198,7 +198,7 @@ export const LocationAnalysis: React.FC = () => {
           {result && (
             <>
               {/* Overall Location Score Card (Section 9) */}
-              <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-xl flex flex-wrap items-center justify-between gap-6">
+              <div className="bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm flex flex-wrap items-center justify-between gap-6">
                 <div>
                   <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Composite Feasibility</div>
                   <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
@@ -301,7 +301,7 @@ export const LocationAnalysis: React.FC = () => {
 
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs">
-                    <thead className="text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-800 bg-slate-950/50">
+                    <thead className="text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-800 bg-slate-950/50">
                       <tr>
                         <th className="py-2.5 px-3">Competitor Brand</th>
                         <th className="py-2.5 px-3">Category</th>
