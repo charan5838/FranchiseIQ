@@ -424,7 +424,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
           Sector-Classified Decision Engine
         </div>
         <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">Investor Financial Advisor</h1>
-        <p className="text-slate-400 text-xs sm:text-sm mt-1 max-w-3xl leading-relaxed">
+        <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mt-1 max-w-3xl leading-relaxed">
           Configure capital parameters and catchment metrics to discover algorithmically validated franchise opportunities. Filter by risk and verification, and sort by ROI, profit, or payback.
         </p>
       </div>
@@ -845,7 +845,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
                       </div>
                       <div className="bg-slate-950/50 px-2.5 py-1 rounded-lg border border-slate-100 dark:border-slate-800/60">
                         <span className="text-[10px] text-slate-400 block">Avg Profit</span>
-                        <span className="font-semibold text-white">₹{(group.avgProfit / 1000).toFixed(0)}k/mo</span>
+                        <span className="font-semibold text-slate-900 dark:text-white">₹{(group.avgProfit / 1000).toFixed(0)}k/mo</span>
                       </div>
                       <div className="bg-slate-950/50 px-2.5 py-1 rounded-lg border border-slate-100 dark:border-slate-800/60">
                         <span className="text-[10px] text-slate-400 block">Min Entry</span>

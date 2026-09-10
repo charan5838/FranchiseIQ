@@ -120,62 +120,62 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
         
         {/* Left Value Props Column */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5" />
             <span>AI Franchise Intelligence & Decision Support</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight">
-            Invest in the <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">Right Franchise</span>, Not Just the Brand.
+          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            Invest in the <span className="text-blue-600 dark:text-blue-400">Right Franchise</span>, Not Just the Brand.
           </h1>
 
-          <p className="text-sm text-slate-300 leading-relaxed">
+          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
             Enter your basic capital and preference details to unlock verified ROI rankings, forensic profit gap audits, and top profit-making franchise leaders across all 12 sectors.
           </p>
 
           <div className="space-y-3 pt-2">
             <div className="flex items-start gap-3">
-              <div className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 mt-0.5">
+              <div className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 mt-0.5">
                 <CheckCircle2 className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="text-xs font-bold text-white">60+ Active Multi-Sector Franchises</h4>
-                <p className="text-[11px] text-slate-400">Audited P&L for QSR, Healthcare, Gyms, Education, Logistics & more.</p>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white">60+ Active Multi-Sector Franchises</h4>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">Audited P&L for QSR, Healthcare, Gyms, Education, Logistics & more.</p>
               </div>
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 mt-0.5">
+              <div className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 mt-0.5">
                 <CheckCircle2 className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="text-xs font-bold text-white">Claimed vs Actual Profit Gap Audit</h4>
-                <p className="text-[11px] text-slate-400">Forensic detection of marketing overstatements and inflation fragility.</p>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white">Claimed vs Actual Profit Gap Audit</h4>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">Forensic detection of marketing overstatements and inflation fragility.</p>
               </div>
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 mt-0.5">
+              <div className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 mt-0.5">
                 <CheckCircle2 className="w-4 h-4" />
               </div>
               <div>
-                <h4 className="text-xs font-bold text-white">Live Break-Even & Macro Stress-Tests</h4>
-                <p className="text-[11px] text-slate-400">Simulate inflation, rent spikes and customer footfall variations.</p>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white">Live Break-Even & Macro Stress-Tests</h4>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">Simulate inflation, rent spikes and customer footfall variations.</p>
               </div>
             </div>
           </div>
 
           {/* Quick 1-Click Demo Logins */}
-          <div className="pt-4 border-t border-slate-800 space-y-2">
-            <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Or Test Instantly via Demo Accounts:</span>
+          <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-2">
+            <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Or Test Instantly via Demo Accounts:</span>
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={handleDemoInvestor}
                 disabled={loading}
-                className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/40 text-left transition-all"
+                className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500/40 text-left transition-all"
               >
-                <div className="text-xs font-bold text-emerald-400">Rajesh Sharma</div>
+                <div className="text-xs font-bold text-blue-600 dark:text-blue-400">Rajesh Sharma</div>
                 <div className="text-[10px] text-slate-400">Investor (₹25L Demo)</div>
               </button>
               <button

@@ -157,8 +157,8 @@ export const AdminPortal: React.FC = () => {
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 text-rose-400 text-xs font-semibold uppercase tracking-wider mb-2">
           <Shield className="w-3.5 h-3.5" /> Secured Administrative Suite
         </div>
-        <h1 className="text-3xl font-black text-white tracking-tight">Admin & Forensic Governance Portal</h1>
-        <p className="text-slate-400 text-sm mt-1 max-w-3xl">
+        <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Admin & Forensic Governance Portal</h1>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1 max-w-3xl">
           Ingest franchises, verify metric provenance (Verified, Reported, Estimated, Marketing Claim), upload disclosure documents, and maintain audit integrity.
         </p>
       </div>

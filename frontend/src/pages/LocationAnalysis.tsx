@@ -67,8 +67,8 @@ export const LocationAnalysis: React.FC = () => {
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-2">
           <MapPin className="w-3.5 h-3.5" /> High-Street Catchment Feasibility
         </div>
-        <h1 className="text-3xl font-black text-white tracking-tight">Location Intelligence & Competitor Radar</h1>
-        <p className="text-slate-400 text-sm mt-1 max-w-3xl">
+        <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Location Intelligence & Competitor Radar</h1>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1 max-w-3xl">
           Evaluate local trade catchment demographics, commercial rent density, footfall conversion indices, and nearby direct competitors.
         </p>
       </div>
@@ -141,7 +141,7 @@ export const LocationAnalysis: React.FC = () => {
             <div>
               <div className="flex justify-between text-xs mb-1">
                 <span className="text-slate-300 font-medium">Available Store/Office Area</span>
-                <span className="font-bold text-white">{areaSqft} sq ft</span>
+                <span className="font-bold text-slate-900 dark:text-white">{areaSqft} sq ft</span>
               </div>
               <input
                 type="range"
@@ -210,7 +210,7 @@ export const LocationAnalysis: React.FC = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="text-center p-3 rounded-xl bg-slate-950/80 border border-slate-800">
+                  <div className="text-center p-3 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800">
                     <span className="text-[10px] uppercase font-bold text-slate-400 block">Competition</span>
                     <span className={`text-xs font-bold ${
                       result.competitive_intensity === 'Low' ? 'text-emerald-400' : result.competitive_intensity === 'Medium' ? 'text-amber-400' : 'text-rose-400'
@@ -218,9 +218,9 @@ export const LocationAnalysis: React.FC = () => {
                       {result.competitive_intensity} Intensity
                     </span>
                   </div>
-                  <div className="text-center p-3 rounded-xl bg-slate-950/80 border border-slate-800">
+                  <div className="text-center p-3 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800">
                     <span className="text-[10px] uppercase font-bold text-slate-400 block">Rent / sq ft</span>
-                    <span className="text-xs font-bold text-white">₹{result.rent_per_sqft}</span>
+                    <span className="text-xs font-bold text-slate-900 dark:text-white">₹{result.rent_per_sqft}</span>
                   </div>
                 </div>
               </div>
@@ -313,7 +313,7 @@ export const LocationAnalysis: React.FC = () => {
                     <tbody className="divide-y divide-slate-800/60">
                       {result.competitors?.map((comp, i) => (
                         <tr key={i} className="hover:bg-slate-800/30">
-                          <td className="py-2.5 px-3 font-semibold text-white">{comp.name}</td>
+                          <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-white">{comp.name}</td>
                           <td className="py-2.5 px-3 text-slate-300">{comp.category}</td>
                           <td className="py-2.5 px-3 text-slate-400">{comp.distance_km} km</td>
                           <td className="py-2.5 px-3 text-slate-400">{comp.density} units/km²</td>

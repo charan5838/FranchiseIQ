@@ -201,13 +201,13 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 sm:space-y-8">
       {/* Header */}
       <div>
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium mb-2">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-medium mb-2">
           <Calculator className="w-3.5 h-3.5" /> Unit Economics Simulation & Forensic P&L
         </div>
         <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
           Franchise Financial Calculator
         </h1>
-        <p className="text-slate-400 text-xs sm:text-sm mt-1 max-w-3xl leading-relaxed">
+        <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mt-1 max-w-3xl leading-relaxed">
           Evaluate individual franchise unit economics across all 12 sectors. Stress-test <strong>previous claimed franchisor projections</strong> against <strong>audited ground-truth realities</strong> and custom operational models.
         </p>
       </div>
@@ -291,7 +291,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
             <div className="sm:col-span-6 flex flex-wrap items-center justify-between gap-3 bg-slate-950/40 p-2.5 rounded-lg border border-slate-100 dark:border-slate-800/60">
               <div>
                 <span className="text-[11px] text-slate-400 block">Sub-Sector & Space</span>
-                <span className="text-xs font-semibold text-white">
+                <span className="text-xs font-semibold text-slate-900 dark:text-white">
                   {currentPreset.sub_sector} ({currentPreset.space_min_sqft}-{currentPreset.space_max_sqft} sq ft)
                 </span>
               </div>
@@ -502,7 +502,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
             <div>
               <div className="flex justify-between text-xs mb-1">
                 <span className="text-slate-300 font-medium">Total Capital Outlay</span>
-                <span className="font-semibold text-white">₹{(totalInvestment / 100000).toFixed(1)} Lakhs</span>
+                <span className="font-semibold text-slate-900 dark:text-white">₹{(totalInvestment / 100000).toFixed(1)} Lakhs</span>
               </div>
               <input
                 type="range"
@@ -550,7 +550,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
             <div>
               <div className="flex justify-between text-xs mb-1">
                 <span className="text-slate-300 font-medium">Monthly Commercial Rent</span>
-                <span className="font-semibold text-white">₹{monthlyRent.toLocaleString('en-IN')}</span>
+                <span className="font-semibold text-slate-900 dark:text-white">₹{monthlyRent.toLocaleString('en-IN')}</span>
               </div>
               <input
                 type="range"
@@ -570,7 +570,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
             <div>
               <div className="flex justify-between text-xs mb-1">
                 <span className="text-slate-300 font-medium">Staff & Technician Salaries</span>
-                <span className="font-semibold text-white">₹{salaries.toLocaleString('en-IN')}</span>
+                <span className="font-semibold text-slate-900 dark:text-white">₹{salaries.toLocaleString('en-IN')}</span>
               </div>
               <input
                 type="range"
@@ -727,7 +727,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
                 </div>
 
                 <div className="divide-y divide-slate-800/60">
-                  <div className="py-2 flex justify-between font-bold text-white">
+                  <div className="py-2 flex justify-between font-bold text-slate-900 dark:text-white">
                     <span>Gross Revenue ({customersDaily} orders/day × ₹{ticketValue} × 30 days)</span>
                     <span>₹{result.revenue.toLocaleString('en-IN')}</span>
                   </div>
@@ -800,7 +800,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
                       <tbody className="divide-y divide-slate-100 dark:divide-slate-800/50">
                         {currentPreset.history.map((h) => (
                           <tr key={h.year} className="hover:bg-slate-800/20 transition-colors">
-                            <td className="py-2 pr-3 font-semibold text-white">{h.year}</td>
+                            <td className="py-2 pr-3 font-semibold text-slate-900 dark:text-white">{h.year}</td>
                             <td className="py-2 px-3 text-slate-300">₹{(h.annual_revenue / 100000).toFixed(1)}L</td>
                             <td className="py-2 px-3 text-emerald-400 font-medium">₹{(h.annual_profit / 100000).toFixed(1)}L</td>
                             <td className="py-2 px-3 text-indigo-300">{h.roi_annual}%</td>
