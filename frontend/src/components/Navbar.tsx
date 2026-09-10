@@ -17,31 +17,30 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
 
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: Building2 },
-    { id: 'advisor', label: 'Investor Advisor', icon: Sparkles, highlight: true },
-    { id: 'explore', label: 'Explore Franchises', icon: SlidersHorizontal },
+    { id: 'advisor', label: 'Advisor', icon: Sparkles, highlight: true },
+    { id: 'explore', label: 'Explore', icon: SlidersHorizontal },
     { id: 'compare', label: 'Compare', icon: Scale, badge: comparisonList.length },
     { id: 'calculator', label: 'Calculator', icon: Calculator },
     { id: 'simulator', label: 'Simulator', icon: Activity },
-    { id: 'location', label: 'Location Intelligence', icon: MapPin },
+    { id: 'location', label: 'Location', icon: MapPin },
   ];
 
   return (
-    <header className="bg-slate-950/85 backdrop-blur-md border-b border-slate-800/70 sticky top-0 z-40 transition-all">
+    <header className="bg-[#090d16]/85 backdrop-blur-md border-b border-slate-800/50 sticky top-0 z-40 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14">
           {/* Logo & Platform Tagline */}
           <div 
             onClick={() => setCurrentPage('dashboard')}
-            className="flex items-center gap-3 cursor-pointer group shrink-0"
+            className="flex items-center gap-2.5 cursor-pointer group shrink-0"
           >
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
-              <Building2 className="w-5 h-5 text-slate-950 font-bold" />
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+              <Building2 className="w-4 h-4 text-slate-950 font-bold" />
             </div>
             <div>
               <div className="flex items-center">
-                <span className="text-xl font-black tracking-tight text-white">Franchise<span className="text-emerald-400">IQ</span></span>
+                <span className="text-lg font-black tracking-tight text-white">Franchise<span className="text-emerald-400">IQ</span></span>
               </div>
-              <p className="text-[11px] text-slate-400 font-medium hidden sm:block">Invest in the right franchise, not just the brand</p>
             </div>
           </div>
 
@@ -54,18 +53,18 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
                 <button
                   key={item.id}
                   onClick={() => setCurrentPage(item.id)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all relative cursor-pointer ${
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 font-semibold'
                       : item.highlight
-                      ? 'bg-indigo-950/50 text-indigo-300 border border-indigo-500/30 hover:bg-indigo-900/50'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                      ? 'text-indigo-300 hover:text-white hover:bg-slate-800/40'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-800/40'
                   }`}
                 >
                   <Icon className={`w-3.5 h-3.5 ${item.highlight ? 'text-indigo-400' : ''}`} />
                   <span>{item.label}</span>
                   {item.badge !== undefined && item.badge > 0 && (
-                    <span className="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-500 text-slate-950 font-bold">
+                    <span className="ml-0.5 px-1.5 py-0.2 rounded-full text-[10px] bg-emerald-500 text-slate-950 font-bold">
                       {item.badge}
                     </span>
                   )}
@@ -76,34 +75,34 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
             {user?.role === 'admin' && (
               <button
                 onClick={() => setCurrentPage('admin')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                   currentPage === 'admin'
-                    ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
-                    : 'text-rose-400 hover:bg-rose-950/40 border border-rose-500/20'
+                    ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 font-semibold'
+                    : 'text-rose-400 hover:bg-rose-950/30'
                 }`}
               >
                 <Shield className="w-3.5 h-3.5 text-rose-400" />
-                <span>Admin Portal</span>
+                <span>Admin</span>
               </button>
             )}
           </nav>
 
           {/* Right Utility: Watchlist Symbol Icon & User Auth */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             {/* Watchlist Symbol Only */}
             <button
               onClick={() => setCurrentPage('watchlist')}
               title={`Watchlist (${watchlist.length} saved)`}
-              className={`relative p-2 rounded-xl transition-all cursor-pointer flex items-center justify-center ${
+              className={`relative p-2 rounded-lg transition-all cursor-pointer flex items-center justify-center ${
                 currentPage === 'watchlist'
-                  ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-sm shadow-emerald-500/10'
-                  : 'text-slate-400 hover:text-emerald-400 hover:bg-slate-800/60 border border-transparent'
+                  ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
               }`}
               aria-label="My Watchlist"
             >
               <BookmarkCheck className="w-4 h-4" />
               {watchlist.length > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 text-slate-950 font-black text-[9px] flex items-center justify-center shadow-sm">
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 text-slate-950 font-bold text-[9px] flex items-center justify-center">
                   {watchlist.length}
                 </span>
               )}
@@ -112,10 +111,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
             {!user ? (
               <button
                 onClick={() => setCurrentPage('login')}
-                className="text-xs px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-bold transition-all shadow-md shadow-emerald-500/20 flex items-center gap-1.5 cursor-pointer"
+                className="text-xs px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
               >
                 <UserIcon className="w-3.5 h-3.5" />
-                <span>Sign In / Onboard</span>
+                <span>Sign In</span>
               </button>
             ) : (
               <div className="flex items-center gap-2.5">

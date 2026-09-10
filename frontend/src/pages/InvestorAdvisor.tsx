@@ -233,17 +233,17 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
     return (
       <div
         key={f.franchise_id}
-        className={`bg-slate-900/90 rounded-2xl border transition-all p-5 shadow-sm space-y-4 ${
+        className={`bg-slate-900/35 hover:bg-slate-900/45 rounded-xl border transition-all p-4 sm:p-5 shadow-sm space-y-3.5 backdrop-blur-sm ${
           isTop 
-            ? 'border-emerald-500/50 ring-1 ring-emerald-500/20 shadow-emerald-500/5' 
-            : 'border-slate-800 hover:border-slate-700'
+            ? 'border-emerald-500/40' 
+            : 'border-slate-800/60 hover:border-slate-700/80'
         }`}
       >
         {/* Top Bar: Rank, Name, Badges, Overall Score */}
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className={`w-9 h-9 rounded-xl font-black text-sm flex items-center justify-center shadow-sm ${
-              isTop ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-300'
+            <div className={`w-8 h-8 rounded-lg font-bold text-xs flex items-center justify-center shadow-sm ${
+              isTop ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800/80 text-slate-300 border border-slate-700/50'
             }`}>
               #{f.rank}
             </div>
@@ -251,7 +251,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
               <div className="flex items-center gap-2">
                 <h4 
                   onClick={() => handleOpenDetail(f.franchise_id)}
-                  className="text-base font-bold text-white hover:text-emerald-400 cursor-pointer transition-colors"
+                  className="text-sm sm:text-base font-semibold text-white hover:text-emerald-400 cursor-pointer transition-colors"
                 >
                   {f.name}
                 </h4>
@@ -263,76 +263,76 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
 
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <div className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold">Franchise Score</div>
-              <div className="text-xl font-black text-emerald-400">{f.overall_score}<span className="text-xs text-slate-500 font-normal">/100</span></div>
+              <div className="text-[10px] uppercase tracking-wider text-slate-400 font-medium">Franchise Score</div>
+              <div className="text-lg font-bold text-emerald-400">{f.overall_score}<span className="text-xs text-slate-500 font-normal">/100</span></div>
             </div>
           </div>
         </div>
 
         {/* Financial Metrics Strip */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 text-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-950/40 p-2.5 rounded-lg border border-slate-800/60 text-xs">
           <div>
             <span className="text-slate-400 block text-[11px]">Total Investment</span>
-            <span className="text-slate-200 font-bold">₹{(f.total_investment / 100000).toFixed(1)} Lakhs</span>
+            <span className="text-slate-200 font-semibold">₹{(f.total_investment / 100000).toFixed(1)} Lakhs</span>
           </div>
           <div>
             <span className="text-slate-400 block text-[11px]">Monthly Net Profit</span>
-            <span className="text-emerald-400 font-bold">₹{f.monthly_profit.toLocaleString('en-IN')}</span>
+            <span className="text-emerald-400 font-semibold">₹{f.monthly_profit.toLocaleString('en-IN')}</span>
           </div>
           <div>
             <span className="text-slate-400 block text-[11px]">Annual Net ROI</span>
-            <span className="text-white font-bold">{f.roi_annual}%</span>
+            <span className="text-white font-semibold">{f.roi_annual}%</span>
           </div>
           <div>
             <span className="text-slate-400 block text-[11px]">Payback Period</span>
-            <span className="text-slate-200 font-semibold">{f.payback_months} Months</span>
+            <span className="text-slate-200 font-medium">{f.payback_months} Months</span>
           </div>
         </div>
 
         {/* 6-Factor Score Breakdown */}
         <div>
-          <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center justify-between">
+          <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400 mb-1.5 flex items-center justify-between">
             <span>Algorithmic Fit Breakdown</span>
             <span className="text-slate-400 font-mono text-[10px]">Max 100 pts</span>
           </div>
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 text-center text-xs">
-            <div className="bg-slate-800/60 p-2 rounded-lg">
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5 text-center text-xs">
+            <div className="bg-slate-900/50 border border-slate-800/50 p-2 rounded-lg">
               <span className="text-[10px] text-slate-400 block">ROI (20)</span>
-              <span className="font-bold text-emerald-400">{f.score_breakdown.roi_score}</span>
+              <span className="font-semibold text-emerald-400">{f.score_breakdown.roi_score}</span>
             </div>
-            <div className="bg-slate-800/60 p-2 rounded-lg">
+            <div className="bg-slate-900/50 border border-slate-800/50 p-2 rounded-lg">
               <span className="text-[10px] text-slate-400 block">Payback (20)</span>
-              <span className="font-bold text-teal-400">{f.score_breakdown.payback_score}</span>
+              <span className="font-semibold text-teal-400">{f.score_breakdown.payback_score}</span>
             </div>
-            <div className="bg-slate-800/60 p-2 rounded-lg">
+            <div className="bg-slate-900/50 border border-slate-800/50 p-2 rounded-lg">
               <span className="text-[10px] text-slate-400 block">Location (20)</span>
-              <span className="font-bold text-indigo-400">{f.score_breakdown.location_score}</span>
+              <span className="font-semibold text-indigo-400">{f.score_breakdown.location_score}</span>
             </div>
-            <div className="bg-slate-800/60 p-2 rounded-lg">
+            <div className="bg-slate-900/50 border border-slate-800/50 p-2 rounded-lg">
               <span className="text-[10px] text-slate-400 block">Growth (15)</span>
-              <span className="font-bold text-purple-400">{f.score_breakdown.growth_score}</span>
+              <span className="font-semibold text-purple-400">{f.score_breakdown.growth_score}</span>
             </div>
-            <div className="bg-slate-800/60 p-2 rounded-lg">
+            <div className="bg-slate-900/50 border border-slate-800/50 p-2 rounded-lg">
               <span className="text-[10px] text-slate-400 block">Risk Buffer (15)</span>
-              <span className="font-bold text-amber-400">{f.score_breakdown.risk_score}</span>
+              <span className="font-semibold text-amber-400">{f.score_breakdown.risk_score}</span>
             </div>
-            <div className="bg-slate-800/60 p-2 rounded-lg">
+            <div className="bg-slate-900/50 border border-slate-800/50 p-2 rounded-lg">
               <span className="text-[10px] text-slate-400 block">Data Conf (10)</span>
-              <span className="font-bold text-blue-400">{f.score_breakdown.data_confidence}</span>
+              <span className="font-semibold text-blue-400">{f.score_breakdown.data_confidence}</span>
             </div>
           </div>
         </div>
 
         {/* Why Recommended & Identified Risks */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-          <div className="bg-emerald-950/20 border border-emerald-500/20 p-3.5 rounded-xl">
-            <h5 className="font-bold text-emerald-400 flex items-center gap-1.5 mb-2">
-              <CheckCircle2 className="w-4 h-4 shrink-0" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs">
+          <div className="bg-emerald-950/15 border border-emerald-500/20 p-3 rounded-lg">
+            <h5 className="font-semibold text-emerald-400 flex items-center gap-1.5 mb-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
               <span>Why {f.name} fits your criteria</span>
             </h5>
             <ul className="space-y-1 text-slate-300">
               {f.why_recommended.map((pro, i) => (
-                <li key={i} className="flex items-start gap-1.5">
+                <li key={i} className="flex items-start gap-1.5 text-[11px] leading-relaxed">
                   <span className="text-emerald-400 font-bold">•</span>
                   <span>{pro}</span>
                 </li>
@@ -340,14 +340,14 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
             </ul>
           </div>
 
-          <div className="bg-rose-950/20 border border-rose-500/20 p-3.5 rounded-xl">
-            <h5 className="font-bold text-rose-400 flex items-center gap-1.5 mb-2">
-              <AlertTriangle className="w-4 h-4 shrink-0" />
+          <div className="bg-rose-950/15 border border-rose-500/20 p-3 rounded-lg">
+            <h5 className="font-semibold text-rose-400 flex items-center gap-1.5 mb-1.5">
+              <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
               <span>Identified Sensitivity & Risks</span>
             </h5>
             <ul className="space-y-1 text-slate-300">
               {f.key_risks.map((risk, i) => (
-                <li key={i} className="flex items-start gap-1.5">
+                <li key={i} className="flex items-start gap-1.5 text-[11px] leading-relaxed">
                   <span className="text-rose-400 font-bold">•</span>
                   <span>{risk}</span>
                 </li>
@@ -357,17 +357,17 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
         </div>
 
         {/* Actions Footer Strip: Easy Franchise Selection for Calculator & Detail */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-800/80">
-          <div className="flex items-center gap-2 text-xs text-slate-400">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 pt-2.5 border-t border-slate-800/60">
+          <div className="flex items-center gap-1.5 text-xs text-slate-400">
             <MapPin className="w-3.5 h-3.5 text-slate-500" />
-            <span>{f.space_assessment}</span>
+            <span className="text-[11px]">{f.space_assessment}</span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-1.5">
             {/* Quick 1-Click Select for Financial Calculator */}
             <button
               onClick={() => handleOpenCalculator(f.franchise_id)}
-              className="px-3 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-bold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
+              className="px-2.5 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/25 font-medium text-xs transition-colors flex items-center gap-1 cursor-pointer"
               title="Open in Unit Financial Calculator with Claimed vs Actual Benchmarks"
             >
               <Calculator className="w-3.5 h-3.5" />
@@ -377,10 +377,10 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
             {/* Compare */}
             <button
               onClick={() => toggleComparison(f.franchise_id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1 ${
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer flex items-center gap-1 ${
                 isCompared 
-                  ? 'bg-emerald-500 text-slate-950 font-bold' 
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  ? 'bg-emerald-500 text-slate-950 font-semibold shadow-sm' 
+                  : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700 hover:text-white'
               }`}
             >
               <Scale className="w-3.5 h-3.5" />
@@ -390,10 +390,10 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
             {/* Watchlist */}
             <button
               onClick={() => toggleWatchlist(f.franchise_id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1 ${
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer flex items-center gap-1 ${
                 isWatched(f.franchise_id)
-                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
+                  : 'bg-slate-800/80 text-slate-300 hover:bg-slate-700 hover:text-white'
               }`}
               title={isWatched(f.franchise_id) ? 'Remove from Watchlist' : 'Add to Watchlist'}
             >
@@ -404,7 +404,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
             {/* Deep Dive */}
             <button
               onClick={() => handleOpenDetail(f.franchise_id)}
-              className="px-3.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition-colors flex items-center gap-1 cursor-pointer shadow-sm"
+              className="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-xs transition-colors flex items-center gap-1 cursor-pointer shadow-sm"
             >
               <span>Audit Profile</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -419,23 +419,23 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Title Header */}
       <div>
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-2">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-medium mb-2">
           <Sparkles className="w-3.5 h-3.5" />
-          Sector-Classified Investor Decision Support
+          Sector-Classified Decision Engine
         </div>
-        <h1 className="text-3xl font-black text-white tracking-tight">Investor Financial Advisor</h1>
-        <p className="text-slate-400 text-sm mt-1 max-w-3xl">
-          Enter your capital parameters and city catchment to discover algorithmic opportunities. Classify opportunities <strong>by sector</strong>, filter by risk and verification, and sort by ROI, profit, or payback.
+        <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">Investor Financial Advisor</h1>
+        <p className="text-slate-400 text-xs sm:text-sm mt-1 max-w-3xl leading-relaxed">
+          Configure capital parameters and catchment metrics to discover algorithmically validated franchise opportunities. Filter by risk and verification, and sort by ROI, profit, or payback.
         </p>
       </div>
 
       {/* 2-Column Layout: Inputs (Left) and Sector-Classified Rankings (Right) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8">
         
         {/* Left Column: Investor Profile & Constraints (4 Cols) */}
         <div className="lg:col-span-4 space-y-5">
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider text-slate-400 flex items-center gap-2 border-b border-slate-800 pb-3">
+          <div className="bg-slate-900/35 border border-slate-800/60 rounded-xl p-4 sm:p-5 shadow-sm space-y-4 backdrop-blur-sm">
+            <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-2 border-b border-slate-800/70 pb-3">
               <Sliders className="w-4 h-4 text-emerald-400" />
               <span>Investment Constraints</span>
             </h2>
@@ -469,7 +469,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
                 <select
                   value={city}
                   onChange={(e) => handleCityChange(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
+                  className="w-full bg-slate-950/60 border border-slate-800/70 rounded-lg px-3 py-2 text-xs text-white focus:border-emerald-500/80 outline-none"
                 >
                   {CITIES_AND_LOCALITIES.map((c) => (
                     <option key={c.city} value={c.city}>
@@ -484,7 +484,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
                 <select
                   value={locality}
                   onChange={(e) => setLocality(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none font-medium"
+                  className="w-full bg-slate-950/60 border border-slate-800/70 rounded-lg px-3 py-2 text-xs text-white focus:border-emerald-500/80 outline-none font-medium"
                 >
                   {currentCityInfo.localities.map((loc) => (
                     <option key={loc.locality} value={loc.locality}>
@@ -518,7 +518,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
               <select
                 value={sectorId || ''}
                 onChange={(e) => setSectorId(e.target.value ? Number(e.target.value) : null)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
+                className="w-full bg-slate-950/60 border border-slate-800/70 rounded-lg px-3 py-2 text-xs text-white focus:border-emerald-500/80 outline-none"
               >
                 <option value="">All 12 Sectors (Recommended)</option>
                 {sectors.map((s) => (
@@ -534,7 +534,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
                 <select
                   value={experience}
                   onChange={(e) => setExperience(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
+                  className="w-full bg-slate-950/60 border border-slate-800/70 rounded-lg px-3 py-2 text-xs text-white focus:border-emerald-500/80 outline-none"
                 >
                   <option value="None">First-time Investor</option>
                   <option value="0-2 years">0 - 2 Years</option>
@@ -547,7 +547,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
                 <select
                   value={involvement}
                   onChange={(e) => setInvolvement(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
+                  className="w-full bg-slate-950/60 border border-slate-800/70 rounded-lg px-3 py-2 text-xs text-white focus:border-emerald-500/80 outline-none"
                 >
                   <option value="full-time">Full-Time Operator</option>
                   <option value="part-time">Part-Time / FOCO</option>
@@ -562,7 +562,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
                 <select
                   value={riskPref}
                   onChange={(e) => setRiskPref(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white focus:border-emerald-500 outline-none"
+                  className="w-full bg-slate-950/60 border border-slate-800/70 rounded-lg px-3 py-2 text-xs text-white focus:border-emerald-500/80 outline-none"
                 >
                   <option value="Low">Low Risk</option>
                   <option value="Medium">Medium Risk</option>
@@ -574,7 +574,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
                 <select
                   value={goal}
                   onChange={(e) => setGoal(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-emerald-400 font-semibold focus:border-emerald-500 outline-none"
+                  className="w-full bg-slate-950/60 border border-slate-800/70 rounded-lg px-3 py-2 text-xs text-emerald-400 font-semibold focus:border-emerald-500/80 outline-none"
                 >
                   <option value="Maximum ROI">Maximum ROI</option>
                   <option value="Lowest Risk">Lowest Risk</option>
@@ -608,13 +608,13 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
             <button
               onClick={runAnalysis}
               disabled={loading}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-sm transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 cursor-pointer mt-2"
+              className="w-full py-2.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer mt-2 shadow-sm"
             >
               {loading ? (
-                <div className="w-5 h-5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
+                <div className="w-4 h-4 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
-                  <Sparkles className="w-4 h-4" />
+                  <Sparkles className="w-3.5 h-3.5" />
                   <span>Analyze & Score Opportunities</span>
                 </>
               )}
@@ -626,24 +626,24 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
         <div className="lg:col-span-8 space-y-5">
           
           {/* Top Advisor Strategy Summary Banner */}
-          <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+          <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900/30 p-3.5 rounded-xl border border-slate-800/60 backdrop-blur-sm">
             <div>
               <span className="text-xs text-slate-400">Target Strategy:</span>
-              <span className="text-xs font-bold text-emerald-400 ml-1.5">{goal}</span>
-              <span className="text-slate-500 mx-2">•</span>
+              <span className="text-xs font-semibold text-emerald-400 ml-1.5">{goal}</span>
+              <span className="text-slate-600 mx-2">•</span>
               <span className="text-xs text-slate-300">{locality}, {city}</span>
-              <span className="text-slate-500 mx-2">•</span>
+              <span className="text-slate-600 mx-2">•</span>
               <span className="text-xs text-slate-300">₹{budgetLakhs}L Budget</span>
             </div>
             <div className="text-xs text-slate-400">
-              Found <strong className="text-white">{results.length}</strong> viable opportunities
+              Found <strong className="text-white font-medium">{results.length}</strong> viable opportunities
             </div>
           </div>
 
           {/* SECTOR CLASSIFICATION TABS BAR */}
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-sm space-y-3">
+          <div className="bg-slate-900/30 border border-slate-800/60 rounded-xl p-3.5 shadow-sm space-y-2.5 backdrop-blur-sm">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
                 <Building2 className="w-3.5 h-3.5 text-emerald-400" />
                 <span>Classify by Sector</span>
               </span>
@@ -652,13 +652,13 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
               </span>
             </div>
 
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-thin">
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
               <button
                 onClick={() => setSelectedSectorTab('ALL')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
                   selectedSectorTab === 'ALL'
-                    ? 'bg-emerald-500 text-slate-950 shadow-sm'
-                    : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'
+                    ? 'bg-emerald-500 text-slate-950 font-semibold shadow-sm'
+                    : 'bg-slate-900/40 text-slate-300 hover:text-white border border-slate-800/60'
                 }`}
               >
                 All Sectors ({results.length})
@@ -668,10 +668,10 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
                 <button
                   key={sec.name}
                   onClick={() => setSelectedSectorTab(sec.name)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
                     selectedSectorTab === sec.name
-                      ? 'bg-emerald-500 text-slate-950 shadow-sm'
-                      : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'
+                      ? 'bg-emerald-500 text-slate-950 font-semibold shadow-sm'
+                      : 'bg-slate-900/40 text-slate-300 hover:text-white border border-slate-800/60'
                   }`}
                 >
                   {sec.name} ({sec.count})
@@ -681,28 +681,28 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
           </div>
 
           {/* FILTER & SORT CONTROL BAR */}
-          <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-sm space-y-3">
+          <div className="bg-slate-900/30 border border-slate-800/60 rounded-xl p-3.5 shadow-sm space-y-3 backdrop-blur-sm">
             {/* Search & Layout View Toggle */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
               {/* Search */}
               <div className="relative flex-1">
-                <Search className="w-4 h-4 text-slate-500 absolute left-3 top-2.5" />
+                <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-2.5" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Filter by franchise brand name or subsector..."
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-9 pr-3 py-1.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-950/60 border border-slate-800/70 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500/80"
                 />
               </div>
 
               {/* View Layout Toggle: Sector Grouped vs Flat List */}
-              <div className="inline-flex rounded-xl bg-slate-950 p-1 border border-slate-800 shrink-0">
+              <div className="inline-flex rounded-lg bg-slate-950/80 p-0.5 border border-slate-800/70 shrink-0">
                 <button
                   onClick={() => setViewLayout('sector_grouped')}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer flex items-center gap-1.5 ${
                     viewLayout === 'sector_grouped'
-                      ? 'bg-emerald-500 text-slate-950 shadow-sm'
+                      ? 'bg-emerald-500 text-slate-950 font-semibold shadow-sm'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -711,9 +711,9 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
                 </button>
                 <button
                   onClick={() => setViewLayout('ranked_list')}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer flex items-center gap-1.5 ${
                     viewLayout === 'ranked_list'
-                      ? 'bg-emerald-500 text-slate-950 shadow-sm'
+                      ? 'bg-emerald-500 text-slate-950 font-semibold shadow-sm'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
@@ -724,7 +724,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
             </div>
 
             {/* Filter Dropdowns Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 border-t border-slate-800/80 text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 border-t border-slate-800/60 text-xs">
               {/* Sort Dropdown */}
               <div>
                 <label className="text-[11px] text-slate-400 block mb-1 flex items-center gap-1">
@@ -734,7 +734,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500 font-medium"
+                  className="w-full bg-slate-950/60 border border-slate-800/70 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500/80 font-medium"
                 >
                   <option value="overall_score">⭐ Franchise Score (Default)</option>
                   <option value="roi_desc">📈 Highest Net Annual ROI</option>
@@ -753,7 +753,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
                 <select
                   value={filterRisk}
                   onChange={(e) => setFilterRisk(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-950/60 border border-slate-800/70 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500/80"
                 >
                   <option value="ALL">All Risk Levels</option>
                   <option value="LOW">Low Risk Only</option>
@@ -768,7 +768,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
                 <select
                   value={filterVerification}
                   onChange={(e) => setFilterVerification(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-950/60 border border-slate-800/70 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500/80"
                 >
                   <option value="ALL">All Data Tiers</option>
                   <option value="VERIFIED">Verified Ground Truth</option>
@@ -782,7 +782,7 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
                 <select
                   value={filterClaimGap}
                   onChange={(e) => setFilterClaimGap(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-950/60 border border-slate-800/70 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500/80"
                 >
                   <option value="ALL">All Opportunities</option>
                   <option value="SAFE">Safe Claims (Low/Mod)</option>
@@ -822,13 +822,13 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
               {sectorGroups.map((group) => (
                 <div key={group.sectorName} className="space-y-3">
                   {/* Sector Header Banner */}
-                  <div className="flex flex-wrap items-center justify-between gap-3 bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-950 p-4 rounded-2xl border border-slate-800 shadow-sm">
+                  <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900/35 p-3.5 rounded-xl border border-slate-800/60 shadow-sm backdrop-blur-sm">
                     <div className="flex items-center gap-2.5">
-                      <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                        <Building2 className="w-4 h-4" />
+                      <div className="p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        <Building2 className="w-3.5 h-3.5" />
                       </div>
                       <div>
-                        <h3 className="text-sm font-black text-white uppercase tracking-wider">
+                        <h3 className="text-xs font-bold text-white uppercase tracking-wider">
                           Sector: {group.sectorName}
                         </h3>
                         <p className="text-[11px] text-slate-400">
@@ -838,18 +838,18 @@ export const InvestorAdvisor: React.FC<InvestorAdvisorProps> = ({ setCurrentPage
                     </div>
 
                     {/* Sector Statistics Quick Metrics */}
-                    <div className="flex items-center gap-3 text-xs">
-                      <div className="bg-slate-950/80 px-2.5 py-1 rounded-lg border border-slate-800">
+                    <div className="flex items-center gap-2 text-xs">
+                      <div className="bg-slate-950/50 px-2.5 py-1 rounded-lg border border-slate-800/60">
                         <span className="text-[10px] text-slate-400 block">Avg ROI</span>
-                        <span className="font-bold text-emerald-400">{group.avgRoi}%</span>
+                        <span className="font-semibold text-emerald-400">{group.avgRoi}%</span>
                       </div>
-                      <div className="bg-slate-950/80 px-2.5 py-1 rounded-lg border border-slate-800">
+                      <div className="bg-slate-950/50 px-2.5 py-1 rounded-lg border border-slate-800/60">
                         <span className="text-[10px] text-slate-400 block">Avg Profit</span>
-                        <span className="font-bold text-white">₹{(group.avgProfit / 1000).toFixed(0)}k/mo</span>
+                        <span className="font-semibold text-white">₹{(group.avgProfit / 1000).toFixed(0)}k/mo</span>
                       </div>
-                      <div className="bg-slate-950/80 px-2.5 py-1 rounded-lg border border-slate-800">
+                      <div className="bg-slate-950/50 px-2.5 py-1 rounded-lg border border-slate-800/60">
                         <span className="text-[10px] text-slate-400 block">Min Entry</span>
-                        <span className="font-bold text-indigo-300">₹{(group.minInv / 100000).toFixed(1)}L</span>
+                        <span className="font-semibold text-indigo-300">₹{(group.minInv / 100000).toFixed(1)}L</span>
                       </div>
                     </div>
                   </div>
