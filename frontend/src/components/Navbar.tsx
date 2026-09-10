@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useInvestor } from '../context/InvestorContext';
+import { BrandLogo } from './BrandLogo';
 
 interface NavbarProps {
   currentPage: string;
@@ -13,7 +14,7 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) => {
-  const { user, loginDemoAdmin, logout } = useAuth();
+  const { user, isHost, toggleHostAdminMode, logout } = useAuth();
   const { comparisonList, watchlist } = useInvestor();
   const [analyticsDropdownOpen, setAnalyticsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -41,19 +42,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
     <header className="bg-[#090d16]/85 backdrop-blur-md border-b border-slate-800/50 sticky top-0 z-40 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
-          {/* Logo & Platform Tagline */}
+          {/* Brand Logo */}
           <div 
             onClick={() => setCurrentPage('dashboard')}
-            className="flex items-center gap-2.5 cursor-pointer group shrink-0"
+            className="cursor-pointer group shrink-0"
           >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
-              <Building2 className="w-4 h-4 text-slate-950 font-bold" />
-            </div>
-            <div>
-              <div className="flex items-center">
-                <span className="text-lg font-black tracking-tight text-white">Franchise<span className="text-emerald-400">IQ</span></span>
-              </div>
-            </div>
+            <BrandLogo size="md" showTagline />
           </div>
 
           {/* Desktop Nav Items */}
@@ -158,17 +152,18 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
               )}
             </div>
 
-            {user?.role === 'admin' && (
+            {/* Admin link visible ONLY to authorized Host Charan */}
+            {isHost && user?.role === 'admin' && (
               <button
                 onClick={() => setCurrentPage('admin')}
-                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                   currentPage === 'admin'
-                    ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 font-semibold'
-                    : 'text-rose-400 hover:bg-rose-950/30'
+                    ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                    : 'text-amber-400 hover:bg-amber-950/30'
                 }`}
               >
-                <Shield className="w-3.5 h-3.5 text-rose-400" />
-                <span>Admin</span>
+                <Shield className="w-3.5 h-3.5 text-amber-400" />
+                <span>Admin Portal</span>
               </button>
             )}
           </nav>
@@ -210,17 +205,19 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
                     {user.name}
                   </span>
                   <span className="text-[10px] text-slate-400 uppercase tracking-wider font-mono">
-                    {user.role} mode
+                    {isHost ? 'Host Mode' : `${user.role} mode`}
                   </span>
                 </div>
 
-                {user.role !== 'admin' && (
+                {/* ONLY Host (Charan) can toggle Admin mode */}
+                {isHost && (
                   <button
-                    onClick={loginDemoAdmin}
-                    className="text-[11px] px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 cursor-pointer"
-                    title="Switch to Admin Mode"
+                    onClick={toggleHostAdminMode}
+                    className="text-[11px] px-2.5 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 cursor-pointer font-bold flex items-center gap-1 transition-all shadow-xs"
+                    title="Toggle Host Admin / Investor Mode"
                   >
-                    Admin
+                    <Shield className="w-3 h-3 text-amber-400" />
+                    <span>{user.role === 'admin' ? 'Admin Mode' : 'Investor View'}</span>
                   </button>
                 )}
 
@@ -273,14 +270,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
           >
             Location
           </button>
-          {user?.role === 'admin' && (
+          {isHost && (
             <button
               onClick={() => setCurrentPage('admin')}
               className={`px-2.5 py-1 rounded-md whitespace-nowrap ${
-                currentPage === 'admin' ? 'bg-rose-500/20 text-rose-300 font-semibold' : 'text-rose-400'
+                currentPage === 'admin' ? 'bg-amber-500/20 text-amber-300 font-semibold' : 'text-amber-400'
               }`}
             >
-              Admin
+              Host Admin
             </button>
           )}
         </div>

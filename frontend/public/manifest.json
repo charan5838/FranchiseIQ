@@ -1,0 +1,47 @@
+{
+  "id": "/",
+  "name": "FranchiseIQ - Investment Intelligence",
+  "short_name": "FranchiseIQ",
+  "description": "Institutional-grade franchise financial intelligence, unit economics validation, and forensic profit audits.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "background_color": "#090D16",
+  "theme_color": "#090D16",
+  "orientation": "portrait-primary",
+  "categories": ["finance", "business", "productivity"],
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "48x48 72x72 96x96 128x128 192x192 256x256 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Explore Franchises",
+      "short_name": "Explore",
+      "description": "Browse active franchise database",
+      "url": "/?page=explore",
+      "icons": [{ "src": "/favicon.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "AI Advisor",
+      "short_name": "Advisor",
+      "description": "Personalized franchise recommendations",
+      "url": "/?page=advisor",
+      "icons": [{ "src": "/favicon.svg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Financial Calculator",
+      "short_name": "Calculator",
+      "description": "Unit economics and break-even calculator",
+      "url": "/?page=calculator",
+      "icons": [{ "src": "/favicon.svg", "sizes": "96x96" }]
+    }
+  ]
+}

@@ -3,10 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#090D16" />
+    <meta name="background-color" content="#090D16" />
+
+    <!-- Mobile Web App & PWA Capabilities -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="FranchiseIQ" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- SEO & Social Meta -->
+    <title>FranchiseIQ — Investment Intelligence & Decision Support</title>
+    <meta name="description" content="Institutional-grade franchise financial intelligence, unit economics validation, and forensic profit audits." />
+
+    <!-- Register Service Worker for Mobile PWA -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch((err) => {
+            console.log('ServiceWorker registration error: ', err);
+          });
+        });
+      }
+    </script>
   </head>
-  <body>
+  <body class="bg-[#090d16] text-slate-100 font-sans antialiased min-h-screen">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

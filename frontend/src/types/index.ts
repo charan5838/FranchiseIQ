@@ -11,7 +11,7 @@ export interface User {
   id: number;
   email: string;
   name: string;
-  role: 'investor' | 'admin';
+  role: 'investor' | 'admin' | 'host';
   created_at: string;
 }
 

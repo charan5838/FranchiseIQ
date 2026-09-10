@@ -1,5 +1,6 @@
 import React from 'react';
-import { Building2, ShieldCheck, FileCheck2, Scale } from 'lucide-react';
+import { ShieldCheck, FileCheck2, Scale } from 'lucide-react';
+import { BrandLogo } from './BrandLogo';
 
 export const Footer: React.FC<{ setCurrentPage?: (page: string) => void }> = ({ setCurrentPage }) => {
   return (
@@ -7,11 +8,11 @@ export const Footer: React.FC<{ setCurrentPage?: (page: string) => void }> = ({ 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center">
-                <Building2 className="w-4 h-4 text-slate-950 font-bold" />
-              </div>
-              <span className="text-lg font-bold text-white">Franchise<span className="text-emerald-400">IQ</span></span>
+            <div 
+              onClick={() => setCurrentPage?.('dashboard')}
+              className="cursor-pointer mb-3 inline-block"
+            >
+              <BrandLogo size="md" showTagline />
             </div>
             <p className="text-slate-400 max-w-md text-xs leading-relaxed mb-4">
               Franchise Investment Intelligence — independent financial decision-support and unit-economics validation platform.

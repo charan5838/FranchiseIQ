@@ -12,7 +12,7 @@ interface LoginPageProps {
 }
 
 export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
-  const { login, register, quickLogin, loginDemoInvestor, loginDemoAdmin } = useAuth();
+  const { login, register, quickLogin, loginDemoInvestor, loginAsHost } = useAuth();
   const { updatePreferences } = useInvestor();
 
   // Auth Mode: 'login' (registered user checking credentials) vs 'register' (first-time visitor creating account)
@@ -120,14 +120,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
     }
   };
 
-  const handleDemoAdmin = async () => {
+  const handleHostLogin = async () => {
     setLoading(true);
     setError(null);
     try {
-      await loginDemoAdmin();
-      setCurrentPage('admin');
+      await loginAsHost();
+      setCurrentPage('dashboard');
     } catch (err: any) {
-      setError('Failed to login with demo admin account.');
+      setError('Failed to login with Host account.');
     } finally {
       setLoading(false);
     }
@@ -199,12 +199,16 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
               </button>
               <button
                 type="button"
-                onClick={handleDemoAdmin}
+                onClick={handleHostLogin}
                 disabled={loading}
-                className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 hover:border-cyan-500/40 text-left transition-all cursor-pointer"
+                className="p-2.5 rounded-xl bg-slate-900 border border-amber-500/30 hover:border-amber-500/60 text-left transition-all cursor-pointer"
+                title="Only Host (Charan) can access"
               >
-                <div className="text-xs font-bold text-cyan-400">Vikram Mehta</div>
-                <div className="text-[10px] text-slate-400">Admin / Chief Analyst</div>
+                <div className="text-xs font-bold text-amber-400 flex items-center gap-1">
+                  <span>Charan (Host)</span>
+                  <Shield className="w-3 h-3 text-amber-400" />
+                </div>
+                <div className="text-[10px] text-slate-400">Platform Host / Owner</div>
               </button>
             </div>
           </div>
