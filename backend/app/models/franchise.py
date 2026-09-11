@@ -53,6 +53,9 @@ class Franchise(Base):
     location_analyses = relationship("LocationAnalysis", back_populates="franchise", cascade="all, delete-orphan")
     reviews = relationship("Review", back_populates="franchise", cascade="all, delete-orphan")
     franchisee_reports = relationship("FranchiseeReport", back_populates="franchise", cascade="all, delete-orphan")
+    source_config = relationship("FranchiseSource", back_populates="franchise", uselist=False, cascade="all, delete-orphan")
+    observations = relationship("DataObservation", back_populates="franchise", cascade="all, delete-orphan", order_by="desc(DataObservation.fetched_at)")
+    fetch_logs = relationship("DataFetchLog", back_populates="franchise", cascade="all, delete-orphan", order_by="desc(DataFetchLog.fetched_at)")
 
 class FranchiseInvestment(Base):
     __tablename__ = "franchise_investments"

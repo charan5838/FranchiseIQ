@@ -53,16 +53,36 @@ def calculate_personalized_score(
         space_score = 80.0
         space_notes = f"Surplus area: {user_area_sqft:.0f} sq ft exceeds max {max_space:.0f} sq ft (extra rent burden)"
 
+    # Determine primary data classification and confidence weighting
+    primary_classification = "ESTIMATED"
+    if hasattr(franchise, 'observations') and franchise.observations:
+        primary_classification = franchise.observations[0].data_classification
+    elif hasattr(franchise, 'data_sources') and franchise.data_sources:
+        primary_classification = franchise.data_sources[0].source_type
+
+    # Classification weights: Marketing claims receive healthy haircut to prevent artificial rank inflation
+    class_weights = {
+        "VERIFIED": 1.0,
+        "FACTUAL_DISCLOSURE": 0.95,
+        "REPORTED": 0.90,
+        "ESTIMATED": 0.85,
+        "MARKETING_CLAIM": 0.72,  # Official promotional claim haircut
+        "DEMO": 0.80
+    }
+    weight_factor = class_weights.get(primary_classification, 0.85)
+
     # 3. ROI Component (0-100 normalized)
-    # 40%+ ROI = 100, 15% ROI = 40
-    roi_score = min(100.0, max(20.0, (roi / 40.0) * 100.0))
-    if user_desired_return > 0 and roi >= user_desired_return:
+    # Calibrate ROI by classification weighting so high marketing claims don't game rankings
+    weighted_roi = roi * weight_factor
+    roi_score = min(100.0, max(20.0, (weighted_roi / 40.0) * 100.0))
+    if user_desired_return > 0 and weighted_roi >= user_desired_return:
         roi_score = min(100.0, roi_score + 10.0)
 
     # 4. Payback Component (0-100 normalized)
-    # 12 months = 100, 36 months = 40
-    payback_score = max(15.0, min(100.0, 100.0 - ((payback - 12.0) / 24.0 * 60.0)))
-    if user_max_payback > 0 and payback <= user_max_payback:
+    # 12 months = 100, 36 months = 40 (claims receive slight buffer)
+    effective_payback = payback if primary_classification in ("VERIFIED", "FACTUAL_DISCLOSURE") else payback * 1.15
+    payback_score = max(15.0, min(100.0, 100.0 - ((effective_payback - 12.0) / 24.0 * 60.0)))
+    if user_max_payback > 0 and effective_payback <= user_max_payback:
         payback_score = min(100.0, payback_score + 10.0)
 
     # 5. Growth & Stability Component (0-100)
@@ -74,15 +94,21 @@ def calculate_personalized_score(
         location_score = franchise.location_analyses[0].overall_location_score
 
     # 7. Risk Component (Lower risk score = higher suitability)
-    # Inverted risk points for ranking
     closure_penalty = min(30.0, closure_rate * 4.0)
     royalty_penalty = min(20.0, royalty_pct * 2.5)
     risk_metric = min(100.0, max(10.0, closure_penalty + royalty_penalty + (100.0 - budget_score)*0.3))
     risk_score_component = 100.0 - risk_metric
 
     # 8. Data Confidence Component
-    data_confidence = 85.0
-    if hasattr(franchise, 'data_sources') and franchise.data_sources:
+    data_confidence = 80.0
+    if hasattr(franchise, 'source_config') and franchise.source_config:
+        if franchise.source_config.fetch_status == "SUCCESS":
+            data_confidence = 90.0
+        elif franchise.source_config.fetch_status == "PARTIAL_SUCCESS":
+            data_confidence = 78.0
+        elif franchise.source_config.fetch_status in ("BLOCKED", "UNAVAILABLE"):
+            data_confidence = 65.0
+    elif hasattr(franchise, 'data_sources') and franchise.data_sources:
         data_confidence = sum(ds.confidence_level for ds in franchise.data_sources) / len(franchise.data_sources)
 
     # Goal Weight Profiles

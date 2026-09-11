@@ -246,6 +246,59 @@ export interface FranchiseDetail extends FranchiseSummary {
   };
   franchisee_satisfaction_score: number;
   deal_attractiveness_score: number;
+  source_status?: 'SUCCESS' | 'PARTIAL_SUCCESS' | 'BLOCKED' | 'NOT_FOUND' | 'TIMEOUT' | 'UNAVAILABLE' | 'DEMO' | string;
+  source_mode?: 'LIVE' | 'DEMO' | 'FALLBACK' | string;
+  official_website?: string;
+  franchise_information_url?: string;
+  last_fetched_at?: string;
+  observations?: DataObservationItem[];
+}
+
+export interface FranchiseSourceItem {
+  franchise_id: number;
+  franchise_name: string;
+  slug: string;
+  logo_url?: string;
+  sector_name: string;
+  source_name: string;
+  source_type: string;
+  official_website: string;
+  franchise_information_url: string;
+  fetch_status: string;
+  source_mode: string;
+  data_classification: string;
+  last_updated: string;
+  observations_count: number;
+  error_message?: string;
+}
+
+export interface DataObservationItem {
+  id: number;
+  field_name: string;
+  original_value: string;
+  normalized_value?: number;
+  currency: string;
+  source_url: string;
+  source_domain: string;
+  source_type: string;
+  data_classification: string;
+  confidence_score: number;
+  fetched_at: string;
+}
+
+export interface DataQualitySummary {
+  total_franchises: number;
+  live_sources: number;
+  successfully_fetched: number;
+  partially_fetched: number;
+  unavailable: number;
+  total_observations: number;
+  marketing_claims: number;
+  factual_disclosures: number;
+  estimated_values: number;
+  last_refresh: string;
+  refresh_interval_hours: number;
+  system_status: string;
 }
 
 export interface RankedFranchise {

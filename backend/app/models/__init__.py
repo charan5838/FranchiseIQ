@@ -8,6 +8,7 @@ from app.models.verification import DataSource, DataVerification
 from app.models.location import Location, LocationAnalysis, Competitor
 from app.models.review import Review, FranchiseeReport
 from app.models.scenario import Scenario, Projection
+from app.models.source import FranchiseSource, DataObservation, DataFetchLog
 
 __all__ = [
     "User", "UserPreference", "Watchlist", "Notification", "AuditLog",
@@ -17,5 +18,6 @@ __all__ = [
     "DataSource", "DataVerification",
     "Location", "LocationAnalysis", "Competitor",
     "Review", "FranchiseeReport",
-    "Scenario", "Projection"
+    "Scenario", "Projection",
+    "FranchiseSource", "DataObservation", "DataFetchLog"
 ]

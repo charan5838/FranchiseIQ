@@ -289,3 +289,103 @@ def get_audit_logs(
         }
         for l in logs
     ]
+
+class FranchiseSourceConfigure(BaseModel):
+    official_website: str
+    franchise_information_url: str
+    franchise_investment_url: Optional[str] = None
+
+@router.post("/franchises/{franchise_id}/refresh")
+def refresh_official_franchise_data(
+    franchise_id: int,
+    admin: User = Depends(require_admin),
+    db: Session = Depends(get_db)
+):
+    from app.services.data_ingestion.ingestion_manager import IngestionManager
+    manager = IngestionManager()
+    result = manager.refresh_franchise(franchise_id, db)
+    
+    # Record audit log
+    status_str = result.get("status", "COMPLETED")
+    audit = AuditLog(
+        user_id=admin.id,
+        entity_type="franchise_source",
+        entity_id=franchise_id,
+        action="REFRESH",
+        details=f"Admin triggered live official website refresh for Franchise #{franchise_id}. Outcome: {status_str} ({result.get('fields_updated', 0)} fields updated)"
+    )
+    db.add(audit)
+    db.commit()
+
+    return result
+
+@router.post("/franchises/{franchise_id}/source")
+def configure_franchise_source(
+    franchise_id: int,
+    data: FranchiseSourceConfigure,
+    admin: User = Depends(require_admin),
+    db: Session = Depends(get_db)
+):
+    from app.models.source import FranchiseSource
+    from app.services.data_ingestion.source_verifier import SourceVerifier
+
+    is_valid, reason = SourceVerifier.verify_official_url(data.franchise_information_url, data.official_website)
+    if not is_valid:
+        raise HTTPException(status_code=400, detail=f"Source configuration rejected: {reason}")
+
+    source = db.query(FranchiseSource).filter(FranchiseSource.franchise_id == franchise_id).first()
+    if not source:
+        source = FranchiseSource(
+            franchise_id=franchise_id,
+            official_website=data.official_website,
+            franchise_information_url=data.franchise_information_url,
+            franchise_investment_url=data.franchise_investment_url,
+            fetch_status="PENDING",
+            source_mode="LIVE"
+        )
+        db.add(source)
+    else:
+        source.official_website = data.official_website
+        source.franchise_information_url = data.franchise_information_url
+        source.franchise_investment_url = data.franchise_investment_url
+        source.source_mode = "LIVE"
+
+    audit = AuditLog(
+        user_id=admin.id,
+        entity_type="franchise_source",
+        entity_id=franchise_id,
+        action="UPDATE",
+        details=f"Admin updated official source URL to {data.official_website} for Franchise #{franchise_id}"
+    )
+    db.add(audit)
+    db.commit()
+    db.refresh(source)
+
+    return {
+        "status": "SUCCESS",
+        "message": f"Official website configuration updated for Franchise #{franchise_id}",
+        "official_website": source.official_website,
+        "franchise_information_url": source.franchise_information_url
+    }
+
+@router.post("/sources/refresh-all")
+def refresh_all_sources(
+    admin: User = Depends(require_admin),
+    db: Session = Depends(get_db)
+):
+    from app.services.data_ingestion.ingestion_manager import IngestionManager
+    manager = IngestionManager()
+    summary = manager.refresh_all_configured_sources(db)
+    
+    audit = AuditLog(
+        user_id=admin.id,
+        entity_type="system",
+        entity_id=0,
+        action="BATCH_REFRESH",
+        details=f"Admin initiated batch refresh for {summary.get('total_processed')} official franchise sources."
+    )
+    db.add(audit)
+    db.commit()
+
+    return summary
+

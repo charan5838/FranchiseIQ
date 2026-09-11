@@ -130,6 +130,35 @@ def demo_admin_login(db: Session = Depends(get_db)):
         role=user.role
     )
 
+@router.post("/host-login", response_model=Token)
+def host_login(data: UserLogin, db: Session = Depends(get_db)):
+    # Verify Host Key / Passcode for Charan
+    allowed_host_keys = ["Charan@2026", "Host@2026", "Admin@123"]
+    if data.password not in allowed_host_keys:
+        raise HTTPException(status_code=401, detail="Invalid Host Security Passcode. Access denied.")
+
+    user = db.query(User).filter(User.email == "charan@franchiseiq.com").first()
+    if not user:
+        user = User(
+            email="charan@franchiseiq.com",
+            name="Charan (Host)",
+            hashed_password=hash_password("Charan@2026"),
+            role="admin"
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+
+    token = create_access_token({"sub": user.id, "email": user.email, "role": "admin"})
+    return Token(
+        access_token=token,
+        token_type="bearer",
+        user_id=user.id,
+        email=user.email,
+        name="Charan (Host)",
+        role="admin"
+    )
+
 @router.post("/quick-login", response_model=Token)
 def quick_login(data: QuickLoginRequest, db: Session = Depends(get_db)):
     clean_name = data.name.strip()

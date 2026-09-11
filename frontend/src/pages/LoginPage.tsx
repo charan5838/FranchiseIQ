@@ -159,7 +159,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ setCurrentPage }) => {
               </div>
               <div>
                 <h4 className="text-xs font-bold text-white">60+ Active Multi-Sector Franchises</h4>
-                <p className="text-[11px] text-slate-400">Audited P&L for QSR, Healthcare, Gyms, Education, Logistics & more.</p>
+                <p className="text-[11px] text-slate-400">Official website data & benchmarks for QSR, Healthcare, Gyms, Education, Logistics & more.</p>
               </div>
             </div>
 

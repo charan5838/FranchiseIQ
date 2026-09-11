@@ -208,7 +208,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
           Franchise Financial Calculator
         </h1>
         <p className="text-slate-400 text-xs sm:text-sm mt-1 max-w-3xl leading-relaxed">
-          Evaluate individual franchise unit economics across all 12 sectors. Stress-test <strong>previous claimed franchisor projections</strong> against <strong>audited ground-truth realities</strong> and custom operational models.
+          Evaluate individual franchise unit economics across all 12 sectors. Stress-test <strong>official marketing projections</strong> against <strong>ground-truth industry benchmarks</strong> and custom operational models.
         </p>
       </div>
 
@@ -318,7 +318,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
                 </h3>
               </div>
               <p className="text-[11px] text-slate-400 mt-0.5">
-                Switch between franchisor's claimed pitch figures, audited ground-truth benchmarks, or custom simulation.
+                Switch between franchisor's official claims, ground-truth benchmarks, or custom simulation.
               </p>
             </div>
 
@@ -332,7 +332,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                <span>📜 Claimed Pitch Data</span>
+                <span>📜 Official Claims</span>
               </button>
 
               <button
@@ -344,7 +344,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
                 }`}
               >
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                <span>🔍 Audited Ground Truth</span>
+                <span>🔍 Ground-Truth Benchmark</span>
               </button>
 
               <button
@@ -779,7 +779,7 @@ export const FinancialCalculator: React.FC<FinancialCalculatorProps> = ({
                       <History className="w-3.5 h-3.5 text-emerald-400" />
                       <span>5-Year Historical Performance Record (2022 – 2026)</span>
                     </h3>
-                    <span className="text-[10px] text-slate-400">Ground Reality Audited</span>
+                    <span className="text-[10px] text-slate-400">Ground Reality Benchmark</span>
                   </div>
                   <p className="text-[11px] text-slate-400">
                     How {currentPreset.name}'s units actually performed over consecutive operational financial years:

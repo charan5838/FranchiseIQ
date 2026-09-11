@@ -201,3 +201,9 @@ class FranchiseDetail(FranchiseSummary):
     projections: Dict[str, Any]
     franchisee_satisfaction_score: float
     deal_attractiveness_score: float
+    source_status: Optional[str] = "DEMO"
+    source_mode: Optional[str] = "DEMO"
+    official_website: Optional[str] = None
+    franchise_information_url: Optional[str] = None
+    last_fetched_at: Optional[str] = None
+    observations: Optional[List[Dict[str, Any]]] = []

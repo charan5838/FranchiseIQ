@@ -15,8 +15,10 @@ from app.routers import (
     location_router,
     watchlist_router,
     reviews_router,
-    admin_router
+    admin_router,
+    sources_router
 )
+from app.services.data_ingestion.scheduler import scheduler
 
 # Initialize FastAPI App
 app = FastAPI(
@@ -39,6 +41,12 @@ def startup_event():
     # Ensure database schema is created and populated with demo data
     init_db()
     seed_all_data()
+    # Start background 24-hour official website refresh scheduler
+    scheduler.start()
+
+@app.on_event("shutdown")
+def shutdown_event():
+    scheduler.stop()
 
 # Mount API Routers
 app.include_router(auth_router, prefix=API_V1_STR)
@@ -50,6 +58,7 @@ app.include_router(location_router, prefix=API_V1_STR)
 app.include_router(watchlist_router, prefix=API_V1_STR)
 app.include_router(reviews_router, prefix=API_V1_STR)
 app.include_router(admin_router, prefix=API_V1_STR)
+app.include_router(sources_router, prefix=API_V1_STR)
 
 @app.get("/health")
 def health_check():

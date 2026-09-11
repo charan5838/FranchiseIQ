@@ -509,5 +509,23 @@ def get_franchise_detail(id_or_slug: str, db: Session = Depends(get_db)):
         risk_analysis=risk_analysis,
         projections=projections,
         franchisee_satisfaction_score=round(satisfaction, 1),
-        deal_attractiveness_score=min(98.0, max(20.0, deal_score))
+        deal_attractiveness_score=min(98.0, max(20.0, deal_score)),
+        source_status=f.source_config.fetch_status if f.source_config else "DEMO",
+        source_mode=f.source_config.source_mode if f.source_config else "DEMO",
+        official_website=f.source_config.official_website if f.source_config else f.website,
+        franchise_information_url=f.source_config.franchise_information_url if f.source_config else (f"{f.website.rstrip('/')}/franchise" if f.website else None),
+        last_fetched_at=(f.source_config.last_successful_fetch_at or f.source_config.last_fetched_at).strftime("%d %b %Y, %I:%M %p") if (f.source_config and (f.source_config.last_successful_fetch_at or f.source_config.last_fetched_at)) else "Demo Data (Unfetched)",
+        observations=[
+            {
+                "field_name": o.field_name,
+                "original_value": o.original_value,
+                "normalized_value": o.normalized_value,
+                "data_classification": o.data_classification,
+                "source_type": o.source_type,
+                "source_url": o.source_url,
+                "confidence_score": o.confidence_score,
+                "fetched_at": o.fetched_at.strftime("%d %b %Y, %I:%M %p") if o.fetched_at else "Unknown"
+            }
+            for o in (f.observations[:20] if f.observations else [])
+        ]
     )

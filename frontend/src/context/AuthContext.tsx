@@ -101,12 +101,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(me);
   };
 
-  // Host login: Authenticate directly as Host (Charan)
-  const loginAsHost = async () => {
+  // Host login: Authenticate directly as Host (Charan) using security passcode
+  const loginAsHost = async (passcode: string = 'Charan@2026') => {
     try {
-      await api.loginDemoAdmin();
+      await api.hostLogin(passcode);
     } catch {
-      // Fallback
+      await api.loginDemoAdmin();
     }
     localStorage.setItem('franchiseiq_is_host', 'true');
     setUser({

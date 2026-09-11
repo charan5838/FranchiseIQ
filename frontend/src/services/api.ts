@@ -90,6 +90,15 @@ export const api = {
     return data;
   },
 
+  async hostLogin(passcode: string) {
+    const data = await request<{ access_token: string; role: string; name: string; email: string; user_id: number }>('/auth/host-login', {
+      method: 'POST',
+      body: JSON.stringify({ email: 'charan@franchiseiq.com', password: passcode })
+    });
+    localStorage.setItem('franchiseiq_token', data.access_token);
+    return data;
+  },
+
   async getMe(): Promise<User> {
     return request<User>('/auth/me');
   },
@@ -277,5 +286,30 @@ export const api = {
 
   async getAuditLogs(): Promise<any[]> {
     return request('/admin/audit-logs');
+  },
+
+  // Official Sources & Data Provenance
+  async getDataSources(): Promise<any[]> {
+    return request('/sources');
+  },
+
+  async getFranchiseObservations(franchiseId: number): Promise<any> {
+    return request(`/sources/${franchiseId}/observations`);
+  },
+
+  async getDataQualitySummary(): Promise<any> {
+    return request('/admin/data-quality-summary');
+  },
+
+  async refreshOfficialFranchiseData(franchiseId: number): Promise<any> {
+    return request(`/admin/franchises/${franchiseId}/refresh`, { method: 'POST' });
+  },
+
+  async configureFranchiseSource(franchiseId: number, data: { official_website: string; franchise_information_url: string; franchise_investment_url?: string }): Promise<any> {
+    return request(`/admin/franchises/${franchiseId}/source`, { method: 'POST', body: JSON.stringify(data) });
+  },
+
+  async refreshAllOfficialSources(): Promise<any> {
+    return request('/admin/sources/refresh-all', { method: 'POST' });
   }
 };

@@ -26,3 +26,14 @@ yarn-error.log*
 # OS artifacts
 .DS_Store
 Thumbs.db
+
+# Executables & Local Binaries
+cloudflared.exe
+*.exe
+
+# Temporary Generation Scripts / Assets
+pdf_slides.json
+test.pptx
+slide*.png
+build_franchiseiq_deck.py
+

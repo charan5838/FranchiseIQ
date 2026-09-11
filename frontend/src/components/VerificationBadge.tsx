@@ -25,7 +25,7 @@ export const VerificationBadge: React.FC<VerificationBadgeProps> = ({
           color: 'bg-emerald-950/80 text-emerald-400 border-emerald-500/30 hover:bg-emerald-900/60',
           dot: 'bg-emerald-400',
           icon: CheckCircle2,
-          desc: 'Official, audited, and strongly documented financial disclosures.'
+          desc: 'Official company website disclosures and verified primary documents.'
         };
       case 'REPORTED':
         return {

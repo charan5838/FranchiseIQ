@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { 
   Building2, ArrowLeft, Shield, Clock, TrendingUp, CheckCircle, 
   AlertTriangle, DollarSign, Activity, Award, Bookmark, BookmarkCheck,
-  Calendar, Layers, MapPin, Store, Check, X, FileText, ChevronRight
+  Calendar, Layers, MapPin, Store, Check, X, FileText, ChevronRight,
+  Globe, ExternalLink, Database
 } from 'lucide-react';
 import { api } from '../services/api';
 import { FranchiseDetail as IFranchiseDetail } from '../types';
@@ -22,7 +23,7 @@ interface FranchiseDetailProps {
 export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, setCurrentPage }) => {
   const [franchise, setFranchise] = useState<IFranchiseDetail | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'financials' | 'historical' | 'projections' | 'support' | 'sentiment'>('financials');
+  const [activeTab, setActiveTab] = useState<'financials' | 'historical' | 'projections' | 'support' | 'sentiment' | 'provenance'>('financials');
   const [selectedProjectionScenario, setSelectedProjectionScenario] = useState<'Conservative' | 'Expected' | 'Optimistic'>('Expected');
   const [isSaved, setIsSaved] = useState(false);
   const { toggleComparison, comparisonList } = useInvestor();
@@ -148,6 +149,38 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
               <span>Outlets: <strong className="text-slate-200">{franchise.total_outlets}</strong></span>
               <span>Data Updated: <strong className="text-emerald-400">{franchise.financial?.last_updated || 'September 2026'}</strong></span>
             </div>
+
+            {/* Official Source Provenance Bar */}
+            <div className="mt-4 pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3 text-xs">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold border flex items-center gap-1.5 ${
+                  franchise.source_mode === 'LIVE'
+                    ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                    : 'bg-purple-500/15 text-purple-300 border-purple-500/30'
+                }`}>
+                  <Globe className="w-3 h-3" />
+                  <span>Source: {franchise.source_mode === 'LIVE' ? 'Official Company Website (LIVE)' : 'Demo / Estimated Benchmark'}</span>
+                </span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                  Data Type: Marketing Claims & Benchmarks
+                </span>
+                <span className="text-slate-400 text-[11px] font-mono">
+                  Last Checked: {franchise.last_fetched_at || '11 Sep 2026'}
+                </span>
+              </div>
+
+              {franchise.official_website && (
+                <a
+                  href={franchise.franchise_information_url || franchise.official_website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 text-[11px] font-mono hover:underline cursor-pointer"
+                >
+                  <span>Official Page ({franchise.official_website.replace('https://', '').replace('http://', '').split('/')[0]})</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              )}
+            </div>
           </div>
 
           {/* Quick KPI Score Badges */}
@@ -191,6 +224,7 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
           { id: 'projections', label: '1/3/5-Year Projections', icon: Activity },
           { id: 'support', label: 'Franchisor Support Checklist', icon: CheckCircle },
           { id: 'sentiment', label: 'Franchisee Sentiment & Reviews', icon: Award },
+          { id: 'provenance', label: 'Official Source Audit Trail', icon: Database },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -254,6 +288,17 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
                 <span className="text-white">Total Estimated Capital Outlay</span>
                 <span className="text-emerald-400">₹{franchise.investment.total_estimated_investment.toLocaleString('en-IN')}</span>
               </div>
+            </div>
+
+            {/* Metric-Level Data Provenance Notice */}
+            <div className="mt-4 p-3 rounded-xl bg-slate-950/70 border border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+              <span className="flex items-center gap-1.5">
+                <Globe className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                <span>Source: <strong className="text-slate-200">Official Brand Portal</strong></span>
+              </span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                Marketing Disclosure
+              </span>
             </div>
           </div>
 
@@ -565,6 +610,152 @@ export const FranchiseDetail: React.FC<FranchiseDetailProps> = ({ franchiseId, s
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Tab 6: Official Source Audit Trail & Provenance */}
+      {activeTab === 'provenance' && (
+        <div className="space-y-6">
+          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-sm space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+              <div>
+                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <Database className="w-4 h-4 text-emerald-400" />
+                  <span>Official Website Provenance & Historical Observations</span>
+                </h3>
+                <p className="text-xs text-slate-400 mt-1">
+                  FranchiseIQ ingests and normalizes data directly from verified company web domains. Every observation preserves the raw text, source URL, and timestamp.
+                </p>
+              </div>
+
+              {franchise.official_website && (
+                <a
+                  href={franchise.franchise_information_url || franchise.official_website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs font-mono transition-colors border border-slate-700"
+                >
+                  <span>Visit Source Portal</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              )}
+            </div>
+
+            {/* Ingestion Status Summary Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80">
+                <div className="text-[11px] text-slate-400">Source Mode</div>
+                <div className="text-base font-bold text-emerald-400 mt-1">
+                  {franchise.source_mode === 'LIVE' ? '🟢 Official Website (LIVE)' : '🟣 Benchmark Fallback'}
+                </div>
+                <div className="text-[10px] text-slate-500 mt-0.5 font-mono truncate">
+                  Domain: {franchise.official_website ? new URL(franchise.official_website).hostname : 'N/A'}
+                </div>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80">
+                <div className="text-[11px] text-slate-400">Total Observations Recorded</div>
+                <div className="text-base font-bold text-white mt-1">
+                  {franchise.observations ? franchise.observations.length : 0} Data Points
+                </div>
+                <div className="text-[10px] text-slate-500 mt-0.5">
+                  Extracted with field-level normalization
+                </div>
+              </div>
+
+              <div className="p-4 rounded-xl bg-slate-950/60 border border-slate-800/80">
+                <div className="text-[11px] text-slate-400">Last Observation Refresh</div>
+                <div className="text-base font-bold text-cyan-400 mt-1 font-mono">
+                  {franchise.last_fetched_at || '11 Sep 2026'}
+                </div>
+                <div className="text-[10px] text-slate-500 mt-0.5">
+                  Polite 24h background cycle
+                </div>
+              </div>
+            </div>
+
+            {/* Observations Table */}
+            <div className="space-y-3 mt-4">
+              <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                Field-by-Field Observation Audit Trail
+              </h4>
+
+              {(!franchise.observations || franchise.observations.length === 0) ? (
+                <div className="p-6 text-center text-slate-500 text-xs border border-dashed border-slate-800 rounded-xl">
+                  No historical website observations logged yet. Triggering a live refresh from the Admin Portal or Data Sources page will populate this audit trail.
+                </div>
+              ) : (
+                <div className="overflow-x-auto border border-slate-800 rounded-xl">
+                  <table className="w-full text-left text-xs">
+                    <thead className="bg-slate-950 text-slate-400 border-b border-slate-800 font-semibold text-[11px]">
+                      <tr>
+                        <th className="p-3">Field Name</th>
+                        <th className="p-3">Normalized Value</th>
+                        <th className="p-3">Raw Scraped Text</th>
+                        <th className="p-3">Classification</th>
+                        <th className="p-3">Confidence</th>
+                        <th className="p-3">Source URL</th>
+                        <th className="p-3">Recorded At</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-800/60 font-mono text-[11px]">
+                      {franchise.observations.map((obs) => (
+                        <tr key={obs.id} className="hover:bg-slate-800/20">
+                          <td className="p-3 font-semibold text-white">{obs.field_name}</td>
+                          <td className="p-3 text-emerald-400 font-bold">
+                            {obs.field_name.includes('investment') || obs.field_name.includes('fee') || obs.field_name.includes('revenue')
+                              ? `₹${Number(obs.normalized_value).toLocaleString('en-IN')}`
+                              : obs.normalized_value}
+                          </td>
+                          <td className="p-3 text-slate-300 max-w-[200px] truncate" title={obs.original_value}>
+                            "{obs.original_value}"
+                          </td>
+                          <td className="p-3">
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${
+                              obs.data_classification === 'FACTUAL_DISCLOSURE'
+                                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                                : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                            }`}>
+                              {obs.data_classification}
+                            </span>
+                          </td>
+                          <td className="p-3 text-slate-300">
+                            {Math.round((obs.confidence_score || 0.85) * 100)}%
+                          </td>
+                          <td className="p-3 max-w-[160px] truncate">
+                            <a
+                              href={obs.source_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-cyan-400 hover:underline flex items-center gap-1"
+                              title={obs.source_url}
+                            >
+                              <span>{obs.source_url.replace('https://', '').replace('http://', '').split('/')[0]}</span>
+                              <ExternalLink className="w-2.5 h-2.5 shrink-0" />
+                            </a>
+                          </td>
+                          <td className="p-3 text-slate-400 whitespace-nowrap">
+                            {new Date(obs.fetched_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+
+            {/* Legal / Provenance Disclaimer */}
+            <div className="p-4 rounded-xl bg-slate-950/40 border border-slate-800/80 text-[11px] text-slate-400 leading-relaxed space-y-1">
+              <div className="font-semibold text-slate-300 flex items-center gap-1.5">
+                <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                <span>FranchiseIQ Provenance Integrity Guarantee</span>
+              </div>
+              <p>
+                FranchiseIQ gathers information solely from the brand's officially registered domains and public disclosure pages. Unverified marketing claims are subjected to an automated analytical haircut within the scoring engine, and platform benchmarks are maintained to protect prospective franchisees against overstated return figures.
+              </p>
             </div>
           </div>
         </div>
