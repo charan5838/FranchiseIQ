@@ -13,31 +13,9 @@ from app.models.review import Review, FranchiseeReport
 from app.models.source import FranchiseSource, DataObservation, DataFetchLog
 from app.services.auth import hash_password
 
-OFFICIAL_SOURCE_MAPPINGS = {
-    "Chai Point Express": ("https://chaipoint.com", "https://chaipoint.com/pages/franchise"),
-    "Wow! Momo Express": ("https://wowmomo.com", "https://wowmomo.com/franchise"),
-    "Burger King Kiosk": ("https://burgerking.in", "https://burgerking.in/franchise"),
-    "Haldiram's Express": ("https://haldirams.com", "https://haldirams.com/franchise"),
-    "Tibbs Frankie Hub": ("https://tibbsfrankie.com", "https://tibbsfrankie.com/franchise"),
-    "Baskin Robbins Scoop Parlour": ("https://baskinrobbinsindia.com", "https://baskinrobbinsindia.com/franchise"),
-    "Dr Lal Pathlabs Hub": ("https://lalpathlabs.com", "https://lalpathlabs.com/partner-with-us"),
-    "Apollo 24|7 Pharmacy": ("https://apollopharmacy.in", "https://apollopharmacy.in/franchise"),
-    "Cult.fit Studio": ("https://cult.fit", "https://cult.fit/franchise-opportunities"),
-    "Anytime Fitness Club": ("https://anytimefitness.co.in", "https://anytimefitness.co.in/franchise"),
-    "Kidzee Preschool": ("https://kidzee.com", "https://kidzee.com/franchise-enquiry"),
-    "EuroKids Preschool": ("https://eurokidsindia.com", "https://eurokidsindia.com/franchise"),
-    "Delhivery Express Hub": ("https://delhivery.com", "https://delhivery.com/partner-with-us"),
-    "Blue Dart Express Point": ("https://bluedart.com", "https://bluedart.com/retail-franchise"),
-    "DTDC Courier Counter": ("https://dtdc.in", "https://dtdc.in/business-partner"),
-    "Lenskart Opticals": ("https://lenskart.com", "https://lenskart.com/franchise"),
-    "FirstCry Kids Store": ("https://firstcry.com", "https://firstcry.com/franchise"),
-    "Jawed Habib Hair Studio": ("https://jawedhabib.com", "https://jawedhabib.com/franchise"),
-    "Naturals Beauty Salon": ("https://naturals.in", "https://naturals.in/franchise-inquiry"),
-    "Ather Energy Experience Centre": ("https://atherenergy.com", "https://atherenergy.com/dealership"),
-    "Ola Electric Hub": ("https://olaelectric.com", "https://olaelectric.com/partner"),
-    "Wakefit Experience Studio": ("https://wakefit.co", "https://wakefit.co/franchise"),
-    "Urban Company Partner Hub": ("https://urbancompany.com", "https://urbancompany.com/partner")
-}
+from app.seed.expanded_franchises import OFFICIAL_SOURCE_MAPPINGS_EXPANDED, NEW_FRANCHISES_DATA
+
+OFFICIAL_SOURCE_MAPPINGS = OFFICIAL_SOURCE_MAPPINGS_EXPANDED
 
 def seed_sources(db: Session):
     franchises = db.query(Franchise).all()
@@ -115,16 +93,16 @@ def seed_all_data():
     db: Session = SessionLocal()
     try:
         franchise_count = db.query(Franchise).count()
-        if franchise_count >= 60:
-            print(f"Database already populated with {franchise_count} franchises. Verifying sources...")
+        if franchise_count >= 120:
+            print(f"Database already populated with {franchise_count} franchises (10+ per sector). Verifying sources...")
             seed_sources(db)
             return
         elif franchise_count > 0:
-            print(f"Current count {franchise_count} < 60. Rebuilding database with 60+ multi-sector franchises...")
+            print(f"Current count {franchise_count} < 120. Rebuilding database with 120+ multi-sector franchises (10+ per sector)...")
             Base.metadata.drop_all(bind=engine)
             Base.metadata.create_all(bind=engine)
 
-        print("Seeding FranchiseIQ database with 60+ multi-sector franchises...")
+        print("Seeding FranchiseIQ database with 120+ multi-sector franchises (10+ per sector)...")
 
         # 1. Users
         investor_user = User(
@@ -693,7 +671,7 @@ def seed_all_data():
                 "REPORTED", 83.0
             ),
             (
-                "Lakmé Salon Luxe", "lakme-salon-luxe", "Beauty & Salon", "Runway-Inspired Hair, Skin & Bridal Couture",
+                "Lakme Salon Luxe", "lakme-salon-luxe", "Beauty & Salon", "Runway-Inspired Hair, Skin & Bridal Couture",
                 1980, "Mumbai", 3800000.0, 5200000.0, 4500000.0, 700000.0,
                 1150000.0, 980000.0, 310000.0, 240000.0, 64.0, 18.8,
                 480, 10, 2.0, 8.0, 2.5, "FOFO", 900.0, 1800.0, 16.0,
@@ -805,6 +783,9 @@ def seed_all_data():
                 "VERIFIED", 93.0
             )
         ]
+
+        # Extend with 63 new real recognizable Indian franchise brands (10+ per sector)
+        franchises_master.extend(NEW_FRANCHISES_DATA)
 
         print(f"Creating {len(franchises_master)} comprehensive franchise entities...")
 
