@@ -178,6 +178,11 @@ def get_franchises(
     max_payback: Optional[float] = None,
     risk_level: Optional[str] = None,
     sort_by: Optional[str] = "roi_desc",
+    min_sqft: Optional[float] = None,
+    max_sqft: Optional[float] = None,
+    monthly_revenue: Optional[float] = None,
+    monthly_income: Optional[float] = None,
+    monthly_profit: Optional[float] = None,
     db: Session = Depends(get_db)
 ):
     query = db.query(Franchise).filter(Franchise.is_active == True)
@@ -211,14 +216,42 @@ def get_franchises(
         royalty_pct = fees.royalty_percentage if fees else 5.0
         tot_outlets = outlets.total_outlets if outlets else 50
 
-        # Filter criteria
-        if min_investment and total_inv < min_investment:
-            continue
-        if max_investment and total_inv > max_investment:
-            continue
+        # User Requirements vs Franchise Data Comparison Filters
+        # Total Investment: maximum amount the user is willing to invest (User Total Investment >= Franchise Total Investment)
+        if min_investment:
+            norm_min_inv = min_investment * 100000.0 if min_investment < 10000.0 else min_investment
+            if total_inv < norm_min_inv:
+                continue
+        if max_investment:
+            norm_max_inv = max_investment * 100000.0 if max_investment < 10000.0 else max_investment
+            if total_inv > norm_max_inv:
+                continue
         if min_roi and roi < min_roi:
             continue
         if max_payback and payback > max_payback:
+            continue
+
+        # Space Requirements:
+        # Franchise Min Sq. Ft. <= User Max Sq. Ft.
+        # Franchise Max Sq. Ft. >= User Min Sq. Ft.
+        f_min_sqft = f.space_min_sqft or 0.0
+        f_max_sqft = f.space_max_sqft or 999999.0
+        if max_sqft and f_min_sqft > max_sqft:
+            continue
+        if min_sqft and f_max_sqft < min_sqft:
+            continue
+
+        # Monthly Revenue:
+        # Franchise Monthly Revenue >= User Monthly Revenue
+        if monthly_revenue and monthly_rev < monthly_revenue:
+            continue
+
+        # Monthly Income & Monthly Profit:
+        # Franchise Monthly Profit >= User Monthly Profit
+        # Franchise Monthly Income >= User Monthly Income
+        if monthly_profit and monthly_prof < monthly_profit:
+            continue
+        if monthly_income and monthly_prof < monthly_income:
             continue
 
         # Risk calculation

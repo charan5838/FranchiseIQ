@@ -22,11 +22,17 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
   // Filters State
   const [search, setSearch] = useState('');
   const [sectorId, setSectorId] = useState<number | ''>('');
-  const [maxInvestment, setMaxInvestment] = useState<number>(100); // in Lakhs
-  const [minRoi, setMinRoi] = useState<number>(30); // in %
-  const [maxPayback, setMaxPayback] = useState<number>(36); // in months
   const [riskTier, setRiskTier] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('roi_desc');
+
+  // User Manual Requirement Inputs (empty by default)
+  const [minSqft, setMinSqft] = useState<string>('');
+  const [maxSqft, setMaxSqft] = useState<string>('');
+  const [totalInvestment, setTotalInvestment] = useState<string>('');
+  const [monthlyRevenue, setMonthlyRevenue] = useState<string>('');
+  const [monthlyIncome, setMonthlyIncome] = useState<string>('');
+  const [monthlyProfit, setMonthlyProfit] = useState<string>('');
+  const [validationError, setValidationError] = useState<string>('');
 
   // List Your Franchise Modal State
   const [showListModal, setShowListModal] = useState(false);
@@ -36,14 +42,15 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
     name: '',
     sector_id: 1,
     sub_sector: '',
-    headquarters: 'Hyderabad',
-    total_investment_lakhs: 25,
-    franchise_fee_lakhs: 5,
-    monthly_revenue: 500000,
-    monthly_profit: 90000,
+    headquarters: '',
+    total_investment_lakhs: '' as string | number,
+    franchise_fee_lakhs: '' as string | number,
+    monthly_revenue: '' as string | number,
+    monthly_income: '' as string | number,
+    monthly_profit: '' as string | number,
     franchise_model: 'FOFO',
-    space_min_sqft: 400,
-    space_max_sqft: 800,
+    space_min_sqft: '' as string | number,
+    space_max_sqft: '' as string | number,
     description: '',
     contact_email: '',
     contact_phone: ''
@@ -51,14 +58,52 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
 
   const { toggleComparison, comparisonList, toggleWatchlist, isWatched } = useInvestor();
 
+  const validateInputs = (): boolean => {
+    setValidationError('');
+    const minS = minSqft !== '' ? Number(minSqft) : null;
+    const maxS = maxSqft !== '' ? Number(maxSqft) : null;
+    const totInv = totalInvestment !== '' ? Number(totalInvestment) : null;
+    const mRev = monthlyRevenue !== '' ? Number(monthlyRevenue) : null;
+    const mInc = monthlyIncome !== '' ? Number(monthlyIncome) : null;
+    const mProf = monthlyProfit !== '' ? Number(monthlyProfit) : null;
+
+    const values = [minS, maxS, totInv, mRev, mInc, mProf];
+    for (const v of values) {
+      if (v !== null && (isNaN(v) || v < 0)) {
+        setValidationError('Requirement values cannot be negative or invalid numbers.');
+        return false;
+      }
+    }
+
+    if (minS !== null && maxS !== null && maxS < minS) {
+      setValidationError('Max Sq. Ft. must be greater than or equal to Min Sq. Ft.');
+      return false;
+    }
+
+    return true;
+  };
+
   const fetchFranchises = () => {
+    if (!validateInputs()) return;
     setLoading(true);
+
+    let invParam: number | undefined = undefined;
+    if (totalInvestment !== '') {
+      const num = Number(totalInvestment);
+      if (!isNaN(num) && num > 0) {
+        invParam = num;
+      }
+    }
+
     api.getFranchises({
       search: search || undefined,
       sector_id: sectorId || undefined,
-      max_investment: maxInvestment ? maxInvestment * 100000 : undefined,
-      min_roi: minRoi || undefined,
-      max_payback: maxPayback || undefined,
+      max_investment: invParam,
+      min_sqft: minSqft !== '' ? Number(minSqft) : undefined,
+      max_sqft: maxSqft !== '' ? Number(maxSqft) : undefined,
+      monthly_revenue: monthlyRevenue !== '' ? Number(monthlyRevenue) : undefined,
+      monthly_income: monthlyIncome !== '' ? Number(monthlyIncome) : undefined,
+      monthly_profit: monthlyProfit !== '' ? Number(monthlyProfit) : undefined,
       risk_level: riskTier || undefined,
       sort_by: sortBy
     }).then(setFranchises)
@@ -74,7 +119,7 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
       }
     }).catch(console.error);
     fetchFranchises();
-  }, [sectorId, maxInvestment, minRoi, maxPayback, riskTier, sortBy]);
+  }, [sectorId, riskTier, sortBy]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,11 +129,22 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
   const resetFilters = () => {
     setSearch('');
     setSectorId('');
-    setMaxInvestment(100);
-    setMinRoi(30);
-    setMaxPayback(36);
+    setMinSqft('');
+    setMaxSqft('');
+    setTotalInvestment('');
+    setMonthlyRevenue('');
+    setMonthlyIncome('');
+    setMonthlyProfit('');
     setRiskTier('');
     setSortBy('roi_desc');
+    setValidationError('');
+
+    setLoading(true);
+    api.getFranchises({
+      sort_by: 'roi_desc'
+    }).then(setFranchises)
+      .catch(console.error)
+      .finally(() => setLoading(false));
   };
 
   const handleSubmitFranchise = async (e: React.FormEvent) => {
@@ -123,14 +179,15 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
         name: '',
         sector_id: sectors[0]?.id || 1,
         sub_sector: '',
-        headquarters: 'Hyderabad',
-        total_investment_lakhs: 25,
-        franchise_fee_lakhs: 5,
-        monthly_revenue: 500000,
-        monthly_profit: 90000,
+        headquarters: '',
+        total_investment_lakhs: '',
+        franchise_fee_lakhs: '',
+        monthly_revenue: '',
+        monthly_income: '',
+        monthly_profit: '',
         franchise_model: 'FOFO',
-        space_min_sqft: 400,
-        space_max_sqft: 800,
+        space_min_sqft: '',
+        space_max_sqft: '',
         description: '',
         contact_email: '',
         contact_phone: ''
@@ -238,54 +295,115 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
           </button>
         </form>
 
-        {/* Sliders Strip */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-3 border-t border-slate-800/80 text-xs">
-          <div>
-            <div className="flex justify-between text-slate-300 font-medium mb-1">
-              <span>Max Investment:</span>
-              <span className="text-emerald-400 font-bold">₹{maxInvestment} Lakhs</span>
-            </div>
-            <input
-              type="range"
-              min={5}
-              max={150}
-              step={5}
-              value={maxInvestment}
-              onChange={(e) => setMaxInvestment(Number(e.target.value))}
-              className="w-full accent-emerald-500 cursor-pointer"
-            />
+        {/* User Manual Requirements Strip */}
+        <div className="pt-3 border-t border-slate-800/80 text-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-3">
+            <span className="text-slate-300 font-semibold flex items-center gap-1.5">
+              <SlidersHorizontal className="w-3.5 h-3.5 text-emerald-400" />
+              Manual Requirements
+            </span>
+            <span className="text-[11px] text-slate-400">
+              Empty fields are unrestricted • Franchise data is compared against your manual inputs
+            </span>
           </div>
 
-          <div>
-            <div className="flex justify-between text-slate-300 font-medium mb-1">
-              <span>Min Annual ROI:</span>
-              <span className="text-indigo-400 font-bold">{minRoi}% / year</span>
+          {validationError && (
+            <div className="mb-3 p-2.5 rounded-xl bg-red-950/40 border border-red-500/40 text-red-300 text-xs flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+              <span>{validationError}</span>
             </div>
-            <input
-              type="range"
-              min={15}
-              max={80}
-              step={5}
-              value={minRoi}
-              onChange={(e) => setMinRoi(Number(e.target.value))}
-              className="w-full accent-indigo-500 cursor-pointer"
-            />
-          </div>
+          )}
 
-          <div>
-            <div className="flex justify-between text-slate-300 font-medium mb-1">
-              <span>Max Payback Period:</span>
-              <span className="text-amber-400 font-bold">{maxPayback} Months</span>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <div>
+              <label className="text-slate-400 font-medium block mb-1">Min Sq. Ft.</label>
+              <input
+                type="number"
+                min="0"
+                value={minSqft}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === '' || Number(val) >= 0) setMinSqft(val);
+                }}
+                placeholder="Min Sq. Ft."
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:border-emerald-500 outline-none text-xs"
+              />
             </div>
-            <input
-              type="range"
-              min={12}
-              max={48}
-              step={3}
-              value={maxPayback}
-              onChange={(e) => setMaxPayback(Number(e.target.value))}
-              className="w-full accent-amber-500 cursor-pointer"
-            />
+
+            <div>
+              <label className="text-slate-400 font-medium block mb-1">Max Sq. Ft.</label>
+              <input
+                type="number"
+                min="0"
+                value={maxSqft}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === '' || Number(val) >= 0) setMaxSqft(val);
+                }}
+                placeholder="Max Sq. Ft."
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:border-emerald-500 outline-none text-xs"
+              />
+            </div>
+
+            <div>
+              <label className="text-slate-400 font-medium block mb-1">Total Investment (₹)</label>
+              <input
+                type="number"
+                min="0"
+                value={totalInvestment}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === '' || Number(val) >= 0) setTotalInvestment(val);
+                }}
+                placeholder="Total Investment"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:border-emerald-500 outline-none text-xs"
+              />
+            </div>
+
+            <div>
+              <label className="text-slate-400 font-medium block mb-1">Monthly Revenue (₹)</label>
+              <input
+                type="number"
+                min="0"
+                value={monthlyRevenue}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === '' || Number(val) >= 0) setMonthlyRevenue(val);
+                }}
+                placeholder="Monthly Revenue"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:border-emerald-500 outline-none text-xs"
+              />
+            </div>
+
+            <div>
+              <label className="text-slate-400 font-medium block mb-1">Monthly Income (₹)</label>
+              <input
+                type="number"
+                min="0"
+                value={monthlyIncome}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === '' || Number(val) >= 0) setMonthlyIncome(val);
+                }}
+                placeholder="Monthly Income"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:border-emerald-500 outline-none text-xs"
+              />
+            </div>
+
+            <div>
+              <label className="text-slate-400 font-medium block mb-1">Monthly Profit (₹)</label>
+              <input
+                type="number"
+                min="0"
+                value={monthlyProfit}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val === '' || Number(val) >= 0) setMonthlyProfit(val);
+                }}
+                placeholder="Monthly Profit"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:border-emerald-500 outline-none text-xs"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -488,15 +606,17 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="text-slate-300 font-medium block mb-1">Total Investment (₹ L)</label>
+                  <label className="text-slate-300 font-medium block mb-1">Total Investment (₹ L) *</label>
                   <input
                     type="number"
-                    min={2}
+                    min={0}
+                    required
+                    placeholder="Total Investment"
                     value={formData.total_investment_lakhs}
-                    onChange={(e) => setFormData({ ...formData, total_investment_lakhs: Number(e.target.value) })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:border-emerald-500 outline-none"
+                    onChange={(e) => setFormData({ ...formData, total_investment_lakhs: e.target.value === '' ? '' : Number(e.target.value) })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:border-emerald-500 outline-none"
                   />
                 </div>
 
@@ -505,36 +625,51 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                   <input
                     type="number"
                     min={0}
+                    placeholder="Franchise Fee"
                     value={formData.franchise_fee_lakhs}
-                    onChange={(e) => setFormData({ ...formData, franchise_fee_lakhs: Number(e.target.value) })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:border-emerald-500 outline-none"
+                    onChange={(e) => setFormData({ ...formData, franchise_fee_lakhs: e.target.value === '' ? '' : Number(e.target.value) })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:border-emerald-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="text-slate-300 font-medium block mb-1">Monthly Rev (₹)</label>
+                  <label className="text-slate-300 font-medium block mb-1">Monthly Revenue (₹) *</label>
                   <input
                     type="number"
-                    min={10000}
+                    min={0}
+                    required
+                    placeholder="Monthly Revenue"
                     value={formData.monthly_revenue}
-                    onChange={(e) => setFormData({ ...formData, monthly_revenue: Number(e.target.value) })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:border-emerald-500 outline-none"
+                    onChange={(e) => setFormData({ ...formData, monthly_revenue: e.target.value === '' ? '' : Number(e.target.value) })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:border-emerald-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="text-slate-300 font-medium block mb-1">Monthly Profit (₹)</label>
+                  <label className="text-slate-300 font-medium block mb-1">Monthly Income (₹)</label>
                   <input
                     type="number"
-                    min={5000}
-                    value={formData.monthly_profit}
-                    onChange={(e) => setFormData({ ...formData, monthly_profit: Number(e.target.value) })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:border-emerald-500 outline-none"
+                    min={0}
+                    placeholder="Monthly Income"
+                    value={formData.monthly_income}
+                    onChange={(e) => setFormData({ ...formData, monthly_income: e.target.value === '' ? '' : Number(e.target.value) })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:border-emerald-500 outline-none"
                   />
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="text-slate-300 font-medium block mb-1">Monthly Profit (₹) *</label>
+                  <input
+                    type="number"
+                    min={0}
+                    required
+                    placeholder="Monthly Profit"
+                    value={formData.monthly_profit}
+                    onChange={(e) => setFormData({ ...formData, monthly_profit: e.target.value === '' ? '' : Number(e.target.value) })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:border-emerald-500 outline-none"
+                  />
+                </div>
+
                 <div>
                   <label className="text-slate-300 font-medium block mb-1">Franchise Model</label>
                   <select
@@ -547,24 +682,32 @@ export const ExploreFranchises: React.FC<ExploreFranchisesProps> = ({ setCurrent
                     <option value="FICO">FICO (Franchise Invested, Company Operated)</option>
                   </select>
                 </div>
+              </div>
 
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-slate-300 font-medium block mb-1">Min Area (sq ft)</label>
+                  <label className="text-slate-300 font-medium block mb-1">Min Sq. Ft. *</label>
                   <input
                     type="number"
+                    min={0}
+                    required
+                    placeholder="Min Sq. Ft."
                     value={formData.space_min_sqft}
-                    onChange={(e) => setFormData({ ...formData, space_min_sqft: Number(e.target.value) })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:border-emerald-500 outline-none"
+                    onChange={(e) => setFormData({ ...formData, space_min_sqft: e.target.value === '' ? '' : Number(e.target.value) })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:border-emerald-500 outline-none"
                   />
                 </div>
 
                 <div>
-                  <label className="text-slate-300 font-medium block mb-1">Max Area (sq ft)</label>
+                  <label className="text-slate-300 font-medium block mb-1">Max Sq. Ft. *</label>
                   <input
                     type="number"
+                    min={0}
+                    required
+                    placeholder="Max Sq. Ft."
                     value={formData.space_max_sqft}
-                    onChange={(e) => setFormData({ ...formData, space_max_sqft: Number(e.target.value) })}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white focus:border-emerald-500 outline-none"
+                    onChange={(e) => setFormData({ ...formData, space_max_sqft: e.target.value === '' ? '' : Number(e.target.value) })}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white placeholder-slate-600 focus:border-emerald-500 outline-none"
                   />
                 </div>
               </div>
