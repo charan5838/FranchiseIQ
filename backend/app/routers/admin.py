@@ -10,6 +10,8 @@ from app.models.franchise import (
 )
 from app.models.history import HistoricalFinancial, Outlet
 from app.models.verification import DataSource, DataVerification
+from app.models.support import SupportRequest, Feedback
+from app.schemas.support import SupportRequestOut, SupportRequestUpdate, FeedbackOut
 from app.routers.auth import get_current_user
 
 router = APIRouter(prefix="/admin", tags=["Admin Portal"])
@@ -388,4 +390,49 @@ def refresh_all_sources(
     db.commit()
 
     return summary
+
+@router.get("/support", response_model=List[SupportRequestOut])
+def list_support_requests(
+    status: Optional[str] = None,
+    category: Optional[str] = None,
+    admin: User = Depends(require_admin),
+    db: Session = Depends(get_db)
+):
+    query = db.query(SupportRequest)
+    if status and status != "ALL":
+        query = query.filter(SupportRequest.status == status)
+    if category and category != "ALL":
+        query = query.filter(SupportRequest.category == category)
+    return query.order_by(SupportRequest.created_at.desc()).all()
+
+@router.patch("/support/{request_id}", response_model=SupportRequestOut)
+def update_support_request(
+    request_id: int,
+    data: SupportRequestUpdate,
+    admin: User = Depends(require_admin),
+    db: Session = Depends(get_db)
+):
+    req = db.query(SupportRequest).filter(SupportRequest.id == request_id).first()
+    if not req:
+        raise HTTPException(status_code=404, detail="Support request not found")
+    req.status = data.status
+    if data.admin_notes is not None:
+        req.admin_notes = data.admin_notes
+    db.commit()
+    db.refresh(req)
+    return req
+
+@router.get("/feedback", response_model=List[FeedbackOut])
+def list_user_feedback(
+    category: Optional[str] = None,
+    min_rating: Optional[int] = None,
+    admin: User = Depends(require_admin),
+    db: Session = Depends(get_db)
+):
+    query = db.query(Feedback)
+    if category and category != "ALL":
+        query = query.filter(Feedback.category == category)
+    if min_rating:
+        query = query.filter(Feedback.rating >= min_rating)
+    return query.order_by(Feedback.created_at.desc()).all()
 

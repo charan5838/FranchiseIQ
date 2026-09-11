@@ -16,7 +16,8 @@ from app.routers import (
     watchlist_router,
     reviews_router,
     admin_router,
-    sources_router
+    sources_router,
+    support_router
 )
 from app.services.data_ingestion.scheduler import scheduler
 
@@ -59,6 +60,7 @@ app.include_router(watchlist_router, prefix=API_V1_STR)
 app.include_router(reviews_router, prefix=API_V1_STR)
 app.include_router(admin_router, prefix=API_V1_STR)
 app.include_router(sources_router, prefix=API_V1_STR)
+app.include_router(support_router, prefix=API_V1_STR)
 
 @app.get("/health")
 def health_check():

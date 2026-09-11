@@ -16,6 +16,8 @@ import { LocationAnalysis } from './pages/LocationAnalysis';
 import { WatchlistPage } from './pages/WatchlistPage';
 import { AdminPortal } from './pages/AdminPortal';
 import { DataSourcesPage } from './pages/DataSourcesPage';
+import { CustomerSupport } from './pages/CustomerSupport';
+import { HelpChatbot } from './components/HelpChatbot';
 import { LoginPage } from './pages/LoginPage';
 
 export const AppContent: React.FC = () => {
@@ -89,6 +91,8 @@ export const AppContent: React.FC = () => {
         return <WatchlistPage setCurrentPage={setCurrentPage} setSelectedFranchiseId={setSelectedFranchiseId} />;
       case 'sources':
         return <DataSourcesPage setCurrentPage={setCurrentPage} setSelectedFranchiseId={setSelectedFranchiseId} />;
+      case 'support':
+        return <CustomerSupport setCurrentPage={setCurrentPage} />;
       case 'admin':
         return <AdminPortal />;
       case 'dashboard':
@@ -105,6 +109,8 @@ export const AppContent: React.FC = () => {
         {renderPage()}
       </main>
       <Footer setCurrentPage={setCurrentPage} />
+      {/* Persistent Floating Help Chatbot at bottom-right */}
+      <HelpChatbot setCurrentPage={setCurrentPage} setSelectedFranchiseId={setSelectedFranchiseId} />
       {/* Mobile App Native Bottom Navigation Bar */}
       <MobileAppNav currentPage={currentPage} setCurrentPage={setCurrentPage} />
     </div>

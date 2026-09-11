@@ -498,3 +498,57 @@ export interface NotificationItem {
   date: string;
   franchise_id?: number;
 }
+
+export interface SupportRequest {
+  id: number;
+  user_id?: number;
+  name?: string;
+  email?: string;
+  category: string;
+  subject: string;
+  message: string;
+  status: 'OPEN' | 'IN_PROGRESS' | 'RESOLVED' | 'CLOSED';
+  admin_notes?: string;
+  created_at: string;
+  updated_at?: string;
+}
+
+export interface FeedbackItem {
+  id: number;
+  user_id?: number;
+  name?: string;
+  email?: string;
+  rating: number;
+  category: string;
+  message: string;
+  suggestion?: string;
+  status: string;
+  created_at: string;
+}
+
+export interface FaqItem {
+  id: string;
+  category: string;
+  question: string;
+  answer: string;
+  tags: string[];
+}
+
+export interface ChatMessage {
+  id: string;
+  sender: 'user' | 'assistant';
+  text: string;
+  timestamp: string;
+  quick_actions?: string[];
+  action_type?: string;
+  franchise_data?: {
+    id: number;
+    name: string;
+    total_investment: number;
+    monthly_revenue: number;
+    monthly_profit: number;
+    roi: number;
+    payback_months: number;
+    space_sqft: string;
+  };
+}

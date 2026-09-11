@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { 
   Building2, Sparkles, SlidersHorizontal, Scale, 
   Calculator, Activity, MapPin, BookmarkCheck, Shield, LogOut, User as UserIcon,
-  ChevronDown, Globe
+  ChevronDown, Globe, LifeBuoy
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useInvestor } from '../context/InvestorContext';
@@ -35,6 +35,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, setCurrentPage }) =
     { id: 'explore', label: 'Explore', icon: SlidersHorizontal },
     { id: 'compare', label: 'Compare', icon: Scale, badge: comparisonList.length },
     { id: 'sources', label: 'Data Sources', icon: Globe },
+    { id: 'support', label: 'Support', icon: LifeBuoy },
   ];
 
   const isAnalyticsActive = ['calculator', 'simulator', 'location'].includes(currentPage);

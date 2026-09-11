@@ -9,6 +9,7 @@ from app.models.location import Location, LocationAnalysis, Competitor
 from app.models.review import Review, FranchiseeReport
 from app.models.scenario import Scenario, Projection
 from app.models.source import FranchiseSource, DataObservation, DataFetchLog
+from app.models.support import SupportRequest, Feedback
 
 __all__ = [
     "User", "UserPreference", "Watchlist", "Notification", "AuditLog",
@@ -19,5 +20,6 @@ __all__ = [
     "Location", "LocationAnalysis", "Competitor",
     "Review", "FranchiseeReport",
     "Scenario", "Projection",
-    "FranchiseSource", "DataObservation", "DataFetchLog"
+    "FranchiseSource", "DataObservation", "DataFetchLog",
+    "SupportRequest", "Feedback"
 ]

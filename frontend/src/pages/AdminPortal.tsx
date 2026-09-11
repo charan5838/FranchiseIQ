@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { 
   Shield, Plus, Upload, CheckCircle2, FileText, 
   History, AlertCircle, RefreshCw, FolderPlus, Layers,
-  Globe, Database, ExternalLink, Play, Check, AlertTriangle, Filter
+  Globe, Database, ExternalLink, Play, Check, AlertTriangle, Filter,
+  LifeBuoy, Star, MessageSquare
 } from 'lucide-react';
 import { api } from '../services/api';
-import { Sector, FranchiseSummary, DataQualitySummary, FranchiseSourceItem } from '../types';
+import { Sector, FranchiseSummary, DataQualitySummary, FranchiseSourceItem, SupportRequest, FeedbackItem } from '../types';
 
 export const AdminPortal: React.FC = () => {
-  const [activeAdminTab, setActiveAdminTab] = useState<'franchises' | 'sources' | 'verify' | 'sectors' | 'documents' | 'audit'>('sources');
+  const [activeAdminTab, setActiveAdminTab] = useState<'franchises' | 'sources' | 'verify' | 'sectors' | 'documents' | 'audit' | 'support' | 'feedback'>('sources');
   const [sectors, setSectors] = useState<Sector[]>([]);
   const [franchises, setFranchises] = useState<FranchiseSummary[]>([]);
   const [auditLogs, setAuditLogs] = useState<any[]>([]);
@@ -19,6 +20,15 @@ export const AdminPortal: React.FC = () => {
   const [refreshingAll, setRefreshingAll] = useState(false);
   const [refreshMsg, setRefreshMsg] = useState<{ id: number; msg: string; success: boolean } | null>(null);
   const [sourceFilter, setSourceFilter] = useState<string>('ALL');
+
+  // Customer Support & Feedback State
+  const [supportTickets, setSupportTickets] = useState<SupportRequest[]>([]);
+  const [ticketFilter, setTicketFilter] = useState<string>('ALL');
+  const [updatingTicketId, setUpdatingTicketId] = useState<number | null>(null);
+  const [ticketAdminNote, setTicketAdminNote] = useState<string>('');
+
+  const [feedbackList, setFeedbackList] = useState<FeedbackItem[]>([]);
+  const [feedbackCatFilter, setFeedbackCatFilter] = useState<string>('ALL');
 
   // Form: Create Franchise
   const [newName, setNewName] = useState('');
@@ -60,13 +70,17 @@ export const AdminPortal: React.FC = () => {
       api.getFranchises(),
       api.getAuditLogs().catch(() => []),
       api.getDataQualitySummary().catch(() => null),
-      api.getDataSources().catch(() => [])
-    ]).then(([sData, fData, aData, qData, srcData]) => {
+      api.getDataSources().catch(() => []),
+      api.getAdminSupportRequests().catch(() => []),
+      api.getAdminFeedback().catch(() => [])
+    ]).then(([sData, fData, aData, qData, srcData, supData, fbData]) => {
       setSectors(sData);
       setFranchises(fData);
       setAuditLogs(aData);
       if (qData) setQualitySummary(qData);
       if (srcData) setSourcesList(srcData);
+      if (supData) setSupportTickets(supData);
+      if (fbData) setFeedbackList(fbData);
     }).finally(() => setLoading(false));
   };
 
@@ -196,6 +210,20 @@ export const AdminPortal: React.FC = () => {
     }
   };
 
+  const handleUpdateTicketStatus = async (ticketId: number, newStatus: string, note?: string) => {
+    setUpdatingTicketId(ticketId);
+    try {
+      await api.updateSupportRequestStatus(ticketId, newStatus, note);
+      const updated = await api.getAdminSupportRequests();
+      setSupportTickets(updated);
+      setTicketAdminNote('');
+    } catch (err: any) {
+      alert(err.message || 'Failed to update ticket status');
+    } finally {
+      setUpdatingTicketId(null);
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header */}
@@ -258,6 +286,8 @@ export const AdminPortal: React.FC = () => {
       <div className="flex items-center gap-2 border-b border-slate-800 pb-2 overflow-x-auto text-xs font-semibold">
         {[
           { id: 'sources', label: 'Official Sources Pipeline', icon: Globe },
+          { id: 'support', label: 'Customer Support', icon: LifeBuoy },
+          { id: 'feedback', label: 'User Feedback', icon: MessageSquare },
           { id: 'franchises', label: 'Create Franchise', icon: Plus },
           { id: 'verify', label: 'Verify Data Badges', icon: CheckCircle2 },
           { id: 'sectors', label: 'Manage Sectors', icon: FolderPlus },
@@ -841,6 +871,225 @@ export const AdminPortal: React.FC = () => {
               </tbody>
             </table>
           </div>
+        </div>
+      )}
+
+      {/* Tab: Customer Support Tickets */}
+      {activeAdminTab === 'support' && (
+        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <LifeBuoy className="w-5 h-5 text-emerald-400" />
+                <span>Customer Support Tickets & Escalation Queue</span>
+              </h3>
+              <p className="text-xs text-slate-400 mt-1">
+                Review, respond, and update ticket lifecycle status for investor inquiries and franchise discrepancies.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <select
+                value={ticketFilter}
+                onChange={(e) => setTicketFilter(e.target.value)}
+                className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none"
+              >
+                <option value="ALL">All Statuses ({supportTickets.length})</option>
+                <option value="OPEN">Open Only</option>
+                <option value="IN_PROGRESS">In Progress Only</option>
+                <option value="RESOLVED">Resolved Only</option>
+                <option value="CLOSED">Closed Only</option>
+              </select>
+
+              <button
+                onClick={loadAll}
+                className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 cursor-pointer"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+                <span>Refresh</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Tickets List */}
+          {supportTickets.filter(t => ticketFilter === 'ALL' || t.status === ticketFilter).length === 0 ? (
+            <div className="text-center py-12 text-slate-500 text-xs">
+              No support tickets found matching the selected status filter.
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {supportTickets
+                .filter(t => ticketFilter === 'ALL' || t.status === ticketFilter)
+                .map((ticket) => (
+                  <div key={ticket.id} className="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/60 pb-2.5">
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-slate-500 font-bold">#{ticket.id}</span>
+                        <span className="font-bold text-white text-sm">{ticket.subject}</span>
+                        <span className="px-2 py-0.5 rounded-full bg-slate-800 text-[10px] text-slate-300 font-medium">
+                          {ticket.category}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                          ticket.status === 'OPEN' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30' :
+                          ticket.status === 'IN_PROGRESS' ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' :
+                          'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
+                        }`}>
+                          {ticket.status}
+                        </span>
+                        <span className="text-[11px] text-slate-500">
+                          {new Date(ticket.created_at).toLocaleString()}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-[11px]">
+                      <div className="text-slate-400">
+                        <span className="block text-slate-500 text-[10px] uppercase font-semibold">User</span>
+                        <span className="text-white font-medium">{ticket.name || 'Investor'}</span>
+                        <span className="block text-slate-400 text-[10px]">{ticket.email || 'No email provided'}</span>
+                      </div>
+
+                      <div className="md:col-span-3 text-slate-300 bg-slate-900/60 p-3 rounded-xl border border-slate-800/80 leading-relaxed">
+                        <span className="block text-slate-500 text-[10px] uppercase font-semibold mb-1">Message Content</span>
+                        {ticket.message}
+                      </div>
+                    </div>
+
+                    {ticket.admin_notes && (
+                      <div className="p-2.5 rounded-xl bg-emerald-950/30 border border-emerald-500/20 text-[11px] text-emerald-300">
+                        <strong>Previous Admin Note:</strong> {ticket.admin_notes}
+                      </div>
+                    )}
+
+                    {/* Status Update Actions */}
+                    <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800/60">
+                      <div className="flex-1 min-w-[240px]">
+                        <input
+                          type="text"
+                          placeholder="Add internal resolution note (optional)..."
+                          value={updatingTicketId === ticket.id ? ticketAdminNote : ''}
+                          onChange={(e) => {
+                            setUpdatingTicketId(ticket.id);
+                            setTicketAdminNote(e.target.value);
+                          }}
+                          className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-white text-[11px] outline-none placeholder-slate-600 focus:border-emerald-500"
+                        />
+                      </div>
+
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={() => handleUpdateTicketStatus(ticket.id, 'IN_PROGRESS', ticketAdminNote)}
+                          className="px-2.5 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 text-[10px] font-bold transition-colors cursor-pointer"
+                        >
+                          Mark In-Progress
+                        </button>
+                        <button
+                          onClick={() => handleUpdateTicketStatus(ticket.id, 'RESOLVED', ticketAdminNote)}
+                          className="px-2.5 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 text-[10px] font-bold transition-colors cursor-pointer"
+                        >
+                          Mark Resolved
+                        </button>
+                        <button
+                          onClick={() => handleUpdateTicketStatus(ticket.id, 'OPEN', ticketAdminNote)}
+                          className="px-2 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 text-[10px] transition-colors cursor-pointer"
+                        >
+                          Reopen
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Tab: User Feedback */}
+      {activeAdminTab === 'feedback' && (
+        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <MessageSquare className="w-5 h-5 text-amber-400" />
+                <span>Investor Community Feedback & Ratings</span>
+              </h3>
+              <p className="text-xs text-slate-400 mt-1">
+                Direct ratings, feature requests, and suggestions submitted by investors and platform users.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <select
+                value={feedbackCatFilter}
+                onChange={(e) => setFeedbackCatFilter(e.target.value)}
+                className="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none"
+              >
+                <option value="ALL">All Categories ({feedbackList.length})</option>
+                <option value="Website/UI">Website/UI</option>
+                <option value="Franchise Data">Franchise Data</option>
+                <option value="Recommendations">Recommendations</option>
+                <option value="Calculator">Calculator</option>
+                <option value="Chatbot">Chatbot</option>
+                <option value="General Experience">General Experience</option>
+              </select>
+
+              <button
+                onClick={loadAll}
+                className="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold flex items-center gap-1.5 cursor-pointer"
+              >
+                <RefreshCw className="w-3.5 h-3.5" />
+                <span>Refresh</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Feedback Cards */}
+          {feedbackList.filter(f => feedbackCatFilter === 'ALL' || f.category === feedbackCatFilter).length === 0 ? (
+            <div className="text-center py-12 text-slate-500 text-xs">
+              No feedback entries found matching the selected filter.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {feedbackList
+                .filter(f => feedbackCatFilter === 'ALL' || f.category === feedbackCatFilter)
+                .map((fb) => (
+                  <div key={fb.id} className="p-4 rounded-2xl bg-slate-950 border border-slate-800 text-xs space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star
+                            key={star}
+                            className={`w-3.5 h-3.5 ${star <= fb.rating ? 'fill-amber-400 text-amber-400' : 'text-slate-700'}`}
+                          />
+                        ))}
+                        <span className="font-bold text-white text-xs ml-1.5">{fb.rating}/5</span>
+                      </div>
+
+                      <span className="px-2 py-0.5 rounded-full bg-slate-800 text-[10px] text-slate-300 font-medium">
+                        {fb.category}
+                      </span>
+                    </div>
+
+                    <p className="text-slate-300 leading-relaxed text-xs">{fb.message}</p>
+
+                    {fb.suggestion && (
+                      <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800/80 text-[11px] text-emerald-300">
+                        <strong className="text-slate-400 block text-[10px] uppercase font-semibold">User Suggestion</strong>
+                        {fb.suggestion}
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-between text-[10px] text-slate-500 pt-2 border-t border-slate-800/60">
+                      <span>By: <strong className="text-slate-400">{fb.name || 'Investor'}</strong> ({fb.email || 'Anonymous'})</span>
+                      <span>{new Date(fb.created_at).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          )}
         </div>
       )}
     </div>

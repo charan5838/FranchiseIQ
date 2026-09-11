@@ -2,7 +2,7 @@ import {
   Sector, FranchiseSummary, FranchiseDetail,
   RankedFranchise, CalculatorResult, ScenarioSimResult,
   LocationAnalysisResult, WatchlistItem, NotificationItem, User,
-  FranchiseCalculatorPreset
+  FranchiseCalculatorPreset, SupportRequest, FeedbackItem, FaqItem
 } from '../types';
 
 const BASE_URL = import.meta.env.VITE_API_URL || '/api';
@@ -311,5 +311,54 @@ export const api = {
 
   async refreshAllOfficialSources(): Promise<any> {
     return request('/admin/sources/refresh-all', { method: 'POST' });
+  },
+
+  // Customer Service & Support
+  async submitSupportRequest(data: { subject: string; category: string; message: string; name?: string; email?: string }): Promise<SupportRequest> {
+    return request<SupportRequest>('/support', { method: 'POST', body: JSON.stringify(data) });
+  },
+
+  async getMySupportRequests(): Promise<SupportRequest[]> {
+    return request<SupportRequest[]>('/support/my-requests');
+  },
+
+  async getAdminSupportRequests(status?: string, category?: string): Promise<SupportRequest[]> {
+    const params = new URLSearchParams();
+    if (status && status !== 'ALL') params.append('status', status);
+    if (category && category !== 'ALL') params.append('category', category);
+    const qs = params.toString();
+    return request<SupportRequest[]>(`/admin/support${qs ? `?${qs}` : ''}`);
+  },
+
+  async updateSupportRequestStatus(requestId: number, status: string, adminNotes?: string): Promise<SupportRequest> {
+    return request<SupportRequest>(`/admin/support/${requestId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status, admin_notes: adminNotes })
+    });
+  },
+
+  // Customer Feedback
+  async submitFeedback(data: { rating: number; category: string; message: string; suggestion?: string; name?: string; email?: string }): Promise<FeedbackItem> {
+    return request<FeedbackItem>('/feedback', { method: 'POST', body: JSON.stringify(data) });
+  },
+
+  async getAdminFeedback(category?: string, minRating?: number): Promise<FeedbackItem[]> {
+    const params = new URLSearchParams();
+    if (category && category !== 'ALL') params.append('category', category);
+    if (minRating) params.append('min_rating', String(minRating));
+    const qs = params.toString();
+    return request<FeedbackItem[]>(`/admin/feedback${qs ? `?${qs}` : ''}`);
+  },
+
+  // Help & FAQs
+  async getFaqs(): Promise<FaqItem[]> {
+    return request<FaqItem[]>('/help/faq');
+  },
+
+  async sendChatMessage(message: string, action?: string, franchiseId?: number): Promise<any> {
+    return request('/help/chat', {
+      method: 'POST',
+      body: JSON.stringify({ message, action, franchise_id: franchiseId })
+    });
   }
 };
