@@ -1,7 +1,7 @@
 import os
 import asyncio
 import logging
-from app.database import SessionLocal
+from app.database import get_mongo_db
 from app.services.data_ingestion.ingestion_manager import IngestionManager
 
 logger = logging.getLogger("FranchiseIQ.Scheduler")
@@ -28,13 +28,14 @@ class DataRefreshScheduler:
                     break
 
                 logger.info("Executing scheduled official website refresh...")
-                db = SessionLocal()
                 try:
+                    db = get_mongo_db()
                     manager = IngestionManager()
                     summary = manager.refresh_all_configured_sources(db)
                     logger.info(f"Scheduled refresh complete: {summary.get('successful')}/{summary.get('total_processed')} successful.")
-                finally:
-                    db.close()
+                except Exception as ex:
+                    logger.error(f"Error during scheduled refresh: {ex}")
+
             except asyncio.CancelledError:
                 break
             except Exception as e:

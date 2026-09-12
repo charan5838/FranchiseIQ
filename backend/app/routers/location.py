@@ -1,27 +1,26 @@
+import re
 from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
 from typing import List, Dict, Any
-from app.database import get_db
-from app.models.location import Location, Competitor
+from app.database import get_db, wrap_mongo_doc, clean_mongo_doc
 from app.schemas.analysis import LocationAnalysisRequest
 from app.services.location_engine import evaluate_location_intelligence
 
 router = APIRouter(prefix="/locations", tags=["Location & Competition Intelligence"])
 
 @router.get("")
-def list_locations(db: Session = Depends(get_db)):
-    locs = db.query(Location).all()
+def list_locations(db = Depends(get_db)):
+    locs = list(db["locations"].find())
     return [
         {
-            "id": l.id,
-            "city": l.city,
-            "locality": l.locality,
-            "pin_code": l.pin_code,
-            "tier": l.tier,
-            "avg_rent_sqft": l.avg_rent_sqft,
-            "footfall_index": l.footfall_index,
-            "population_density": l.population_density,
-            "commercial_activity_score": l.commercial_activity_score
+            "id": l["id"],
+            "city": l.get("city"),
+            "locality": l.get("locality"),
+            "pin_code": l.get("pin_code"),
+            "tier": l.get("tier"),
+            "avg_rent_sqft": l.get("avg_rent_sqft"),
+            "footfall_index": l.get("footfall_index"),
+            "population_density": l.get("population_density"),
+            "commercial_activity_score": l.get("commercial_activity_score")
         }
         for l in locs
     ]
@@ -29,27 +28,27 @@ def list_locations(db: Session = Depends(get_db)):
 @router.post("/analyze")
 def analyze_location(
     data: LocationAnalysisRequest,
-    db: Session = Depends(get_db)
+    db = Depends(get_db)
 ):
-    # Fetch competitors mapped to this city/locality
-    loc = db.query(Location).filter(
-        Location.city.ilike(f"%{data.city}%"),
-        Location.locality.ilike(f"%{data.locality}%")
-    ).first()
+    loc_query = {
+        "city": {"$regex": re.escape(data.city), "$options": "i"},
+        "locality": {"$regex": re.escape(data.locality), "$options": "i"}
+    }
+
+    loc = db["locations"].find_one(loc_query)
 
     competitors_data: List[Dict[str, Any]] = []
-    if loc and loc.competitors:
-        for c in loc.competitors:
+    if loc and loc.get("competitors"):
+        for c in loc["competitors"]:
             competitors_data.append({
-                "name": c.competitor_name,
-                "category": c.category,
-                "distance_km": c.distance_km,
-                "density": c.competitor_density,
-                "similar_brand": c.similar_brand,
-                "competitive_intensity": c.competitive_intensity
+                "name": c.get("competitor_name"),
+                "category": c.get("category"),
+                "distance_km": c.get("distance_km"),
+                "density": c.get("competitor_density"),
+                "similar_brand": c.get("similar_brand"),
+                "competitive_intensity": c.get("competitive_intensity")
             })
     else:
-        # Realistic generated local competitors based on sector
         competitors_data = [
             {"name": "Local Brand Hub", "category": "Direct Competitor", "distance_km": 0.6, "density": 3.2, "similar_brand": "Generic Category Lead", "competitive_intensity": "Medium"},
             {"name": "Metro Express", "category": "Regional Competitor", "distance_km": 1.2, "density": 2.8, "similar_brand": "Value Alternative", "competitive_intensity": "Low"},

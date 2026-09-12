@@ -1,15 +1,9 @@
 import re
+import datetime
 from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy.orm import Session
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from pydantic import BaseModel
-from app.database import get_db
-from app.models.franchise import (
-    Sector, Franchise, FranchiseInvestment, FranchiseFinancial,
-    OperatingCost, FranchiseFee, FranchisorSupport
-)
-from app.models.history import Outlet
-from app.models.verification import DataSource
+from app.database import get_db, wrap_mongo_doc, clean_mongo_doc, MongoDoc
 from app.schemas.franchise import SectorOut, FranchiseSummary, FranchiseDetail
 from app.services.claim_gap_engine import analyze_claim_gap
 from app.services.risk_engine import calculate_risk_score
@@ -37,38 +31,22 @@ class FranchiseSubmission(BaseModel):
     website: Optional[str] = None
 
 @router.post("/franchises/submit")
-def submit_franchise(data: FranchiseSubmission, db: Session = Depends(get_db)):
+def submit_franchise(data: FranchiseSubmission, db = Depends(get_db)):
     base_slug = re.sub(r'[^a-zA-Z0-9]+', '-', data.name.strip().lower()).strip('-')
     if not base_slug:
         base_slug = "franchise-listing"
     slug = base_slug
     idx = 1
-    while db.query(Franchise).filter(Franchise.slug == slug).first():
+    while db["franchises"].find_one({"slug": slug}):
         slug = f"{base_slug}-{idx}"
         idx += 1
 
     founded_yr = data.founded_year or 2022
     brand_age = max(1, 2026 - founded_yr)
 
-    f = Franchise(
-        name=data.name.strip(),
-        slug=slug,
-        sector_id=data.sector_id,
-        sub_sector=data.sub_sector.strip(),
-        description=data.description.strip(),
-        founded_year=founded_yr,
-        headquarters=data.headquarters.strip(),
-        website=data.website or None,
-        franchise_model=data.franchise_model or "FOFO",
-        space_min_sqft=data.space_min_sqft or 400.0,
-        space_max_sqft=data.space_max_sqft or 1000.0,
-        expansion_rate=15.0,
-        brand_age_years=brand_age,
-        is_active=True
-    )
-    db.add(f)
-    db.commit()
-    db.refresh(f)
+    # Determine next available ID
+    last_f = db["franchises"].find_one(sort=[("id", -1)])
+    next_id = (last_f["id"] + 1) if last_f and "id" in last_f else 1
 
     tot_inv = max(100000.0, data.total_investment)
     fee = data.franchise_fee if data.franchise_fee is not None else min(500000.0, tot_inv * 0.2)
@@ -78,95 +56,153 @@ def submit_franchise(data: FranchiseSubmission, db: Session = Depends(get_db)):
     payback = round(tot_inv / m_prof, 1)
     margin = round((m_prof / m_rev) * 100.0, 1)
 
-    inv = FranchiseInvestment(
-        franchise_id=f.id,
-        min_investment=tot_inv * 0.9,
-        max_investment=tot_inv * 1.15,
-        franchise_fee=fee,
-        setup_cost=tot_inv * 0.45,
-        equipment_cost=tot_inv * 0.25,
-        working_capital=tot_inv * 0.15,
-        total_estimated_investment=tot_inv,
-        last_updated="September 2026"
-    )
-    db.add(inv)
+    sector_doc = db["sectors"].find_one({"id": data.sector_id})
+    sector_info = {
+        "id": sector_doc["id"],
+        "name": sector_doc["name"],
+        "category": sector_doc["category"],
+        "icon": sector_doc["icon"],
+        "description": sector_doc["description"]
+    } if sector_doc else None
 
-    fin = FranchiseFinancial(
-        franchise_id=f.id,
-        claimed_monthly_revenue=m_rev * 1.2,
-        actual_monthly_revenue=m_rev,
-        claimed_annual_revenue=m_rev * 1.2 * 12.0,
-        actual_annual_revenue=m_rev * 12.0,
-        gross_margin=55.0,
-        operating_margin=max(10.0, margin + 5.0),
-        claimed_net_margin=min(45.0, margin + 8.0),
-        actual_net_margin=margin,
-        claimed_monthly_profit=m_prof * 1.25,
-        actual_monthly_profit=m_prof,
-        claimed_annual_profit=m_prof * 1.25 * 12.0,
-        actual_annual_profit=m_prof * 12.0,
-        break_even_months=max(6, int(payback * 0.6)),
-        roi_annual=roi,
-        payback_months=payback,
-        revenue_stability_score=82.0,
-        profit_stability_score=80.0,
-        last_updated="September 2026"
-    )
-    db.add(fin)
+    now_str = datetime.datetime.utcnow()
 
-    ops = OperatingCost(
-        franchise_id=f.id,
-        monthly_rent=max(20000.0, m_rev * 0.12),
-        employee_salaries=max(25000.0, m_rev * 0.15),
-        utilities=15000.0,
-        raw_materials_cogs=max(20000.0, m_rev * 0.35),
-        total_monthly_expenses=max(10000.0, m_rev - m_prof)
-    )
-    db.add(ops)
+    f_doc = {
+        "id": next_id,
+        "name": data.name.strip(),
+        "slug": slug,
+        "logo_url": None,
+        "sector_id": data.sector_id,
+        "sector": sector_info,
+        "sub_sector": data.sub_sector.strip(),
+        "description": data.description.strip(),
+        "founded_year": founded_yr,
+        "country": "India",
+        "headquarters": data.headquarters.strip(),
+        "website": data.website or None,
+        "availability": "Available Pan-India",
+        "franchise_model": data.franchise_model or "FOFO",
+        "space_min_sqft": data.space_min_sqft or 400.0,
+        "space_max_sqft": data.space_max_sqft or 1000.0,
+        "expansion_rate": 15.0,
+        "brand_age_years": brand_age,
+        "is_active": True,
+        "created_at": now_str,
+        "updated_at": now_str,
+        "investment": {
+            "min_investment": tot_inv * 0.9,
+            "max_investment": tot_inv * 1.15,
+            "franchise_fee": fee,
+            "security_deposit": 0.0,
+            "setup_cost": tot_inv * 0.45,
+            "equipment_cost": tot_inv * 0.25,
+            "interior_cost": 0.0,
+            "technology_cost": 0.0,
+            "initial_inventory": 0.0,
+            "working_capital": tot_inv * 0.15,
+            "other_initial_expenses": 0.0,
+            "total_estimated_investment": tot_inv,
+            "last_updated": "September 2026"
+        },
+        "financial": {
+            "claimed_monthly_revenue": m_rev * 1.2,
+            "actual_monthly_revenue": m_rev,
+            "claimed_annual_revenue": m_rev * 1.2 * 12.0,
+            "actual_annual_revenue": m_rev * 12.0,
+            "gross_margin": 55.0,
+            "operating_margin": max(10.0, margin + 5.0),
+            "claimed_net_margin": min(45.0, margin + 8.0),
+            "actual_net_margin": margin,
+            "claimed_monthly_profit": m_prof * 1.25,
+            "actual_monthly_profit": m_prof,
+            "claimed_annual_profit": m_prof * 1.25 * 12.0,
+            "actual_annual_profit": m_prof * 12.0,
+            "break_even_months": max(6, int(payback * 0.6)),
+            "roi_annual": roi,
+            "payback_months": payback,
+            "revenue_stability_score": 82.0,
+            "profit_stability_score": 80.0,
+            "last_updated": "September 2026"
+        },
+        "operating_costs": {
+            "monthly_rent": max(20000.0, m_rev * 0.12),
+            "employee_salaries": max(25000.0, m_rev * 0.15),
+            "utilities": 15000.0,
+            "raw_materials_cogs": max(20000.0, m_rev * 0.35),
+            "royalty_cost": m_rev * ((data.royalty_percentage or 5.0) / 100.0),
+            "marketing_fee_cost": m_rev * 0.02,
+            "insurance_accounting": 5000.0,
+            "total_monthly_expenses": max(10000.0, m_rev - m_prof)
+        },
+        "fees": {
+            "royalty_percentage": data.royalty_percentage or 5.0,
+            "royalty_fixed": 0.0,
+            "marketing_fee_percentage": 2.0,
+            "technology_fee_monthly": 0.0,
+            "renewal_fee": 0.0,
+            "transfer_fee": 0.0
+        },
+        "support": {
+            "training_provided": True,
+            "training_days": 14,
+            "site_selection_support": True,
+            "marketing_support": True,
+            "supply_chain_support": True,
+            "operational_support": True,
+            "software_pos_provided": True,
+            "manuals_sop_provided": True,
+            "field_support": True
+        },
+        "outlet_info": {
+            "total_outlets": 12,
+            "company_owned": 2,
+            "franchise_owned": 10,
+            "active_outlets": 12,
+            "closed_outlets": 0,
+            "closure_rate_pct": 0.0,
+            "states_present": 2,
+            "metros_count": 2,
+            "tier2_count": 1,
+            "tier3_count": 0
+        },
+        "data_sources": [{
+            "metric_name": "Direct Franchisor Submission",
+            "source_type": "REPORTED",
+            "source_name": f"Submitted by Franchisor ({data.contact_email or 'Direct Entry'})",
+            "methodology": "Direct platform listing submitted by brand representative, marked REPORTED pending on-site audit",
+            "confidence_level": 80.0,
+            "verified_by": "FranchiseIQ Community Review"
+        }],
+        "historical_financials": [],
+        "outlet_history": [],
+        "location_analyses": [],
+        "reviews": [],
+        "franchisee_reports": [],
+        "source_config": {
+            "official_website": data.website or f"https://{slug}.com",
+            "franchise_information_url": f"https://{slug}.com/franchise",
+            "fetch_status": "DEMO",
+            "source_mode": "DEMO",
+            "last_fetched_at": now_str,
+            "last_successful_fetch_at": None,
+            "error_message": None
+        },
+        "observations": []
+    }
 
-    fee_model = FranchiseFee(
-        franchise_id=f.id,
-        royalty_percentage=data.royalty_percentage or 5.0,
-        marketing_fee_percentage=2.0
-    )
-    db.add(fee_model)
-
-    support = FranchisorSupport(franchise_id=f.id)
-    db.add(support)
-
-    outlet = Outlet(
-        franchise_id=f.id,
-        total_outlets=12,
-        company_owned=2,
-        franchise_owned=10,
-        active_outlets=12,
-        closed_outlets=0,
-        closure_rate_pct=0.0
-    )
-    db.add(outlet)
-
-    ds = DataSource(
-        franchise_id=f.id,
-        metric_name="Direct Franchisor Submission",
-        source_type="REPORTED",
-        source_name=f"Submitted by Franchisor ({data.contact_email or 'Direct Entry'})",
-        methodology="Direct platform listing submitted by brand representative, marked REPORTED pending on-site audit",
-        confidence_level=80.0,
-        verified_by="FranchiseIQ Community Review"
-    )
-    db.add(ds)
-    db.commit()
+    db["franchises"].insert_one(f_doc)
 
     return {
         "status": "success",
-        "franchise_id": f.id,
-        "name": f.name,
-        "slug": f.slug
+        "franchise_id": next_id,
+        "name": f_doc["name"],
+        "slug": f_doc["slug"]
     }
 
 @router.get("/sectors", response_model=List[SectorOut])
-def get_sectors(db: Session = Depends(get_db)):
-    return db.query(Sector).filter(Sector.is_active == True).order_by(Sector.name).all()
+def get_sectors(db = Depends(get_db)):
+    docs = list(db["sectors"].find({"is_active": True}).sort("name", 1))
+    return [wrap_mongo_doc(clean_mongo_doc(d)) for d in docs]
 
 @router.get("/franchises", response_model=List[FranchiseSummary])
 def get_franchises(
@@ -183,22 +219,24 @@ def get_franchises(
     monthly_revenue: Optional[float] = None,
     monthly_income: Optional[float] = None,
     monthly_profit: Optional[float] = None,
-    db: Session = Depends(get_db)
+    db = Depends(get_db)
 ):
-    query = db.query(Franchise).filter(Franchise.is_active == True)
+    query: Dict[str, Any] = {"is_active": True}
 
     if sector_id:
-        query = query.filter(Franchise.sector_id == sector_id)
+        query["sector_id"] = sector_id
 
     if search:
-        term = f"%{search}%"
-        query = query.filter(
-            (Franchise.name.ilike(term)) |
-            (Franchise.sub_sector.ilike(term)) |
-            (Franchise.headquarters.ilike(term))
-        )
+        rgx = {"$regex": re.escape(search.strip()), "$options": "i"}
+        query["$or"] = [
+            {"name": rgx},
+            {"sub_sector": rgx},
+            {"headquarters": rgx}
+        ]
 
-    results = query.all()
+
+    raw_results = list(db["franchises"].find(query))
+    results = [wrap_mongo_doc(clean_mongo_doc(d)) for d in raw_results]
     summaries = []
 
     for f in results:
@@ -216,8 +254,7 @@ def get_franchises(
         royalty_pct = fees.royalty_percentage if fees else 5.0
         tot_outlets = outlets.total_outlets if outlets else 50
 
-        # User Requirements vs Franchise Data Comparison Filters
-        # Total Investment: maximum amount the user is willing to invest (User Total Investment >= Franchise Total Investment)
+        # User Requirements vs Franchise Data Comparison Filters (Manual user-entered criteria preserved)
         if min_investment:
             norm_min_inv = min_investment * 100000.0 if min_investment < 10000.0 else min_investment
             if total_inv < norm_min_inv:
@@ -231,9 +268,7 @@ def get_franchises(
         if max_payback and payback > max_payback:
             continue
 
-        # Space Requirements:
-        # Franchise Min Sq. Ft. <= User Max Sq. Ft.
-        # Franchise Max Sq. Ft. >= User Min Sq. Ft.
+        # Space Requirements
         f_min_sqft = f.space_min_sqft or 0.0
         f_max_sqft = f.space_max_sqft or 999999.0
         if max_sqft and f_min_sqft > max_sqft:
@@ -241,14 +276,11 @@ def get_franchises(
         if min_sqft and f_max_sqft < min_sqft:
             continue
 
-        # Monthly Revenue:
-        # Franchise Monthly Revenue >= User Monthly Revenue
+        # Monthly Revenue
         if monthly_revenue and monthly_rev < monthly_revenue:
             continue
 
-        # Monthly Income & Monthly Profit:
-        # Franchise Monthly Profit >= User Monthly Profit
-        # Franchise Monthly Income >= User Monthly Income
+        # Monthly Income & Monthly Profit
         if monthly_profit and monthly_prof < monthly_profit:
             continue
         if monthly_income and monthly_prof < monthly_income:
@@ -278,28 +310,28 @@ def get_franchises(
             if gap_pct > 25.0:
                 claim_gap = "HIGH"
             elif gap_pct > 12.0:
-                claim_gap = "MODERATE"
+                claim_gap = "MEDIUM"
 
-        # Primary source type
-        primary_source = "ESTIMATED"
-        if f.data_sources:
-            primary_source = f.data_sources[0].source_type
+        primary_source = f.data_sources[0].source_type if f.data_sources else "ESTIMATED"
+        source_mode = f.source_config.source_mode if f.source_config else "DEMO"
 
-        summaries.append(FranchiseSummary(
+        sec_name = f.sector.name if (f.sector and hasattr(f.sector, 'name')) else "General"
+
+        summary = FranchiseSummary(
             id=f.id,
             name=f.name,
             slug=f.slug,
             logo_url=f.logo_url,
             sector_id=f.sector_id,
-            sector_name=f.sector.name if f.sector else "General",
+            sector_name=sec_name,
             sub_sector=f.sub_sector,
-            founded_year=f.founded_year,
+            founded_year=f.founded_year or 2020,
             headquarters=f.headquarters,
-            franchise_model=f.franchise_model,
-            space_min_sqft=f.space_min_sqft,
-            space_max_sqft=f.space_max_sqft,
-            expansion_rate=f.expansion_rate,
-            brand_age_years=f.brand_age_years,
+            franchise_model=f.franchise_model or "FOFO",
+            space_min_sqft=f.space_min_sqft or 500.0,
+            space_max_sqft=f.space_max_sqft or 1500.0,
+            expansion_rate=f.expansion_rate or 15.0,
+            brand_age_years=f.brand_age_years or 5,
             total_investment=total_inv,
             franchise_fee=inv.franchise_fee if inv else 500000.0,
             monthly_revenue=monthly_rev,
@@ -314,9 +346,11 @@ def get_franchises(
             primary_data_source=primary_source,
             data_confidence=confidence,
             claim_gap_severity=claim_gap
-        ))
+        )
+        summaries.append(summary)
 
-    # Sort
+
+    # Sort results
     if sort_by == "roi_desc":
         summaries.sort(key=lambda x: x.roi_annual, reverse=True)
     elif sort_by == "roi_asc":
@@ -335,14 +369,14 @@ def get_franchises(
 @router.get("/franchises/sector-profit-leaders")
 def get_sector_profit_leaders(
     budget: Optional[float] = None,
-    db: Session = Depends(get_db)
+    db = Depends(get_db)
 ):
-    sectors = db.query(Sector).filter(Sector.is_active == True).order_by(Sector.name).all()
+    sectors = list(db["sectors"].find({"is_active": True}).sort("name", 1))
     results = []
 
     for sec in sectors:
-        query = db.query(Franchise).filter(Franchise.sector_id == sec.id, Franchise.is_active == True)
-        all_franchises = query.all()
+        all_franchises_raw = list(db["franchises"].find({"sector_id": sec["id"], "is_active": True}))
+        all_franchises = [wrap_mongo_doc(clean_mongo_doc(d)) for d in all_franchises_raw]
         if not all_franchises:
             continue
 
@@ -393,11 +427,11 @@ def get_sector_profit_leaders(
         top_leader = franchise_items[0]
 
         results.append({
-            "sector_id": sec.id,
-            "sector_name": sec.name,
-            "category": sec.category,
-            "icon": sec.icon,
-            "description": sec.description,
+            "sector_id": sec["id"],
+            "sector_name": sec["name"],
+            "category": sec["category"],
+            "icon": sec["icon"],
+            "description": sec["description"],
             "total_available_franchises": len(all_franchises),
             "matching_franchises_count": len(franchise_items),
             "highest_monthly_profit": max_profit,
@@ -410,14 +444,16 @@ def get_sector_profit_leaders(
     return results
 
 @router.get("/franchises/{id_or_slug}", response_model=FranchiseDetail)
-def get_franchise_detail(id_or_slug: str, db: Session = Depends(get_db)):
+def get_franchise_detail(id_or_slug: str, db = Depends(get_db)):
     if id_or_slug.isdigit():
-        f = db.query(Franchise).filter(Franchise.id == int(id_or_slug)).first()
+        f_raw = db["franchises"].find_one({"id": int(id_or_slug)})
     else:
-        f = db.query(Franchise).filter(Franchise.slug == id_or_slug).first()
+        f_raw = db["franchises"].find_one({"slug": id_or_slug})
 
-    if not f:
+    if not f_raw:
         raise HTTPException(status_code=404, detail="Franchise opportunity not found")
+
+    f = wrap_mongo_doc(clean_mongo_doc(f_raw))
 
     inv = f.investment
     fin = f.financial
@@ -473,7 +509,6 @@ def get_franchise_detail(id_or_slug: str, db: Session = Depends(get_db)):
     if f.franchisee_reports:
         satisfaction = sum(r.overall_satisfaction for r in f.franchisee_reports) / len(f.franchisee_reports)
 
-    # Deal Attractiveness Score (0-100)
     deal_score = round(
         (roi * 0.35) +
         (max(0, 100 - payback * 2.0) * 0.25) +
@@ -485,16 +520,50 @@ def get_franchise_detail(id_or_slug: str, db: Session = Depends(get_db)):
     reviews_out = [
         {
             "id": r.id,
-            "user_name": r.user.name if r.user else "Verified Investor",
+            "user_name": r.get("user_name", "Verified Investor"),
             "rating": r.rating,
             "title": r.title,
             "comment": r.comment,
-            "created_at": r.created_at.strftime("%b %Y") if r.created_at else "Aug 2026"
+            "created_at": r.created_at.strftime("%b %Y") if hasattr(r.created_at, 'strftime') else (str(r.created_at)[:7] if r.created_at else "Aug 2026")
         }
-        for r in f.reviews if r.is_approved
+        for r in (f.reviews or []) if r.get("is_approved", True)
     ]
 
     primary_source = f.data_sources[0].source_type if f.data_sources else "ESTIMATED"
+
+    # Date formatting for last_fetched
+    last_f_time = None
+    if f.source_config:
+        last_f_time = f.source_config.last_successful_fetch_at or f.source_config.last_fetched_at
+    if hasattr(last_f_time, 'strftime'):
+        last_fetched_str = last_f_time.strftime("%d %b %Y, %I:%M %p")
+    elif last_f_time:
+        last_fetched_str = str(last_f_time)
+    else:
+        last_fetched_str = "Demo Data (Unfetched)"
+
+    sec_name = f.sector.name if (f.sector and hasattr(f.sector, 'name')) else "General"
+
+    obs_out = []
+    for o in (f.observations[:20] if f.observations else []):
+        f_at = o.fetched_at
+        if hasattr(f_at, 'strftime'):
+            f_at_str = f_at.strftime("%d %b %Y, %I:%M %p")
+        elif f_at:
+            f_at_str = str(f_at)
+        else:
+            f_at_str = "Unknown"
+
+        obs_out.append({
+            "field_name": o.field_name,
+            "original_value": o.original_value,
+            "normalized_value": o.normalized_value,
+            "data_classification": o.data_classification,
+            "source_type": o.source_type,
+            "source_url": o.source_url,
+            "confidence_score": o.confidence_score,
+            "fetched_at": f_at_str
+        })
 
     return FranchiseDetail(
         id=f.id,
@@ -503,7 +572,7 @@ def get_franchise_detail(id_or_slug: str, db: Session = Depends(get_db)):
         logo_url=f.logo_url,
         description=f.description,
         sector_id=f.sector_id,
-        sector_name=f.sector.name if f.sector else "General",
+        sector_name=sec_name,
         sub_sector=f.sub_sector,
         founded_year=f.founded_year,
         country=f.country,
@@ -535,8 +604,8 @@ def get_franchise_detail(id_or_slug: str, db: Session = Depends(get_db)):
         fees=fees,
         outlet_info=outlets,
         support=support,
-        historical_financials=f.historical_financials,
-        data_sources=f.data_sources,
+        historical_financials=f.historical_financials or [],
+        data_sources=f.data_sources or [],
         reviews=reviews_out,
         claim_gap_analysis=claim_analysis,
         risk_analysis=risk_analysis,
@@ -547,18 +616,6 @@ def get_franchise_detail(id_or_slug: str, db: Session = Depends(get_db)):
         source_mode=f.source_config.source_mode if f.source_config else "DEMO",
         official_website=f.source_config.official_website if f.source_config else f.website,
         franchise_information_url=f.source_config.franchise_information_url if f.source_config else (f"{f.website.rstrip('/')}/franchise" if f.website else None),
-        last_fetched_at=(f.source_config.last_successful_fetch_at or f.source_config.last_fetched_at).strftime("%d %b %Y, %I:%M %p") if (f.source_config and (f.source_config.last_successful_fetch_at or f.source_config.last_fetched_at)) else "Demo Data (Unfetched)",
-        observations=[
-            {
-                "field_name": o.field_name,
-                "original_value": o.original_value,
-                "normalized_value": o.normalized_value,
-                "data_classification": o.data_classification,
-                "source_type": o.source_type,
-                "source_url": o.source_url,
-                "confidence_score": o.confidence_score,
-                "fetched_at": o.fetched_at.strftime("%d %b %Y, %I:%M %p") if o.fetched_at else "Unknown"
-            }
-            for o in (f.observations[:20] if f.observations else [])
-        ]
+        last_fetched_at=last_fetched_str,
+        observations=obs_out
     )

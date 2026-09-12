@@ -1,8 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
-from sqlalchemy.orm import Session
+﻿from fastapi import APIRouter, Depends, HTTPException, Query
 from typing import List, Optional, Dict, Any
-from app.database import get_db
-from app.models.franchise import Franchise, Sector
+from app.database import get_db, wrap_mongo_doc, clean_mongo_doc, MongoDoc
 from app.schemas.analysis import (
     CalculatorRequest, CalculatorOut,
     ScenarioSimRequest, ScenarioSimOut
@@ -19,30 +17,32 @@ router = APIRouter(prefix="/calculator", tags=["Financial Calculator & Simulator
 @router.get("/franchise-presets")
 def get_calculator_presets(
     sector_id: Optional[int] = None,
-    db: Session = Depends(get_db)
+    db = Depends(get_db)
 ):
-    query = db.query(Franchise).filter(Franchise.is_active == True)
+    query: Dict[str, Any] = {"is_active": True}
     if sector_id:
-        query = query.filter(Franchise.sector_id == sector_id)
-    franchises = query.order_by(Franchise.sector_id, Franchise.name).all()
+        query["sector_id"] = sector_id
+
+    raw_list = list(db["franchises"].find(query).sort([("sector_id", 1), ("name", 1)]))
+    franchises = [wrap_mongo_doc(clean_mongo_doc(f)) for f in raw_list]
     return [build_franchise_calculator_preset(f) for f in franchises]
 
 @router.get("/preset/{franchise_id}")
 def get_calculator_preset_by_id(
     franchise_id: int,
-    db: Session = Depends(get_db)
+    db = Depends(get_db)
 ):
-    f = db.query(Franchise).filter(Franchise.id == franchise_id).first()
-    if not f:
+    f_raw = db["franchises"].find_one({"id": franchise_id})
+    if not f_raw:
         raise HTTPException(status_code=404, detail="Franchise not found")
+    f = wrap_mongo_doc(clean_mongo_doc(f_raw))
     return build_franchise_calculator_preset(f)
 
 @router.post("/calculate", response_model=CalculatorOut)
 def run_financial_calculator(
     data: CalculatorRequest,
-    db: Session = Depends(get_db)
+    db = Depends(get_db)
 ):
-    # Calculate revenue from traffic inputs
     calculated_rev = calculate_monthly_revenue(
         avg_customers_daily=data.avg_customers_daily,
         avg_ticket_value=data.avg_ticket_value,
@@ -79,11 +79,13 @@ def run_financial_calculator(
 @router.post("/simulate", response_model=ScenarioSimOut)
 def run_scenario_simulation(
     data: ScenarioSimRequest,
-    db: Session = Depends(get_db)
+    db = Depends(get_db)
 ):
-    f = db.query(Franchise).filter(Franchise.id == data.franchise_id).first()
-    if not f:
+    f_raw = db["franchises"].find_one({"id": data.franchise_id})
+    if not f_raw:
         raise HTTPException(status_code=404, detail="Franchise not found")
+
+    f = wrap_mongo_doc(clean_mongo_doc(f_raw))
 
     fin = f.financial
     ops = f.operating_costs
@@ -104,12 +106,10 @@ def run_scenario_simulation(
     base_payback = (total_inv / base_profit) if base_profit > 0 else 999.0
 
     # Apply Deltas
-    # Demand delta directly enhances or depresses revenue
     effective_sales_delta = data.sales_delta_pct + data.demand_delta_pct
     sim_rev = base_rev * (1.0 + (effective_sales_delta / 100.0))
     sim_rent = base_rent * (1.0 + (data.rent_delta_pct / 100.0))
     sim_salaries = base_salaries * (1.0 + (data.salaries_delta_pct / 100.0))
-    # Variable COGS scales with revenue change AND unit cost change
     sim_cogs = (base_cogs * (sim_rev / base_rev)) * (1.0 + (data.cogs_delta_pct / 100.0)) if base_rev > 0 else base_cogs
     sim_royalty = sim_rev * (fees.royalty_percentage / 100.0) if fees else sim_rev * 0.05
 
@@ -119,7 +119,6 @@ def run_scenario_simulation(
     sim_roi = (sim_profit * 12.0 / total_inv * 100.0) if total_inv > 0 else 0.0
     sim_payback = (total_inv / sim_profit) if sim_profit > 0 else 999.0
 
-    # Risk Assessment of Stress Test
     if sim_profit <= 0:
         stress_rating = "High Fragility"
         assessment = "Under this stressed scenario, the unit experiences negative cash flow. Working capital would be consumed rapidly."

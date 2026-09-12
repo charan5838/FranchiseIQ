@@ -87,9 +87,31 @@ def seed_sources(db: Session):
         print(f"Initialized {count} official franchise source configurations and observations.")
 
 def init_db():
-    Base.metadata.create_all(bind=engine)
+    from app.database import get_mongo_db, test_mongo_connection
+    test_mongo_connection()
+    try:
+        Base.metadata.create_all(bind=engine)
+    except Exception as e:
+        pass
 
 def seed_all_data():
+    from app.database import get_mongo_db
+    mongo_db = get_mongo_db()
+    mongo_count = mongo_db["franchises"].count_documents({})
+    if mongo_count >= 120:
+        print(f"MongoDB already populated with {mongo_count} franchises (10+ per sector).")
+        return
+
+    # Attempt migration from SQLite to MongoDB
+    try:
+        from migrate_sql_to_mongo import migrate
+        success = migrate()
+        if success and mongo_db["franchises"].count_documents({}) >= 120:
+            print("Successfully populated MongoDB from SQLite source database.")
+            return
+    except Exception as e:
+        print(f"Migration from SQLite encountered: {e}. Falling back to standard seeder...")
+
     db: Session = SessionLocal()
     try:
         franchise_count = db.query(Franchise).count()
@@ -97,12 +119,7 @@ def seed_all_data():
             print(f"Database already populated with {franchise_count} franchises (10+ per sector). Verifying sources...")
             seed_sources(db)
             return
-        elif franchise_count > 0:
-            print(f"Current count {franchise_count} < 120. Rebuilding database with 120+ multi-sector franchises (10+ per sector)...")
-            Base.metadata.drop_all(bind=engine)
-            Base.metadata.create_all(bind=engine)
 
-        print("Seeding FranchiseIQ database with 120+ multi-sector franchises (10+ per sector)...")
 
         # 1. Users
         investor_user = User(

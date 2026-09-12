@@ -1,8 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
 from typing import List, Dict, Any
-from app.database import get_db
-from app.models.franchise import Franchise
+from app.database import get_db, wrap_mongo_doc, clean_mongo_doc
 from app.schemas.analysis import ComparisonRequest
 from app.services.risk_engine import calculate_risk_score
 
@@ -11,14 +9,17 @@ router = APIRouter(prefix="/comparison", tags=["Franchise Comparison Engine"])
 @router.post("/compare")
 def compare_franchises(
     data: ComparisonRequest,
-    db: Session = Depends(get_db)
+    db = Depends(get_db)
 ):
     if len(data.franchise_ids) < 2 or len(data.franchise_ids) > 5:
         raise HTTPException(status_code=400, detail="Please select between 2 and 5 franchises to compare")
 
-    franchises = db.query(Franchise).filter(Franchise.id.in_(data.franchise_ids)).all()
-    if len(franchises) != len(data.franchise_ids):
+    raw_list = list(db["franchises"].find({"id": {"$in": data.franchise_ids}}))
+
+    if len(raw_list) != len(data.franchise_ids):
         raise HTTPException(status_code=404, detail="One or more franchises could not be found")
+
+    franchises = [wrap_mongo_doc(clean_mongo_doc(f)) for f in raw_list]
 
     items = []
     for f in franchises:
@@ -63,12 +64,14 @@ def compare_franchises(
         if f.franchisee_reports:
             satisfaction = sum(r.overall_satisfaction for r in f.franchisee_reports) / len(f.franchisee_reports)
 
+        sec_name = f.sector.name if (f.sector and hasattr(f.sector, 'name')) else "General"
+
         items.append({
             "id": f.id,
             "name": f.name,
             "slug": f.slug,
             "logo_url": f.logo_url,
-            "sector": f.sector.name if f.sector else "General",
+            "sector": sec_name,
             "sub_sector": f.sub_sector,
             "model": f.franchise_model,
             "total_investment": total_inv,
@@ -91,8 +94,6 @@ def compare_franchises(
             "franchisee_satisfaction": satisfaction
         })
 
-    # Determine Best Value Highlights
-    # Lowest investment, Highest ROI, Lowest Payback, Lowest Risk, Highest Profit, Lowest Royalty, Highest Satisfaction
     best_highlights = {
         "lowest_investment_id": min(items, key=lambda x: x["total_investment"])["id"],
         "highest_roi_id": max(items, key=lambda x: x["roi_annual"])["id"],

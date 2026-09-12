@@ -1,8 +1,6 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-from typing import List
-from app.database import get_db
-from app.models.franchise import Franchise
+﻿from fastapi import APIRouter, Depends
+from typing import List, Dict, Any
+from app.database import get_db, wrap_mongo_doc, clean_mongo_doc
 from app.schemas.analysis import RecommendationRequest, RankedFranchiseOut
 from app.services.scoring_engine import calculate_personalized_score
 from app.services.risk_engine import calculate_risk_score
@@ -12,13 +10,14 @@ router = APIRouter(prefix="/recommendations", tags=["Recommendation Engine"])
 @router.post("/rank", response_model=List[RankedFranchiseOut])
 def rank_franchises(
     data: RecommendationRequest,
-    db: Session = Depends(get_db)
+    db = Depends(get_db)
 ):
-    query = db.query(Franchise).filter(Franchise.is_active == True)
+    query: Dict[str, Any] = {"is_active": True}
     if data.preferred_sector_id:
-        query = query.filter(Franchise.sector_id == data.preferred_sector_id)
+        query["sector_id"] = data.preferred_sector_id
 
-    franchises = query.all()
+    raw_list = list(db["franchises"].find(query))
+    franchises = [wrap_mongo_doc(clean_mongo_doc(f)) for f in raw_list]
     ranked_list = []
 
     for f in franchises:
@@ -60,12 +59,10 @@ def rank_franchises(
             data_confidence_score=confidence
         )
 
-        # Location score
         loc_score = 78.0
         if f.location_analyses:
             loc_score = f.location_analyses[0].overall_location_score
 
-        # Claim gap status
         claim_gap = "LOW"
         if fin and fin.claimed_monthly_profit > 0:
             gap_pct = (fin.claimed_monthly_profit - fin.actual_monthly_profit) / fin.claimed_monthly_profit * 100.0
@@ -75,13 +72,14 @@ def rank_franchises(
                 claim_gap = "MODERATE"
 
         primary_source = f.data_sources[0].source_type if f.data_sources else "ESTIMATED"
+        sec_name = f.sector.name if (f.sector and hasattr(f.sector, 'name')) else "General"
 
         ranked_list.append({
             "franchise_id": f.id,
             "name": f.name,
             "slug": f.slug,
             "logo_url": f.logo_url,
-            "sector_name": f.sector.name if f.sector else "General",
+            "sector_name": sec_name,
             "sub_sector": f.sub_sector,
             "total_investment": total_inv,
             "monthly_revenue": monthly_rev,
@@ -102,10 +100,8 @@ def rank_franchises(
             "claim_gap_severity": claim_gap
         })
 
-    # Sort descending by overall personalized score
     ranked_list.sort(key=lambda x: x["overall_score"], reverse=True)
 
-    # Assign 1-indexed ranks
     results = []
     for idx, item in enumerate(ranked_list, start=1):
         results.append(RankedFranchiseOut(rank=idx, **item))

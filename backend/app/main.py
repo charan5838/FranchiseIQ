@@ -64,7 +64,14 @@ app.include_router(support_router, prefix=API_V1_STR)
 
 @app.get("/health")
 def health_check():
-    return {"status": "healthy", "service": "FranchiseIQ API"}
+    from app.database import test_mongo_connection
+    diag = test_mongo_connection()
+    return {
+        "status": "healthy",
+        "service": "FranchiseIQ API",
+        "database": diag
+    }
+
 
 @app.get("/api/info")
 def api_info():

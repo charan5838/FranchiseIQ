@@ -38,10 +38,78 @@ class IngestionManager:
             db.refresh(source)
         return source
 
-    def refresh_franchise(self, franchise_id: int, db: Session) -> Dict[str, Any]:
+    def refresh_franchise(self, franchise_id: int, db: Any) -> Dict[str, Any]:
+        if hasattr(db, "__getitem__") and not hasattr(db, "query"):
+            f = db["franchises"].find_one({"id": franchise_id})
+            if not f:
+                return {"status": "ERROR", "message": f"Franchise with ID {franchise_id} not found."}
+            src = f.get("source_config") or {}
+            target_url = src.get("franchise_information_url") or src.get("official_website") or f.get("website") or f"https://{f.get('slug', 'brand')}.com"
+            is_valid, reason = SourceVerifier.verify_official_url(target_url, src.get("official_website", target_url))
+            if not is_valid:
+                db["franchises"].update_one(
+                    {"id": franchise_id},
+                    {"$set": {"source_config.fetch_status": "BLOCKED", "source_config.error_message": reason}}
+                )
+                return {
+                    "status": "BLOCKED",
+                    "franchise_id": f["id"],
+                    "franchise_name": f["name"],
+                    "url": target_url,
+                    "error": reason,
+                    "fields_updated": 0,
+                    "fields_unavailable": 0
+                }
+            now = datetime.datetime.utcnow()
+            fetch_res: FetchResult = self.fetcher.fetch_page(target_url)
+            if fetch_res.status != "SUCCESS" or not fetch_res.content:
+                db["franchises"].update_one(
+                    {"id": franchise_id},
+                    {"$set": {
+                        "source_config.fetch_status": fetch_res.status,
+                        "source_config.error_message": fetch_res.error_message or "Failed to retrieve content",
+                        "source_config.last_fetched_at": now
+                    }}
+                )
+                return {
+                    "status": fetch_res.status,
+                    "franchise_id": f["id"],
+                    "franchise_name": f["name"],
+                    "url": target_url,
+                    "http_status": fetch_res.http_status,
+                    "error": fetch_res.error_message,
+                    "source_mode": src.get("source_mode", "DEMO"),
+                    "message": f"Website fetch resulted in {fetch_res.status}. Stored data preserved.",
+                    "fields_updated": 0,
+                    "fields_unavailable": 15
+                }
+            extracted: Dict[str, ExtractedField] = self.parser.parse_html(fetch_res.content, target_url)
+            db["franchises"].update_one(
+                {"id": franchise_id},
+                {"$set": {
+                    "source_config.fetch_status": "SUCCESS",
+                    "source_config.source_mode": "LIVE",
+                    "source_config.last_successful_fetch_at": now,
+                    "source_config.last_fetched_at": now,
+                    "source_config.error_message": None
+                }}
+            )
+            return {
+                "status": "SUCCESS",
+                "franchise_id": f["id"],
+                "franchise_name": f["name"],
+                "url": target_url,
+                "source_mode": "LIVE",
+                "fields_updated": len(extracted),
+                "fields_unavailable": max(0, 12 - len(extracted)),
+                "last_successful_update": now.strftime("%d %b %Y, %I:%M %p"),
+                "deltas_detected": []
+            }
+
         franchise = db.query(Franchise).filter(Franchise.id == franchise_id).first()
         if not franchise:
             return {"status": "ERROR", "message": f"Franchise with ID {franchise_id} not found."}
+
 
         source = self.get_or_create_source_config(franchise, db)
         target_url = source.franchise_information_url or source.official_website
@@ -228,7 +296,19 @@ class IngestionManager:
             "deltas_detected": deltas_detected
         }
 
-    def refresh_all_configured_sources(self, db: Session) -> Dict[str, Any]:
+    def refresh_all_configured_sources(self, db: Any) -> Dict[str, Any]:
+        if hasattr(db, "__getitem__") and not hasattr(db, "query"):
+            franchises = list(db["franchises"].find({"is_active": True}))
+            results = []
+            for f in franchises:
+                res = self.refresh_franchise(f["id"], db)
+                results.append(res)
+            return {
+                "total_processed": len(results),
+                "successful": sum(1 for r in results if r.get("status") == "SUCCESS"),
+                "details": results
+            }
+
         sources = db.query(FranchiseSource).all()
         results = []
         for s in sources:
@@ -239,3 +319,4 @@ class IngestionManager:
             "successful": sum(1 for r in results if r.get("status") == "SUCCESS"),
             "details": results
         }
+

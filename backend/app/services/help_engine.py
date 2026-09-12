@@ -1,7 +1,7 @@
 import re
-from typing import Dict, List, Optional, Tuple
-from sqlalchemy.orm import Session
+from typing import Dict, List, Optional, Tuple, Any
 from app.models.franchise import Franchise, FranchiseInvestment, FranchiseFinancial
+
 from app.models.source import FranchiseSource
 
 FAQS = [
@@ -91,7 +91,8 @@ def format_inr(val: float) -> str:
     else:
         return f"₹{val:,.0f}"
 
-def search_franchise_in_db(query: str, db: Session) -> Optional[Franchise]:
+def search_franchise_in_db(query: str, db: Any = None) -> Any:
+
     """Search for a franchise brand name mentioned in the user query."""
     q = query.strip().lower()
     # Strip common conversational phrases
@@ -100,9 +101,15 @@ def search_franchise_in_db(query: str, db: Session) -> Optional[Franchise]:
     if len(cleaned) < 3:
         cleaned = q
 
-    # Try exact match on name
-    franchises = db.query(Franchise).filter(Franchise.is_active == True).all()
-    
+    from app.database import get_mongo_db, wrap_mongo_doc, clean_mongo_doc
+    if hasattr(db, "__getitem__"):
+        m_db = db
+    else:
+        m_db = get_mongo_db()
+
+    raw_list = list(m_db["franchises"].find({"is_active": True}))
+    franchises = [wrap_mongo_doc(clean_mongo_doc(d)) for d in raw_list]
+
     best_match = None
     for f in franchises:
         f_name_lower = f.name.lower()
@@ -115,7 +122,8 @@ def search_franchise_in_db(query: str, db: Session) -> Optional[Franchise]:
 
     return best_match
 
-def process_chat_message(message: str, action: Optional[str], db: Session) -> Dict:
+def process_chat_message(message: str, action: Optional[str], db: Any = None) -> Dict:
+
     raw_msg = message.strip()
     msg_lower = raw_msg.lower()
 
