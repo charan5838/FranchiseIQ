@@ -1,4 +1,4 @@
-﻿import os
+import os
 import sys
 import sqlite3
 import logging
@@ -21,8 +21,14 @@ def fetch_all(cursor, query, params=()):
 
 def migrate():
     if not os.path.exists(SQLITE_PATH):
-        logger.error(f"SQLite database not found at: {SQLITE_PATH}")
-        return False
+        logger.info(f"SQLite database not found at {SQLITE_PATH}. Initializing database...")
+        try:
+            from app.seed.seed_data import init_db
+            from app.database import Base, engine
+            Base.metadata.create_all(bind=engine)
+        except Exception as e:
+            logger.error(f"Error initializing SQLite: {e}")
+            return False
 
     logger.info(f"Connecting to SQLite database: {SQLITE_PATH}")
     sqlite_conn = sqlite3.connect(SQLITE_PATH)

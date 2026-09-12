@@ -1148,6 +1148,13 @@ def seed_all_data():
         db.commit()
         print(f"Successfully seeded {len(franchises_master)} franchises across 12 sectors, {len(locations_data)} prime locations, 5-year historical records (2022-2026), and competitor radar metrics!")
 
+        # Sync from SQLite directly into MongoDB
+        try:
+            from migrate_sql_to_mongo import migrate
+            migrate()
+        except Exception as me:
+            print(f"Post-seed MongoDB migration note: {me}")
+
     except Exception as e:
         db.rollback()
         print(f"Error seeding database: {e}")
